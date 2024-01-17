@@ -1,1 +1,0 @@
-import{Y as e,Z as t}from"./index-8cb37f11.js";const o=(n,c)=>{var r;const a=e();return a?a.proxy&&"$can"in a.proxy?(r=a.proxy)==null?void 0:r.$can(n,c):!0:!1},l=n=>{const c=n.children.some(a=>o(a.action,a.subject));return n.action&&n.subject?o(n.action,n.subject)&&c:c},i=t("flex-grow-1","div","VSpacer");export{i as V,o as a,l as c};

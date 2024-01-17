@@ -1,1 +1,0 @@
-import{_ as e,o as t,c as s,s as c,n as o}from"./index-fc09de97.js";const n={},a=o("h1",null," test 2",-1);function r(_,l){return t(),s("div",null,[a,c(" 이곳에 html 코드를 작성 디자인~ ")])}const f=e(n,[["render",r]]);export{f as default};
