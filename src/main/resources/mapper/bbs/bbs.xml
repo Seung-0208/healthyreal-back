@@ -29,7 +29,7 @@
 	
 	<!-- 게시글에 해당하는 파일 입력 -->
 	<insert id="saveFiles" parameterType="Map">
-		INSERT INTO Files VALUES(SEQ_FILES.NEXTVAL,#{getFiles},#{url},#{name})	
+		INSERT INTO Files VALUES(SEQ_FILES.NEXTVAL,#{getFiles},#{urls},#{names})	
 	</insert>
 	
 	<!-- 해당 게시글에 해당하는 게시물 출력 -->
