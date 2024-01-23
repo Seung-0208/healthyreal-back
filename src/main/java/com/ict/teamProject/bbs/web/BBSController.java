@@ -1,7 +1,15 @@
 package com.ict.teamProject.bbs.web;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -19,14 +27,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ict.teamProject.bbs.service.BBSDto;
 import com.ict.teamProject.bbs.service.BBSService;
+import com.ict.teamProject.command.FileUtils;
 import com.ict.teamProject.files.service.FilesDto;
 
 
@@ -43,7 +59,7 @@ public class BBSController {
 	@PostMapping("/Write.do")
 	@ResponseBody
 	public int writeOk(//Authentication auth,
-			@RequestParam Map map) {
+			@RequestParam Map map,@RequestParam(name="files", required=false) MultipartFile[] files, @RequestParam(name="ciu", required=false) String ciuJson) throws JsonMappingException, JsonProcessingException {
 		
 		//서비스 호출
 		//스프링 씨큐리티 적용시 인증(로그인)되었다면 Authentication객체에 로그인에 관련된 정보가 전달됨
@@ -64,10 +80,55 @@ public class BBSController {
 		System.out.println(map.get("hashTag"));
 		System.out.println(map.get("type"));
 		System.out.println(map.get("disclosureYN"));
-		System.out.println(map.get("file[0]"));
-		System.out.println(map.get("name"));
+	    List<String> urls = new ArrayList<>();  // url을 저장할 리스트
+	    List<String> names = new ArrayList<>(); // name을 저장할 리스트
+	    
+		if (ciuJson != null) {
+			 // ciuJson을 파싱하여 List<Map<String, String>> 형태로 변환
+		    ObjectMapper objectMapper = new ObjectMapper();
+		    JavaType type = objectMapper.getTypeFactory().constructCollectionType(List.class, Map.class);
+		    List<Map<String, String>> ciu = objectMapper.readValue(ciuJson, type);
+	
+		    // ciu를 사용하여 필요한 처리 수행
+		    for (Map<String, String> item : ciu) {
+		        String url = item.get("url");
+		        File file = new File(url);
+		        String name = file.getName();
+		        System.out.println(name);
+		        System.out.println(url);
+		        urls.add(url);  // url을 리스트에 추가
+		        names.add(name); // name을 리스트에 추가
+		    }
+		}
 		
-		
+	    String uploadDirectory = "src/main/resources/static/images";  // 파일을 저장할 디렉토리
+	    if (files != null) {
+		    try {
+		        Path uploadPath = Paths.get(uploadDirectory);
+		        if (!Files.exists(uploadPath)) {
+		            Files.createDirectories(uploadPath);// 디렉토리가 없으면 생성
+		        }
+	
+		        for (MultipartFile file : files) {
+		            String filename = file.getOriginalFilename();
+		            String newFilename = FileUtils.getNewFileName(uploadDirectory, filename);
+		            Path filePath = uploadPath.resolve(newFilename);  // 파일이 저장될 경로
+		            String filePathStr = filePath.toString().replace("\\", "/");  // 역슬래시를 슬래시로 바꾸기
+		    		map.put("filePath", '/'+filePathStr);
+		    		map.put("filename", newFilename);
+		    	    System.out.println(map.get("filename"));
+		    	    System.out.println(map.get("filePath"));
+		            file.transferTo(filePath);  // 파일 저장
+			        urls.add('/'+filePathStr);  // url을 리스트에 추가
+			        names.add(newFilename); // name을 리스트에 추가
+		        }
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		        return 0;
+		    }
+	    }
+	    map.put("urls", urls);
+	    map.put("names", names);
 		int affected= service.insert(map);
 		if(affected==0) {//입력 실패
 			return affected;
