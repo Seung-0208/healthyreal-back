@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="com.ict.teamProject.member.service.impl.MemberMapper">
+
+ 
+<insert id="saveMember" parameterType="MemberDto" useGeneratedKeys="true" keyProperty="id">
+	 INSERT INTO member(id, pwd, name, gender, b_day, tel, userAddress, height, weight, goal_No, regidate) VALUES (#{id}, #{pwd}, #{name}, #{gender}, #{b_day}, #{tel}, #{userAddress}, #{height}, #{weight}, #{goal_No}, default) 
+</insert>
+	<!-- INSERT INTO member VALUES (?, ?, ?, 'M', ?, 'seoul', ?, ?, '1', SYSDATE); -->
+<select id="checkPhoneNumber" parameterType="string" resultType="boolean">
+  SELECT COUNT(*) FROM member WHERE tel = #{tel}
+</select>
+</mapper>

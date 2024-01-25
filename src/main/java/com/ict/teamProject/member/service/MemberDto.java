@@ -1,0 +1,33 @@
+package com.ict.teamProject.member.service;
+
+
+
+import java.sql.Date;
+
+import org.apache.ibatis.type.Alias;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Data
+@Alias("MemberDto")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class MemberDto {
+	private String id;
+	private String pwd;
+	private String name;
+	private String gender;
+	private String b_day;
+	private int height;
+	private int weight;
+	private String tel;
+	private String userAddress;
+	private int goal_No;
+	private Date regidate;
+}

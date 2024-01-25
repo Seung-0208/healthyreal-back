@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@MapperScan(value = {"com.ict.teamProject.bbs.service.impl,com.ict.teamProject.member.service.impl"},sqlSessionFactoryRef ="sqlSessionFactory" )
 @MapperScan(value = {"com.ict.teamProject.bbs.service.impl", "com.ict.teamProject.comm"},sqlSessionFactoryRef ="sqlSessionFactory" )
 public class MybatisConfig {
 	
