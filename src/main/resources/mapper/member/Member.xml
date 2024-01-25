@@ -8,7 +8,7 @@
 
  
 <insert id="saveMember" parameterType="MemberDto" useGeneratedKeys="true" keyProperty="id">
-	 INSERT INTO member VALUES (#{id}, #{pwd}, #{name}, #{gender}, #{b_day}, #{tel}, #{userAddress}, #{height}, #{weight}, #{goal_No}, SYSDATE) 
+	 INSERT INTO member(id, pwd, name, gender, b_day, tel, userAddress, height, weight, goal_No, regidate) VALUES (#{id}, #{pwd}, #{name}, #{gender}, #{b_day}, #{tel}, #{userAddress}, #{height}, #{weight}, #{goal_No}, default) 
 </insert>
 	<!-- INSERT INTO member VALUES (?, ?, ?, 'M', ?, 'seoul', ?, ?, '1', SYSDATE); -->
 <select id="checkPhoneNumber" parameterType="string" resultType="boolean">
