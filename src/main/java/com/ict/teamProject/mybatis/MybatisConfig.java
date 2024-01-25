@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@MapperScan(value = {"com.ict.teamProject.bbs.service.impl"},sqlSessionFactoryRef ="sqlSessionFactory" )
+@MapperScan(value = {"com.ict.teamProject.bbs.service.impl,com.ict.teamProject.member.service.impl"},sqlSessionFactoryRef ="sqlSessionFactory" )
 public class MybatisConfig {
 	
 	//생성자 인젝션을 통해 ApplicationContext를 컨테이너로 부터 받는다
@@ -35,7 +35,7 @@ public class MybatisConfig {
 			//마이바티스 프레임워크는 최상위 패키지부터 하위패키지까지 @Alias붙은 컴포넌트를 찾는다
 			factoryBean.setTypeAliasesPackage("com.ict.teamProject");
 			//매퍼파일의 경로 설정
-			factoryBean.setMapperLocations(applicationContext.getResources("classpath:mybatis/mapper/**/*.xml"));
+			factoryBean.setMapperLocations(applicationContext.getResources("classpath:mapper/**/*.xml"));
 			//SqlSessionFactoryBean의 getObject()로 SqlSessionFactory객체 얻기
 			factory=factoryBean.getObject();
 		
