@@ -19,12 +19,6 @@
 	 	SELECT * FROM MEMBER_HISTORY WHERE ID = #{id} ORDER BY UPDATE_DAY DESC
 	 </select>
 	
-	
-	<!-- 해당 게시글에 해당하는 게시물 출력 -->
-	<select id="findByMemberHistory" parameterType="Map" resultMap="Member_HistoryResult">
-	 	SELECT * FROM MEMBER_HISTORY WHERE ID = #{id}
-	</select>
-	
 
 	<!-- 스프링 씨큐리티 회원 입력용(REST API서비스)
 	<insert id="saveUser" parameterType="Map">

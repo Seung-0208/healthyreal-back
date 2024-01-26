@@ -10,7 +10,5 @@ public interface MemberHistoryService<T> {
 
 	//전체보기용
 	List<MemberHistoryDto> selectAll(Map map);
-	
-	//상세보기용
-	T selectOne(Map map);
+
 }

@@ -5,7 +5,19 @@
 
 
 <mapper namespace="com.ict.teamProject.member.service.impl.MemberMapper">
-
+	<resultMap type="MemberDto" id="MemberResult">
+		<result property="id" column="id"/>
+		<result property="pwd" column="pwd"/>
+		<result property="name" column="name"/>
+		<result property="gender" column="gender"/>
+		<result property="b_day" column="b_day"/>
+		<result property="tel" column="tel"/>
+		<result property="height" column="height"/>
+		<result property="weight" column="weight"/>
+		<result property="userAddress" column="userAddress"/>
+		<result property="goal_No" column="goal_No"/>
+		<result property="regidate" column="regidate"/>
+	</resultMap>
  
 <insert id="saveMember" parameterType="MemberDto" useGeneratedKeys="true" keyProperty="id">
 	 INSERT INTO member(id, pwd, name, gender, b_day, tel, userAddress, height, weight, goal_No, regidate) VALUES (#{id}, #{pwd}, #{name}, #{gender}, #{b_day}, #{tel}, #{userAddress}, #{height}, #{weight}, #{goal_No}, default) 
@@ -14,4 +26,13 @@
 <select id="checkPhoneNumber" parameterType="string" resultType="boolean">
   SELECT COUNT(*) FROM member WHERE tel = #{tel}
 </select>
+
+<select id="findByMember" parameterType="string" resultType="MemberDto">
+  SELECT * FROM member WHERE id = #{id}
+</select>
+
+<update id="updateMember" parameterType="MemberDto" useGeneratedKeys="true" keyProperty="id">
+	UPDATE member SET #{colname} = #{value} WHERE id = #{id}
+</update>
+
 </mapper>

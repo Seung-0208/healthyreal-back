@@ -18,4 +18,8 @@ public class MemberService {
 	}
 	
 	
+	public MemberDto selectdata(String id) {
+		return mapper.findByMember(id); //MemberMapper 인터페ㅔ이스의 findByMember메소드 호출
+	}
+	
 }
