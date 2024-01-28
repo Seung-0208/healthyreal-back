@@ -68,17 +68,16 @@ public class BBSServiceImpl implements BBSService<BBSDto> {
 
 	//게시물 상세보기
 	@Override
-	public BBSDto selectOne(Map map) {		
-		return mapper.findByBBS(map);
+	public BBSDto selectOne(int bno) {		
+		return mapper.findByBBS(bno);
 	}
 
 	//게시물 수정
 	@Override
-	public int update(BBSDto record, FilesDto files) {
+	public int update(BBSDto dto) {
 		int affected=0;
 		try {
-			mapper.updateBBS(record);
-			affected=mapper.updateFiles(files);
+			affected=mapper.update(dto);
 		}
 		catch(Exception e) {
 			e.printStackTrace();

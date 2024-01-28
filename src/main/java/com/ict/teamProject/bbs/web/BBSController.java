@@ -149,24 +149,23 @@ public class BBSController {
 		return affected;
 	}/////
 	
-	//상세보기]
-	@RequestMapping(value="/View.do",method = {RequestMethod.GET,RequestMethod.POST})
+
+	@RequestMapping(value="/ViewOne.do",method = {RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody
-	public String view(@RequestParam Map map,Model model) {
-		System.out.println("상세보기의 NO:"+map.get("no"));
+	public BBSDto viewone(@RequestParam String bno) {
+		int bnoInt = Integer.parseInt(bno);
+		System.out.println("상세보기의 NO:"+bnoInt);
 		//서비스 호출
-		BBSDto record= service.selectOne(map);
+		BBSDto record= service.selectOne(bnoInt);
 		//줄바꿈
 		record.setContent(record.getContent().replace("\r\n", "<br/>"));
-		//데이타 저장
-		model.addAttribute("record", record);
 		//뷰정보 반환
-		return "onememo09/bbs/View.ict";
-	}///////////////////
+		return record;
+	}
 	
 	//게시물 전체 뿌려주기
 	@GetMapping("/List.do")
-	public List edit(@RequestParam Map map) {
+	public List view(@RequestParam Map map) {
 	    //서비스 호출    
 	    List<BBSDto> records = service.selectAll();
 	    System.out.println("records:"+records);
@@ -180,18 +179,37 @@ public class BBSController {
 		return records;
 	}
 	
+	//수정하기
 	@PostMapping("/Edit.do")
-	public String editOk(Model model,BBSDto dto, FilesDto files) {
-	
-		//서비스 호출		
-		int affected=service.update(dto,files);
-		if(affected==0) {//수정 실패
-			model.addAttribute("UPDATE_ERROR", "수정 오류 입니다");
-			//뷰정보 반환
-			return "onememo09/bbs/Edit.ict";
-		}
-		//뷰정보 반환		
-		return "forward:/onememo/bbs/View.do";
+	public int edit(@RequestBody Map<String, Object> map) {
+		int affected=0;
+		BBSDto record = null;
+		System.out.println("데이타 넘어오냐??"+map);
+        int bno = Integer.parseInt(map.get("bno").toString());
+        System.out.println("글번호~~~:"+bno);
+        // 기존 레코드
+        record = service.selectOne(bno);
+	    // map에 있는 값만 변경.
+	    if (record != null) {
+	        if (map.containsKey("id")) {
+	            record.setId(map.get("id").toString());
+	        }
+	        if (map.containsKey("type")) {
+	            record.setType(Integer.parseInt(map.get("type").toString()));
+	        }
+	        if (map.containsKey("content")) {
+	            record.setContent(map.get("content").toString());
+	        }
+	        if (map.containsKey("disclosureYN")) {
+	            record.setDisclosureYN(map.get("disclosureYN").toString().charAt(0));
+	        }
+	        if (map.containsKey("hashTag")) {
+	            record.setHashTag(map.get("hashTag").toString());
+	        }
+	    }
+	    // 변경된 레코드를 업데이트.
+	    affected = service.update(record);				
+	    return affected;
 	}/////
 	
 	//삭제하기
