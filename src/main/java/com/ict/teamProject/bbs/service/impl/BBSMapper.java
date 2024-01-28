@@ -31,8 +31,8 @@ public interface BBSMapper {
 	int updateFiles(FilesDto files);
 	
 	//레코드 하나 삭제
-	int deleteFiles(FilesDto files);
-	int deleteBBS(BBSDto record);
+	int deleteFiles(int bno);
+	int deleteBBS(int bno);
 	
 	// 시퀀스 값을 먼저 가져오기
 	int getSeqNextVal();

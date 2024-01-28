@@ -92,27 +92,16 @@ public class BBSServiceImpl implements BBSService<BBSDto> {
 
 	
 	@Override
-	public int delete(BBSDto record, FilesDto files) {			
-		int affected=0;//특정 글번호에 따른 삭제된 총 댓글 수
-		try {
-			//TransactionCallback<T>: 타입 파라미터 T는 트랜잭션 처리 작업후 반환할 타입으로 지정
-			affected=template.execute(new TransactionCallback<Integer>() {
-				//※doInTransaction()의 반환값이 execute()메소드의 반환값이다 
-				@Override
-				public Integer doInTransaction(TransactionStatus status) {
-					int deleteCommentsCount=mapper.deleteFiles(files);
-					//해당 원본 글 삭제
-					mapper.deleteBBS(record);
-					return deleteCommentsCount;
-				}
-			});
-		}
-		catch(Exception e) {
-			return -1;
-		}
+	public int deleteBBS(int bno) {	
+		int affected=0;
+		affected = mapper.deleteBBS(bno);
 		return affected;
 	}
-
-
-
+	
+	@Override
+	public int deleteFiles(int bno) {
+		int affected=0;
+		affected = mapper.deleteFiles(bno);
+		return affected;	
+	}
 }

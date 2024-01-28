@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -163,6 +164,7 @@ public class BBSController {
 		return "onememo09/bbs/View.ict";
 	}///////////////////
 	
+	//게시물 전체 뿌려주기
 	@GetMapping("/List.do")
 	public List edit(@RequestParam Map map) {
 	    //서비스 호출    
@@ -192,17 +194,38 @@ public class BBSController {
 		return "forward:/onememo/bbs/View.do";
 	}/////
 	
-	/*
-	@GetMapping("/{no}/Delete.do")
-	public String delete(@PathVariable String bno,Model model) {
-		//서비스 호출
-		BBSDto dto = BBSDto.builder().bno(bno).build();
-		int affected=service.delete(dto);
-		if(affected == -1) {
-			return "forward:/onememo/bbs/View.do?no="+no;
-		}
-		//뷰정보 반환]-목록을 처리하는 컨트롤러로 이동
-		return "forward:/onememo/bbs/List.do";
+	//삭제하기
+	@GetMapping("/{bno}/Delete.do")
+	public ResponseEntity delete(@PathVariable String bno) {
+		try {
+	        int bnoInt = Integer.parseInt(bno);
+	        int affected = 0;
+	        List<String> files = service.selectFiles(bnoInt);
+	        
+	        String baseDirectory = "E:/images/";
+	        String imageDirectory = "src/main/resources/static/images/";
+	        
+	        // files에 값이 있으면 해당 파일들을 삭제
+	        if (files != null && !files.isEmpty()) {
+	            for (String fileUrl : files) {
+	                String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
+	                Path filePath = Paths.get(baseDirectory + fileName);
+	                Path imagePath = Paths.get(imageDirectory + fileName);
+	                try {
+	                    Files.deleteIfExists(filePath);
+	                    Files.deleteIfExists(imagePath);
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	        }
+	        System.out.println("bnoInt:"+bnoInt);
+	       service.deleteFiles(bnoInt);
+	        affected += service.deleteBBS(bnoInt);
+	        System.out.println("affected2:"+affected);
+	        return ResponseEntity.ok(affected);
+	    } catch (NumberFormatException e) {
+	        return ResponseEntity.badRequest().body("bno: " + bno);
+	    }
 	}
-	*/
 }

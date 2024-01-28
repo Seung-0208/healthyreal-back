@@ -61,13 +61,13 @@
 	</update>
 	
 	<!-- 해당 게시글에 해당하는 게시물 삭제 -->
-	<delete id="deleteBBS" parameterType="BBSDto">
-		DELETE BBS WHERE bno=#{bno} and id=#{id}
+	<delete id="deleteBBS" parameterType="int">
+		DELETE BBS WHERE BBS_NO=#{bno}
 	</delete>
 	
 	<!-- 해당 게시글에 해당하는 파일 삭제 -->
-	<delete id="deleteFiles" parameterType="FilesDto">
-		DELETE Files WHERE bno=#{bno}
+	<delete id="deleteFiles" parameterType="int">
+		DELETE Files WHERE BBS_NO=#{bno}
 	</delete>
 	
 	<!-- 스프링 씨큐리티 회원 입력용(REST API서비스)

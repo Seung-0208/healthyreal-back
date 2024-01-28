@@ -21,6 +21,9 @@ public interface BBSService<T> {
 	Map insert(Map map);
 	int insertFile(Map map);
 	int update(BBSDto record, FilesDto files);
-	int delete(BBSDto record, FilesDto files);
+	
+	//삭제용
+	int deleteBBS(int bno);
+	int deleteFiles(int bno);
 	
 }
