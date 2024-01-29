@@ -23,4 +23,7 @@ public interface BBSService<T> {
 	int update(BBSDto record, FilesDto files);
 	int delete(BBSDto record, FilesDto files);
 	
+	int findIsFriend(Map<String, String> ids);
+	int findIsSubto(Map<String, String> ids);
+	String findProfilePathById(String id);
 }

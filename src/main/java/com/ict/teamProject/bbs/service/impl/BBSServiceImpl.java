@@ -112,7 +112,18 @@ public class BBSServiceImpl implements BBSService<BBSDto> {
 		}
 		return affected;
 	}
-
-
+	
+	@Override
+	public int findIsFriend(Map<String, String> ids) {
+		return mapper.findIsFriend(ids);
+	}
+	@Override
+	public int findIsSubto(Map<String, String> ids) {
+		return mapper.findIsSubto(ids);
+	}
+	@Override
+	public String findProfilePathById(String id) {
+		return mapper.findProfilePathById(id);
+	}
 
 }
