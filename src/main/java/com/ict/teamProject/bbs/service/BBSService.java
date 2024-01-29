@@ -14,6 +14,9 @@ public interface BBSService<T> {
 	List<BBSDto> selectAll();
 	List selectFiles(int bno);
 	
+	//자기 게시글 보기
+	List<BBSDto> selectMy(String id);
+	
 	//상세보기용
 	T selectOne(int bno);
 	
@@ -25,5 +28,6 @@ public interface BBSService<T> {
 	//삭제용
 	int deleteBBS(int bno);
 	int deleteFiles(int bno);
+
 	
 }

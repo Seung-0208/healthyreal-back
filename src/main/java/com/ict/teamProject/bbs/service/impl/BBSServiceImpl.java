@@ -71,6 +71,12 @@ public class BBSServiceImpl implements BBSService<BBSDto> {
 	public BBSDto selectOne(int bno) {		
 		return mapper.findByBBS(bno);
 	}
+	
+	//자기 게시글 보기
+	@Override
+	public List<BBSDto> selectMy(String id) {
+		return mapper.findMyByBBS(id);
+	}
 
 	//게시물 수정
 	@Override
@@ -103,4 +109,6 @@ public class BBSServiceImpl implements BBSService<BBSDto> {
 		affected = mapper.deleteFiles(bno);
 		return affected;	
 	}
+
+
 }

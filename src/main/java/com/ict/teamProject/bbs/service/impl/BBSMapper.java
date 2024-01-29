@@ -18,6 +18,9 @@ public interface BBSMapper {
 	//레코드 하나
 	BBSDto findByBBS(int bno);
 	
+	//자기 게시글 보기
+	List<BBSDto> findMyByBBS(String id);
+	
 	//입력
 	int save(Map map);
 	int saveFiles(Map map);
@@ -35,6 +38,7 @@ public interface BBSMapper {
 	
 	// 시퀀스 값을 먼저 가져오기
 	int getSeqNextVal();
+
 	
 
 }
