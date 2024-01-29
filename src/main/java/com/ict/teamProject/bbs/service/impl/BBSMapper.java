@@ -16,7 +16,10 @@ public interface BBSMapper {
 	List findFile(int bno);
 	
 	//레코드 하나
-	BBSDto findByBBS(Map map);
+	BBSDto findByBBS(int bno);
+	
+	//자기 게시글 보기
+	List<BBSDto> findMyByBBS(String id);
 	
 	//입력
 	int save(Map map);
@@ -27,14 +30,15 @@ public interface BBSMapper {
 	
 
 	//레코드 하나 수정
-	int updateBBS(BBSDto record);
-	int updateFiles(FilesDto files);
+	int update(BBSDto dto);
 	
 	//레코드 하나 삭제
-	int deleteFiles(FilesDto files);
-	int deleteBBS(BBSDto record);
+	int deleteFiles(int bno);
+	int deleteBBS(int bno);
 	
 	// 시퀀스 값을 먼저 가져오기
 	int getSeqNextVal();
+
+	
 
 }
