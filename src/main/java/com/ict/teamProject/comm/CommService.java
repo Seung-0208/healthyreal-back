@@ -94,4 +94,9 @@ public class CommService {
 	public void deleteSubscriber(Map<String, String> ids) {
 		mapper.deleteSubscriber(ids);
 	}
+	
+	//변경된 유저프로필 사진정보 DB 저장
+	public int putProfileImage(UserProfileDto dto) {
+		return mapper.putProfileImage(dto);
+	}
 }

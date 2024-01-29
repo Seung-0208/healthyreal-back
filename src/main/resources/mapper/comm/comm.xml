@@ -57,4 +57,8 @@
 	<delete id="deleteSubscriber" parameterType="Map">
 		DELETE FROM subscribe_list WHERE ID = #{subId} AND SUBSCRIBE_ID = #{userId}
 	</delete>
+	<update id="putProfileImage" parameterType="UserProfileDto">
+		UPDATE PROFILE SET PRO_FILEPATH = #{profilePath}
+		WHERE id = #{id}
+	</update>
 </mapper>

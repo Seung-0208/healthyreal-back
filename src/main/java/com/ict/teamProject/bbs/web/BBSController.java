@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -150,23 +151,40 @@ public class BBSController {
 		return affected;
 	}/////
 	
-	//상세보기]
-	@RequestMapping(value="/View.do",method = {RequestMethod.GET,RequestMethod.POST})
+
+	@RequestMapping(value="/ViewOne.do",method = {RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody
-	public String view(@RequestParam Map map,Model model) {
-		System.out.println("상세보기의 NO:"+map.get("no"));
+	public BBSDto viewOne(@RequestParam String bno) {
+		int bnoInt = Integer.parseInt(bno);
+		System.out.println("상세보기의 NO:"+bnoInt);
 		//서비스 호출
-		BBSDto record= service.selectOne(map);
+		BBSDto record= service.selectOne(bnoInt);
 		//줄바꿈
 		record.setContent(record.getContent().replace("\r\n", "<br/>"));
-		//데이타 저장
-		model.addAttribute("record", record);
 		//뷰정보 반환
-		return "onememo09/bbs/View.ict";
-	}///////////////////
+		return record;
+	}
 	
+	@GetMapping("/ViewMy.do")
+	@ResponseBody
+	public List<BBSDto> viewMy(@RequestParam String id) {
+		System.out.println("ID:"+id);
+		//서비스 호출
+		List<BBSDto> records= service.selectMy(id);
+		//줄바꿈
+	    for (BBSDto record : records) {
+	        int bno = record.getBno();
+	        record.setContent(record.getContent().replace("\r\n", "<br/>"));
+	        List<String> files = service.selectFiles(bno);
+	        record.setFiles(files);  // 게시글에 파일들을 추가
+	        System.out.println("files:"+record.getFiles());
+	    }
+		return records;
+	}
+	
+	//게시물 전체 뿌려주기
 	@GetMapping("/List.do")
-	public List edit(@RequestParam Map map) {
+	public List view(@RequestParam Map map) {
 	    //서비스 호출    
 	    List<BBSDto> records = service.selectAll();
 	    System.out.println("records:"+records);
@@ -175,36 +193,84 @@ public class BBSController {
 	        System.out.println("bno:"+bno);
 	        List<String> files = service.selectFiles(bno);
 	        record.setFiles(files);  // 게시글에 파일들을 추가
+	        record.setContent(record.getContent().replace("\r\n", "<br/>"));
 	        System.out.println("files:"+record.getFiles());
 	    }
 		return records;
 	}
 	
+	//수정하기
 	@PostMapping("/Edit.do")
-	public String editOk(Model model,BBSDto dto, FilesDto files) {
-	
-		//서비스 호출		
-		int affected=service.update(dto,files);
-		if(affected==0) {//수정 실패
-			model.addAttribute("UPDATE_ERROR", "수정 오류 입니다");
-			//뷰정보 반환
-			return "onememo09/bbs/Edit.ict";
-		}
-		//뷰정보 반환		
-		return "forward:/onememo/bbs/View.do";
+	public int edit(@RequestBody Map<String, Object> map) {
+		int affected=0;
+		BBSDto record = null;
+		System.out.println("데이타 넘어오냐??"+map);
+        int bno = Integer.parseInt(map.get("bno").toString());
+        System.out.println("글번호~~~:"+bno);
+        // 기존 레코드
+        record = service.selectOne(bno);
+        System.out.println("record.getDisclosureYN():"+record.getDisclosureYN());
+        System.out.println("record.getHashTag():"+record.getHashTag());
+        System.out.println("record.getContent():"+record.getContent());
+	    // map에 있는 값만 변경.
+        
+        if (map.get("content") != null && !map.get("content").toString().isEmpty()) {
+            record.setContent(map.get("content").toString());
+            System.out.println("getContent()::"+record.getContent());
+        }
+        if (map.get("disclosureYN") != null && !map.get("disclosureYN").toString().isEmpty()) {
+            record.setDisclosureYN(map.get("disclosureYN").toString().charAt(0));
+            System.out.println("getDisclosureYN()::"+record.getDisclosureYN());
+        }
+        if (map.get("hashTag") != null && !map.get("hashTag").toString().isEmpty()) {
+            record.setHashTag(map.get("hashTag").toString());
+            System.out.println("getHashTag()::"+record.getHashTag());
+        }
+
+        if(record.getHashTag() == null) record.setHashTag("");
+        if(record.getContent() == null) record.setContent("");
+	    System.out.println("=============수정 후?=======");
+        System.out.println("record.getDisclosureYN():"+record.getDisclosureYN());
+        System.out.println("record.getHashTag():"+record.getHashTag());
+        System.out.println("record.getContent():"+record.getContent());
+	    // 변경된 레코드를 업데이트.
+	    affected = service.update(record);				
+	    return affected;
 	}/////
 	
-	/*
-	@GetMapping("/{no}/Delete.do")
-	public String delete(@PathVariable String bno,Model model) {
-		//서비스 호출
-		BBSDto dto = BBSDto.builder().bno(bno).build();
-		int affected=service.delete(dto);
-		if(affected == -1) {
-			return "forward:/onememo/bbs/View.do?no="+no;
-		}
-		//뷰정보 반환]-목록을 처리하는 컨트롤러로 이동
-		return "forward:/onememo/bbs/List.do";
+	//삭제하기
+	@GetMapping("/{bno}/Delete.do")
+	public ResponseEntity delete(@PathVariable String bno) {
+		try {
+	        int bnoInt = Integer.parseInt(bno);
+	        int affected = 0;
+	        List<String> files = service.selectFiles(bnoInt);
+	        
+	        String baseDirectory = "E:/images/";
+	        String imageDirectory = "src/main/resources/static/images/";
+	        
+	        // files에 값이 있으면 해당 파일들을 삭제
+	        if (files != null && !files.isEmpty()) {
+	            for (String fileUrl : files) {
+	                String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
+	                Path filePath = Paths.get(baseDirectory + fileName);
+	                Path imagePath = Paths.get(imageDirectory + fileName);
+	                try {
+	                    Files.deleteIfExists(filePath);
+	                    Files.deleteIfExists(imagePath);
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	        }
+	        System.out.println("bnoInt:"+bnoInt);
+	        service.deleteFiles(bnoInt);
+	        affected += service.deleteBBS(bnoInt);
+	        System.out.println("affected2:"+affected);
+	        return ResponseEntity.ok(String.valueOf(affected));
+	    } catch (NumberFormatException e) {
+	        return ResponseEntity.badRequest().body("bno: " + bno);
+	    }
 	}
 	*/
 	

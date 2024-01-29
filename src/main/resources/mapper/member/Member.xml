@@ -31,8 +31,11 @@
   SELECT * FROM member WHERE id = #{id}
 </select>
 
-<update id="updateMember" parameterType="MemberDto" useGeneratedKeys="true" keyProperty="id">
-	UPDATE member SET #{colname} = #{value} WHERE id = #{id}
+<update id="updateMember" parameterType="String" >
+	UPDATE member SET ${colname} = #{newcolval} WHERE id = #{id}
 </update>
 
+<select id="logincheck" parameterType="string">
+  SELECT COUNT(*) FROM member WHERE id = #{id} and pwd = #{pwd}
+</select>
 </mapper>

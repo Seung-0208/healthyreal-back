@@ -40,4 +40,17 @@ public class MemberController {
 		MemberDto memberdata = service.selectdata(id);
 		return memberdata;
 	}
+	
+	@RequestMapping(value = "/member_info/Edit.do", method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT})
+	public int edit(@RequestParam String id, String colname, String newcolval){
+		int affected = service.updatedata(id, colname, newcolval);
+		return affected;
+	}
+	
+	@RequestMapping(value = "/usercheck", method = {RequestMethod.GET,RequestMethod.POST})
+	public int usercheck(@RequestParam String id, String pwd) {
+		System.out.println("chk");
+		return service.logincheck(id, pwd);
+	}
+	
 }

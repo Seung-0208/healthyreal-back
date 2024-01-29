@@ -14,14 +14,21 @@ public interface BBSService<T> {
 	List<BBSDto> selectAll();
 	List selectFiles(int bno);
 	
+	//자기 게시글 보기
+	List<BBSDto> selectMy(String id);
+	
 	//상세보기용
-	T selectOne(Map map);
+	T selectOne(int bno);
 	
 	//입력/수정/삭제용
 	Map insert(Map map);
 	int insertFile(Map map);
-	int update(BBSDto record, FilesDto files);
-	int delete(BBSDto record, FilesDto files);
+	int update(BBSDto dto);
+	
+	//삭제용
+	int deleteBBS(int bno);
+	int deleteFiles(int bno);
+
 	
 	int findIsFriend(Map<String, String> ids);
 	int findIsSubto(Map<String, String> ids);

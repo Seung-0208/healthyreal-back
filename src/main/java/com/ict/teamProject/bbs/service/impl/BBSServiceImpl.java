@@ -68,17 +68,22 @@ public class BBSServiceImpl implements BBSService<BBSDto> {
 
 	//게시물 상세보기
 	@Override
-	public BBSDto selectOne(Map map) {		
-		return mapper.findByBBS(map);
+	public BBSDto selectOne(int bno) {		
+		return mapper.findByBBS(bno);
+	}
+	
+	//자기 게시글 보기
+	@Override
+	public List<BBSDto> selectMy(String id) {
+		return mapper.findMyByBBS(id);
 	}
 
 	//게시물 수정
 	@Override
-	public int update(BBSDto record, FilesDto files) {
+	public int update(BBSDto dto) {
 		int affected=0;
 		try {
-			mapper.updateBBS(record);
-			affected=mapper.updateFiles(files);
+			affected=mapper.update(dto);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -92,24 +97,9 @@ public class BBSServiceImpl implements BBSService<BBSDto> {
 
 	
 	@Override
-	public int delete(BBSDto record, FilesDto files) {			
-		int affected=0;//특정 글번호에 따른 삭제된 총 댓글 수
-		try {
-			//TransactionCallback<T>: 타입 파라미터 T는 트랜잭션 처리 작업후 반환할 타입으로 지정
-			affected=template.execute(new TransactionCallback<Integer>() {
-				//※doInTransaction()의 반환값이 execute()메소드의 반환값이다 
-				@Override
-				public Integer doInTransaction(TransactionStatus status) {
-					int deleteCommentsCount=mapper.deleteFiles(files);
-					//해당 원본 글 삭제
-					mapper.deleteBBS(record);
-					return deleteCommentsCount;
-				}
-			});
-		}
-		catch(Exception e) {
-			return -1;
-		}
+	public int deleteBBS(int bno) {	
+		int affected=0;
+		affected = mapper.deleteBBS(bno);
 		return affected;
 	}
 	
@@ -125,5 +115,13 @@ public class BBSServiceImpl implements BBSService<BBSDto> {
 	public String findProfilePathById(String id) {
 		return mapper.findProfilePathById(id);
 	}
+	
+	@Override
+	public int deleteFiles(int bno) {
+		int affected=0;
+		affected = mapper.deleteFiles(bno);
+		return affected;	
+	}
+
 
 }
