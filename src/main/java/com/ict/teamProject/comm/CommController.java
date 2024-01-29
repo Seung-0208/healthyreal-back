@@ -1,5 +1,9 @@
 package com.ict.teamProject.comm;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,8 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ict.teamProject.comm.dto.FriendDto;
 import com.ict.teamProject.comm.dto.MateDto;
@@ -18,6 +25,9 @@ import com.ict.teamProject.comm.dto.MySubscriberDto;
 import com.ict.teamProject.comm.dto.SubscribeToDto;
 import com.ict.teamProject.comm.dto.UserProfileDto;
 
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.util.StringUtils;
+import java.nio.file.StandardCopyOption;
 @RestController
 @RequestMapping("/comm")
 @CrossOrigin(origins = "http://localhost:3333")
@@ -100,5 +110,33 @@ public class CommController {
 				.date(service.findJoinDateById(id))
 				.build();
 		return dto;
+	}
+	
+	//유저프로필 사진경로 변경
+	@PutMapping("/profile/update")
+	public void updateProfilePath(@RequestBody Map map) {
+		System.out.println(map);
+		UserProfileDto dto = new UserProfileDto().builder()
+				.id(String.valueOf(map.get("id")))
+				.profilePath(String.valueOf(map.get("profilePath")))
+				.build();
+		service.putProfileImage(dto);
+	}
+	
+    // 파일 업로드 처리
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public void uploadFile(MultipartFile file) throws IOException {
+	    System.out.println("파일 업로드"+file);
+
+	    // 파일 처리 로직
+	    if (file != null && !file.isEmpty()) {
+	        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+	        String uploadDir = "./src/main/resources/static/images/";
+	        // 파일 저장 경로 설정
+	        Path filePath = Paths.get(uploadDir + fileName);
+
+	        // 파일 저장
+	        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+	    }
 	}
 }

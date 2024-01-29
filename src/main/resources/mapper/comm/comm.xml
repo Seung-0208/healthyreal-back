@@ -42,4 +42,8 @@
 		SELECT REGIDATE FROM member
 		WHERE ID = #{id}
 	</select>
+	<update id="putProfileImage" parameterType="UserProfileDto">
+		UPDATE PROFILE SET PRO_FILEPATH = #{profilePath}
+		WHERE id = #{id}
+	</update>
 </mapper>

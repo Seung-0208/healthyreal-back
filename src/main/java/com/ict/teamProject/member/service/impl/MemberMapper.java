@@ -16,6 +16,8 @@ public interface MemberMapper {
 	 //레코드 하나
 	 MemberDto findByMember(String id);
 	 
-	 int updateMember(String colname, String val);
+	 int updateMember(String id, String colname, String newcolval);
+	 
+	 int logincheck(String id, String pwd);
 
 }
