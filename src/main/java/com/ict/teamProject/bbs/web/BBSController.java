@@ -272,7 +272,6 @@ public class BBSController {
 	        return ResponseEntity.badRequest().body("bno: " + bno);
 	    }
 	}
-	*/
 	
 	@PostMapping("/userProfile")
 	public List<BBSUsersProfileDto> getAllUsersById(@RequestBody Map<String,List<String>> map){
