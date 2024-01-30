@@ -10,7 +10,6 @@ import lombok.Setter;
 @Alias("FilesDto")
 @Builder
 public class FilesDto {
-	private int fno;
 	private int bno;
 	private String filePath;
 	private String fileName;

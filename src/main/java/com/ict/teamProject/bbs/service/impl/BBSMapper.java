@@ -6,16 +6,21 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ict.teamProject.bbs.service.BBSDto;
+import com.ict.teamProject.bbs.service.BBSUsersProfileDto;
 import com.ict.teamProject.files.service.FilesDto;
 
 @Mapper
 public interface BBSMapper {
 
 	//전체 조회
-	List findAll(Map map);
+	List findAll();
+	List findFile(int bno);
 	
 	//레코드 하나
-	BBSDto findByBBS(Map map);
+	BBSDto findByBBS(int bno);
+	
+	//자기 게시글 보기
+	List<BBSDto> findMyByBBS(String id);
 	
 	//입력
 	int save(Map map);
@@ -26,13 +31,24 @@ public interface BBSMapper {
 	
 
 	//레코드 하나 수정
-	int updateBBS(BBSDto record);
-	int updateFiles(FilesDto files);
+	int update(BBSDto dto);
 	
 	//레코드 하나 삭제
-	int deleteFiles(FilesDto files);
-	int deleteBBS(BBSDto record);
+	int deleteFiles(int bno);
+	int deleteBBS(int bno);
 	
 	// 시퀀스 값을 먼저 가져오기
 	int getSeqNextVal();
+	
+	//받은 아이디가 로그인한 유저 아이디와 친구 관계인지 판단
+	int findIsFriend(Map<String, String> ids);
+	
+	//받은 아이디가 로그인한 유저 아이디와 구독 관계인지 판단
+	int findIsSubto(Map<String, String> ids);
+	
+	//유저의 프로필 가져오기
+	String findProfilePathById(String id);
+
+	
+
 }

@@ -7,7 +7,7 @@
 		SELECT * FROM MATE_LIST WHERE ID = #{id}
 	</select>
 	<select id="findAllFriendsById" resultType="FriendDto" parameterType="String">
-		SELECT * FROM FRIEND_LIST WHERE ID = #{id}
+		SELECT * FROM FRIEND_LIST WHERE ID = #{id} and friend_blocking='N'
 	</select>
 	<select id="findAllSubToById" resultType="SubscribeToDto" parameterType="String">
 		SELECT * FROM SUBSCRIBE_LIST WHERE ID = #{id}
@@ -33,5 +33,32 @@
 	<update id="putFavorableRating" parameterType="MateDto">
 		UPDATE MATE_LIST SET FAVORABLE_RATING = #{favorable_rating}
 		WHERE MATE_ID = #{mate_id}
+	</update>
+	<select id="findIntroductionById" parameterType="String" resultType="String">
+		SELECT PRO_INTRODUCTION FROM PROFILE
+		WHERE ID = #{id}
+	</select>
+	<select id="findJoinDateById" parameterType="String" resultType="java.sql.Date">
+		SELECT REGIDATE FROM member
+		WHERE ID = #{id}
+	</select>
+	<update id="putFriendBlocking" parameterType="String">
+		UPDATE FRIEND_LIST SET FRIEND_BLOCKING = 'Y' WHERE FRIEND_ID = #{id}
+	</update>
+	<delete id="deleteFriend" parameterType="String">
+		DELETE FROM FRIEND_LIST WHERE ID = #{id}
+	</delete>
+	<delete id="deleteSubTo" parameterType="String">
+		DELETE FROM subscribe_list WHERE SUBSCRIBE_ID = #{id}
+	</delete>
+	<delete id="deleteMate" parameterType="String">
+		DELETE FROM mate_list WHERE MATE_ID = #{id}
+	</delete>
+	<delete id="deleteSubscriber" parameterType="Map">
+		DELETE FROM subscribe_list WHERE ID = #{subId} AND SUBSCRIBE_ID = #{userId}
+	</delete>
+	<update id="putProfileImage" parameterType="UserProfileDto">
+		UPDATE PROFILE SET PRO_FILEPATH = #{profilePath}
+		WHERE id = #{id}
 	</update>
 </mapper>

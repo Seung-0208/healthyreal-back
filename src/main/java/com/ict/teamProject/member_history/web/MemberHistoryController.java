@@ -44,17 +44,9 @@ public class MemberHistoryController {
 	//상세보기]
 	@RequestMapping(value="/View.do",method = {RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody
-	public List<MemberHistoryDto> view(@RequestParam Map map,Model model) {
-//		System.out.println("상세보기의 NO:"+map.get("no"));
-		System.out.println("chk");
+	public List<MemberHistoryDto> view(@RequestParam Map map) {
 		//서비스 호출
 		List<MemberHistoryDto> record= service.selectAll(map);
-
-		System.out.println(map);
-		//데이타 저장
-		model.addAttribute("record", record);
-		System.out.println(model);
-		System.out.println(record);
 		//뷰정보 반환
 		return record;
 	}///////////////////

@@ -27,10 +27,4 @@ public class MemberHistroyServiceImpl implements MemberHistoryService<MemberHist
 		List records=mapper.findAll(map);
 		return records;
 	}
-
-	//이력 상세보기
-	@Override
-	public MemberHistoryDto selectOne(Map map) {
-		return mapper.findByMemberHistory(map);
-	}
 }
