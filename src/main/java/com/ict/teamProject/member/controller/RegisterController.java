@@ -7,23 +7,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ict.teamProject.member.service.MemberDto;
-import com.ict.teamProject.member.service.MemberService;
+import com.ict.teamProject.member.service.RegisterService;
+
+import jakarta.servlet.http.HttpServletResponse;
+
+
 
 @RestController
-public class MemberController {
+public class RegisterController {
 
-	private MemberService service;
+	private RegisterService service;
 	
-	public MemberController(MemberService service) {
+	public RegisterController(RegisterService service) {
 		this.service=service;
 		System.out.println("MemberController 생성자");
 	}
-	
-	@CrossOrigin(origins = "http://localhost:3333/")
+
 	@PostMapping("/register")
 	public ResponseEntity<MemberDto> join(@RequestBody MemberDto dto){
 		int affected=service.join(dto);
 		System.out.println("affected="+affected);
 		return ResponseEntity.ok().header("Content-Type", "application/json").body(dto);
 	}
+
+
 }

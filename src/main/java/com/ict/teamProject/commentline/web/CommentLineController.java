@@ -1,3 +1,4 @@
+/*
 package com.ict.teamProject.commentline.web;
 
 import java.util.Collection;
@@ -66,13 +67,13 @@ public class CommentLineController {
 		System.out.println(map.get("disclosureYN"));
 		System.out.println(map.get("file[0]"));
 		System.out.println(map.get("name"));
-		
+	
 		
 		int affected= service.insert(map);
 		if(affected==0) {//입력 실패
 			return affected;
 		}
-		return affected;
+		return affected; 
 	}/////
 	
 	//상세보기]
@@ -114,7 +115,7 @@ public class CommentLineController {
 		return "forward:/onememo/bbs/View.do";
 	}/////
 	
-	/*
+	
 	@GetMapping("/{no}/Delete.do")
 	public String delete(@PathVariable String bno,Model model) {
 		//서비스 호출
@@ -126,5 +127,6 @@ public class CommentLineController {
 		//뷰정보 반환]-목록을 처리하는 컨트롤러로 이동
 		return "forward:/onememo/bbs/List.do";
 	}
-	*/
-}
+	
+}*/
+ 
