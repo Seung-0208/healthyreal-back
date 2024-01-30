@@ -11,6 +11,8 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,6 +62,12 @@ public class CommController {
 		service.putFavorableRating(dto);
 	}
 	
+	//메이트 끊기
+	@DeleteMapping("/mate/delete")
+	public void deleteMate(@RequestBody Map map) {
+		service.deleteMate(map);
+	}
+	
 	//friend
 	@GetMapping("/friend") //조회
 	public List<FriendDto> getAllFriends(@RequestParam String id){
@@ -72,6 +80,18 @@ public class CommController {
 			f.setProfilePath(service.findProPathById(f.getFriend_id()));
 		}
 		return friends;
+	}
+	
+	//친구끊기
+	@DeleteMapping("/friend/delete")
+	public void deleteFriend(@RequestBody Map map) {
+		service.deleteFriend(map);
+	}
+	
+	//친구 차단
+	@PutMapping("/friend/block")
+	public void blockFriend(@RequestBody Map map) {
+		service.putFriendBlocking(map);
 	}
 	
 	//subscribe
@@ -100,47 +120,32 @@ public class CommController {
 		return total;
 	}
 	
-	//유저프로필
-	@GetMapping("/profile")
-	public UserProfileDto getUserProfile(@RequestParam String id) {
-		UserProfileDto dto = new UserProfileDto().builder()
-				.id(id)
-				.name(service.findNameById(id))
-				.profilePath(service.findProPathById(id))
-				.proIntroduction(service.findIntroductionById(id))
-				.date(service.findJoinDateById(id))
-				.build();
-		return dto;
-	}
-	
-	//친구끊기
-	@DeleteMapping("/friend/delete")
-	public void deleteFriend(@RequestBody Map map) {
-		service.deleteFriend(String.valueOf(map.get("id")));
-	}
-	
 	//구독 취소
 	@DeleteMapping("/subscribe/delete")
 	public void deleteSubTo(@RequestBody Map map) {
-		service.deleteSubTo(String.valueOf(map.get("id")));
+		System.out.println("구독취소 요청됨: "+map);
+		service.deleteSubTo(map);
 	}
 	
-	//친구 차단
-	@PutMapping("/friend/block")
-	public void blockFriend(@RequestBody Map map) {
-		service.putFriendBlocking(String.valueOf(map.get("id")));
-	}
-	
-	//메이트 끊기
-	@DeleteMapping("/mate/delete")
-	public void deleteMate(@RequestBody Map map) {
-		service.deleteMate(String.valueOf(map.get("id")));
-	}
 	
 	//구독자 삭제
 	@DeleteMapping("/subscribe/deleteSubscriber")
 	public void deleteSubscriber(@RequestBody Map map) {
 		service.deleteSubscriber(map);
+	}
+	
+	//구독 등록
+	@PostMapping("/subscribe/subscribing")
+	public void updateSubscribe(@RequestBody Map map) {
+		System.out.println("구독등록 요청됨: "+map.get("userId")+ " : "+map.get("subToId"));
+		service.updateSubscribe(map);
+	}
+	
+	//공통 기능
+	//메이트 및 친구 요청
+	@PostMapping("/request")
+	public void requestMateOrFriend(@RequestBody Map map) {
+		service.postFriendORMateRequest(map);
 	}
 	
 	//유저프로필 사진경로 변경
@@ -152,6 +157,19 @@ public class CommController {
 				.profilePath(String.valueOf(map.get("profilePath")))
 				.build();
 		service.putProfileImage(dto);
+	}
+	
+	//사용중인 유저프로필
+	@GetMapping("/profile")
+	public UserProfileDto getUserProfile(@RequestParam String id) {
+		UserProfileDto dto = new UserProfileDto().builder()
+				.id(id)
+				.name(service.findNameById(id))
+				.profilePath(service.findProPathById(id))
+				.proIntroduction(service.findIntroductionById(id))
+				.date(service.findJoinDateById(id))
+				.build();
+		return dto;
 	}
 	
     // 파일 업로드 처리

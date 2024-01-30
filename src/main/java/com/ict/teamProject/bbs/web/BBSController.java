@@ -272,7 +272,7 @@ public class BBSController {
 	        return ResponseEntity.badRequest().body("bno: " + bno);
 	    }
 	}
-	*/
+	
 	
 	@PostMapping("/userProfile")
 	public List<BBSUsersProfileDto> getAllUsersById(@RequestBody Map<String,List<String>> map){
@@ -292,6 +292,7 @@ public class BBSController {
 										.isSubTo(service.findIsSubto(param))
 										.profilePath(service.findProfilePathById(id))
 										.build();
+				System.out.println(String.format("요청보낸 아이디: %s, 요청받는 아이디: %s, 친구 수: %s", param.get("userId"), id, service.findIsFriend(param)));
 				dtos.add(tempDto);
 			}
 			flag++;

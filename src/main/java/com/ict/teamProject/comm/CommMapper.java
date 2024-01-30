@@ -26,10 +26,12 @@ public interface CommMapper {
 	public void putFavorableRating(MateDto dto); //호감도 수정
 	public String findIntroductionById(String id);//한줄 소개
 	public Date findJoinDateById(String id); //가입 날짜 받기
-	public void putFriendBlocking(String id); //친구 차단
-	public void deleteFriend(String id); //친구 삭제
-	public void deleteSubTo(String id); //구독 끊기
-	public void deleteMate(String id); //메이트 끊기
+	public void putFriendBlocking(Map<String, String> ids); //친구 차단
+	public void deleteFriend(Map<String, String> ids); //친구 삭제
+	public void deleteSubTo(Map<String, String> ids); //구독 끊기
+	public void deleteMate(Map<String, String> ids); //메이트 끊기
 	public void deleteSubscriber(Map<String, String> ids); //구독자 삭제
 	public int putProfileImage(UserProfileDto dto); //프로필 사진 교체
+	public void updateSubscribe(Map<String, String> ids); //구독하기
+	public void postFriendORMateRequest(Map<String, String> idsNtype); //친구 또는 메이트 요청보내기
 }

@@ -7,7 +7,7 @@
 		SELECT * FROM MATE_LIST WHERE ID = #{id}
 	</select>
 	<select id="findAllFriendsById" resultType="FriendDto" parameterType="String">
-		SELECT * FROM FRIEND_LIST WHERE ID = #{id} and friend_blocking='N'
+		SELECT * FROM FRIEND_LIST WHERE ID = #{id} and friend_ing='N'
 	</select>
 	<select id="findAllSubToById" resultType="SubscribeToDto" parameterType="String">
 		SELECT * FROM SUBSCRIBE_LIST WHERE ID = #{id}
@@ -42,17 +42,18 @@
 		SELECT REGIDATE FROM member
 		WHERE ID = #{id}
 	</select>
-	<update id="putFriendBlocking" parameterType="String">
-		UPDATE FRIEND_LIST SET FRIEND_BLOCKING = 'Y' WHERE FRIEND_ID = #{id}
+	<update id="putFriendBlocking" parameterType="Map">
+		UPDATE FRIEND_LIST SET FRIEND_BLOCKING = 'Y' WHERE FRIEND_ID = #{id} and ID = #{userId}
 	</update>
 	<delete id="deleteFriend" parameterType="String">
-		DELETE FROM FRIEND_LIST WHERE ID = #{id}
+		DELETE FROM add_friendmatelist 
+		WHERE afml_id = #{id} and id = #{userId} and afml_yn='Y' and
 	</delete>
-	<delete id="deleteSubTo" parameterType="String">
-		DELETE FROM subscribe_list WHERE SUBSCRIBE_ID = #{id}
+	<delete id="deleteSubTo" parameterType="Map">
+		DELETE FROM subscribe_list WHERE SUBSCRIBE_ID = #{subToId} and ID = #{userId}
 	</delete>
-	<delete id="deleteMate" parameterType="String">
-		DELETE FROM mate_list WHERE MATE_ID = #{id}
+	<delete id="deleteMate" parameterType="Map">
+		DELETE FROM mate_list WHERE MATE_ID IN (#{id}, #{userId}) and ID IN (#{id}, #{userId})
 	</delete>
 	<delete id="deleteSubscriber" parameterType="Map">
 		DELETE FROM subscribe_list WHERE ID = #{subId} AND SUBSCRIBE_ID = #{userId}
@@ -61,4 +62,10 @@
 		UPDATE PROFILE SET PRO_FILEPATH = #{profilePath}
 		WHERE id = #{id}
 	</update>
+	<insert id="updateSubscribe" parameterType="Map">
+		INSERT INTO SUBSCRIBE_LIST VALUES(#{userId}, #{subToId}, default)
+	</insert>
+	<insert id="postFriendORMateRequest" parameterType="Map">
+		INSERT INTO ADD_FRIENDMATELIST(ID, AFML_TYPE, AFML_ID, AFML_YN) VALUES(#{userId},#{type}, #{reqId},'W')
+	</insert>
 </mapper>

@@ -71,23 +71,23 @@ public class CommService {
 	}
 	
 	//친구 차단
-	public void putFriendBlocking(String id) {
-		mapper.putFriendBlocking(id);
+	public void putFriendBlocking(Map<String, String> ids) {
+		mapper.putFriendBlocking(ids);
 	}
 	
 	//친구 삭제
-	public void deleteFriend(String id) {
-		mapper.deleteFriend(id);
+	public void deleteFriend(Map<String, String> ids) {
+		mapper.deleteFriend(ids);
 	}
 	
 	//구독 끊기
-	public void deleteSubTo(String id) {
-		mapper.deleteSubTo(id);
+	public void deleteSubTo(Map<String, String> ids) {
+		mapper.deleteSubTo(ids);
 	}
 	
 	//메이트 끊기
-	public void deleteMate(String id) {
-		mapper.deleteMate(id);
+	public void deleteMate(Map<String, String> ids) {
+		mapper.deleteMate(ids);
 	}
 	
 	//구독자 삭제
@@ -98,5 +98,15 @@ public class CommService {
 	//변경된 유저프로필 사진정보 DB 저장
 	public int putProfileImage(UserProfileDto dto) {
 		return mapper.putProfileImage(dto);
+	}
+	
+	//구독
+	public void updateSubscribe(Map<String, String> ids) {
+		mapper.updateSubscribe(ids);
+	}
+	
+	//메이트 혹은 친구요청
+	public void postFriendORMateRequest(Map<String, String> idsNtype) {
+		mapper.postFriendORMateRequest(idsNtype);
 	}
 }
