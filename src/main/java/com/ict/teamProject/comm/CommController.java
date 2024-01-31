@@ -53,7 +53,7 @@ public class CommController {
 		return mates;
 	}
 	
-	@PutMapping("/mate/changeFavorable")//호감도 수정
+	@PutMapping("/mate/changefavorable")//호감도 수정
 	public void updateFavorableRating(@RequestBody Map map) {
 		MateDto dto = new MateDto().builder()
 						.mate_id(String.valueOf(map.get("mate_id")))
@@ -187,5 +187,11 @@ public class CommController {
 	        // 파일 저장
 	        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 	    }
+	}
+	
+	//메이트 신고 처리
+	@PostMapping("/mate/reportwarning")
+	public void reportWarningMate(@RequestBody Map map) {
+		service.reportWarningMate(map);
 	}
 }
