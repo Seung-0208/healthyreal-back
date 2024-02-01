@@ -78,7 +78,7 @@
 	
 	<!-- 모든 게시글에 뿌려줄 게시글 작성 user 프로필 -->
 	<select id="findIsFriend" parameterType="Map" resultType="java.lang.Integer">
-		SELECT COUNT(*) FROM FRIEND_LIST WHERE ID=#{otherId} AND FRIEND_ID=#{userId}
+		SELECT COUNT(*) FROM ADD_FRIENDMATELIST WHERE ID=#{userId} AND AFML_ID=#{otherId} AND AFML_TYPE=1
 	</select>
 	<select id="findIsSubto" parameterType="Map" resultType="java.lang.Integer">
 		SELECT COUNT(*) FROM subscribe_list WHERE ID=#{userId} AND SUBSCRIBE_ID=#{otherId}
@@ -86,4 +86,16 @@
 	<select id="findProfilePathById" parameterType="String" resultType="String">
 		SELECT PRO_FILEPATH FROM PROFILE WHERE ID=#{id}
 	</select>
+	
+	<!-- 좋아요 -->
+	<insert id="setLikes" parameterType="LikesDto">
+		INSERT INTO LIKES VALUES(default,#{id},#{bno},#{cno},SYSDATE)
+	</insert>
+	<delete id="deleteLikes" parameterType="LikesDto">
+		DELETE LIKES WHERE BBS_NO=#{bno} and ID=#{id}
+	</delete>
+	<select id="findLikes" parameterType="int" resultType="int">
+		SELECT count(*) FROM LIKES WHERE BBS_NO=#{bno}
+	</select>
+	
 </mapper>

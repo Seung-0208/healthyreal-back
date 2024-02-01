@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.ict.teamProject.commentline.service.CommentLineDto;
 import com.ict.teamProject.commentline.service.CommentLineService;
 import com.ict.teamProject.files.service.FilesDto;
@@ -51,6 +52,15 @@ public class CommentLineController {
 		System.out.println(records);
 		return records;
 	}///////////////////	
+	
+	//댓글 입력]
+	@PostMapping(value="/Write.do")
+	@ResponseBody
+	public int input(@RequestParam Map map) throws JsonMappingException{
+		System.out.println("map값"+map);
+		int affected = service.insert(map);
+		System.out.println("2번 동작");
+		System.out.println(affected);
+		return affected;
+	}///////////////////	
 }
-*/
-

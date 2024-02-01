@@ -11,6 +11,8 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,7 @@ import com.ict.teamProject.comm.dto.MateDto;
 import com.ict.teamProject.comm.dto.MySubscriberDto;
 import com.ict.teamProject.comm.dto.SubscribeToDto;
 import com.ict.teamProject.comm.dto.UserProfileDto;
+import com.ict.teamProject.command.FileUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.util.StringUtils;
@@ -60,6 +63,12 @@ public class CommController {
 		service.putFavorableRating(dto);
 	}
 	
+	//메이트 끊기
+	@DeleteMapping("/mate/delete")
+	public void deleteMate(@RequestBody Map map) {
+		service.deleteMate(map);
+	}
+	
 	//friend
 	@GetMapping("/friend") //조회
 	public List<FriendDto> getAllFriends(@RequestParam String id){
@@ -72,6 +81,18 @@ public class CommController {
 			f.setProfilePath(service.findProPathById(f.getFriend_id()));
 		}
 		return friends;
+	}
+	
+	//친구끊기
+	@DeleteMapping("/friend/delete")
+	public void deleteFriend(@RequestBody Map map) {
+		service.deleteFriend(map);
+	}
+	
+	//친구 차단
+	@PutMapping("/friend/block")
+	public void blockFriend(@RequestBody Map map) {
+		service.putFriendBlocking(map);
 	}
 	
 	//subscribe
@@ -100,47 +121,32 @@ public class CommController {
 		return total;
 	}
 	
-	//유저프로필
-	@GetMapping("/profile")
-	public UserProfileDto getUserProfile(@RequestParam String id) {
-		UserProfileDto dto = new UserProfileDto().builder()
-				.id(id)
-				.name(service.findNameById(id))
-				.profilePath(service.findProPathById(id))
-				.proIntroduction(service.findIntroductionById(id))
-				.date(service.findJoinDateById(id))
-				.build();
-		return dto;
-	}
-	
-	//친구끊기
-	@DeleteMapping("/friend/delete")
-	public void deleteFriend(@RequestBody Map map) {
-		service.deleteFriend(String.valueOf(map.get("id")));
-	}
-	
 	//구독 취소
 	@DeleteMapping("/subscribe/delete")
 	public void deleteSubTo(@RequestBody Map map) {
-		service.deleteSubTo(String.valueOf(map.get("id")));
+		System.out.println("구독취소 요청됨: "+map);
+		service.deleteSubTo(map);
 	}
 	
-	//친구 차단
-	@PutMapping("/friend/block")
-	public void blockFriend(@RequestBody Map map) {
-		service.putFriendBlocking(String.valueOf(map.get("id")));
-	}
-	
-	//메이트 끊기
-	@DeleteMapping("/mate/delete")
-	public void deleteMate(@RequestBody Map map) {
-		service.deleteMate(String.valueOf(map.get("id")));
-	}
 	
 	//구독자 삭제
 	@DeleteMapping("/subscribe/deleteSubscriber")
 	public void deleteSubscriber(@RequestBody Map map) {
 		service.deleteSubscriber(map);
+	}
+	
+	//구독 등록
+	@PostMapping("/subscribe/subscribing")
+	public void updateSubscribe(@RequestBody Map map) {
+		System.out.println("구독등록 요청됨: "+map.get("userId")+ " : "+map.get("subToId"));
+		service.updateSubscribe(map);
+	}
+	
+	//공통 기능
+	//메이트 및 친구 요청
+	@PostMapping("/request")
+	public void requestMateOrFriend(@RequestBody Map map) {
+		service.postFriendORMateRequest(map);
 	}
 	
 	//유저프로필 사진경로 변경
@@ -154,20 +160,68 @@ public class CommController {
 		service.putProfileImage(dto);
 	}
 	
+	//사용중인 유저프로필
+	@GetMapping("/profile")
+	public UserProfileDto getUserProfile(@RequestParam String id) {
+		UserProfileDto dto = new UserProfileDto().builder()
+				.id(id)
+				.name(service.findNameById(id))
+				.profilePath(service.findProPathById(id))
+				.proIntroduction(service.findIntroductionById(id))
+				.date(service.findJoinDateById(id))
+				.build();
+		return dto;
+	}
+	
     // 파일 업로드 처리
+//	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+//	public void uploadFile(MultipartFile file) throws IOException {
+//	    System.out.println("파일 업로드"+file);
+//
+//	    // 파일 처리 로직
+//	    if (file != null && !file.isEmpty()) {
+//	        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+//	        String uploadDir = "./src/main/resources/static/images/";
+//	        // 파일 저장 경로 설정
+//	        Path filePath = Paths.get(uploadDir + fileName);
+//
+//	        // 파일 저장
+//	        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+//	    }
+//	}
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public void uploadFile(MultipartFile file) throws IOException {
 	    System.out.println("파일 업로드"+file);
 
-	    // 파일 처리 로직
-	    if (file != null && !file.isEmpty()) {
-	        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-	        String uploadDir = "./src/main/resources/static/images/";
-	        // 파일 저장 경로 설정
-	        Path filePath = Paths.get(uploadDir + fileName);
-
-	        // 파일 저장
-	        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+	    String uploadDirectory = "E:/images/";  // 파일을 저장할 디렉토리
+	    String uploadimages = "src/main/resources/static/images/";
+	    if (file != null) {
+		    try {
+		        Path uploadPath = Paths.get(uploadDirectory);
+		        Path uploadimagePath = Paths.get(uploadimages);
+		        if (!Files.exists(uploadPath)) {
+		            Files.createDirectories(uploadPath);// 디렉토리가 없으면 생성
+		        }
+		        if (!Files.exists(uploadimagePath)) {
+		            Files.createDirectories(uploadimagePath);// 디렉토리가 없으면 생성
+		        }
+		        String filename = file.getOriginalFilename();
+		        String newFilename = FileUtils.getNewFileName(uploadDirectory, filename);
+		        Path filePath = uploadPath.resolve(newFilename);  // 파일이 저장될 경로
+		        Path fileimgaePath = uploadimagePath.resolve(newFilename);  // 파일이 저장될 경로
+		        String filePathStr = filePath.toString().replace("\\", "/");  // 역슬래시를 슬래시로 바꾸기
+		            
+//		        String baseUrl = "http://localhost:4000";  // 기본 URL
+		        String imagePath = filePathStr.substring(filePathStr.indexOf("/images"));
+		        imagePath = filePathStr.replace("E:/images", "/images");
+		            
+		        file.transferTo(filePath);  // 파일 저장
+		        file.transferTo(fileimgaePath);  // 파일 저장
+		        System.out.println("fileimgaePath:---"+fileimgaePath);
+		   }catch (IOException e) {
+		        e.printStackTrace();
+		   }
 	    }
+		   
 	}
 }
