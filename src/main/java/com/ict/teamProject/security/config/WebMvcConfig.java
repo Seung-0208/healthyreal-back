@@ -12,7 +12,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		registry.addResourceHandler("/**")
 				.addResourceLocations("classpath:/static/","classpath:/templates/");
 	}
-	
+	/*
 	@Override
     public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
@@ -21,7 +21,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
         .allowedHeaders("*")
         .allowCredentials(true)
         .maxAge(3600);
-}
+} */
 	
 	
 }

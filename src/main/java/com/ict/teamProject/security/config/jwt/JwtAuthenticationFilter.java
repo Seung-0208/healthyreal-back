@@ -30,13 +30,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
+		
+		System.out.println("JwtAuthenticationFilter : 로그인 시도중");
 		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");
 		UsernamePasswordAuthenticationToken authenticationToken =
 					new UsernamePasswordAuthenticationToken(id,pwd);
-		Authentication authenticated = authenticationManager.authenticate(authenticationToken);
-
 		
+		System.out.println("attemptAuthentication 실행  ");
+		Authentication authenticated = authenticationManager.authenticate(authenticationToken);
 		PrincipalDetails principalDetails = (PrincipalDetails) authenticated.getPrincipal();
 		System.out.println(principalDetails.getUsername());
 		
@@ -49,6 +51,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			Authentication authResult) throws IOException, ServletException {
 		
 			PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
+			System.out.println("principalDetails :"+principalDetails);
 			
 			Map<String,Object> payloads = new HashMap<>();
 			payloads.put("username",principalDetails.getUsername());
@@ -57,6 +60,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			JWTTokens tokens = new JWTTokens();
 			String token = tokens.createToken(principalDetails.getUsername(), payloads, expirationTime);
 			
+			System.out.println("jwtAuthentication:"+principalDetails.getUsername());
 			Cookie cookie = new Cookie("User-Token", token);
 			cookie.setHttpOnly(true);
 			cookie.setMaxAge((int)expirationTime);
@@ -64,7 +68,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			cookie.setSecure(true);
 			
 			response.addCookie(cookie);
-			
+			System.out.println(principalDetails.getUsername()+ "쿠키 생성 되니?");
 	}
 	
 	

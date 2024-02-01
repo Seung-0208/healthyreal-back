@@ -31,7 +31,6 @@ public interface MemberMapper {
 	MemberDto findByMemberInfo(String id);
 	
 	//회원가입
-	void joinMemberInfo(MemberDto dto);
 	void profileImageTable(MemberDto dto);
 
 }

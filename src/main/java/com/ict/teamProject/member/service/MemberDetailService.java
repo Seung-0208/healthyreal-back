@@ -18,12 +18,14 @@ public class MemberDetailService {
 
     public boolean findbyUserPassword(Map map) {
     	String pwd = mapper.findbyUserPassword(map);
-    	
+    	System.out.println(pwd);
     	if(pwd!=null) {
     	    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     	    boolean passwordMatch = passwordEncoder.matches(map.get("pwd").toString(), pwd);
     	    return passwordMatch;
+
     	}
+    	System.out.println("뭘찾는거지"+pwd);
         return false;
     }
 

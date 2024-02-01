@@ -43,6 +43,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 		    for (Cookie cookie : cookies) {
 		        if (cookie.getName().equals("User-Token")) { 
 		        	jwttoken = cookie.getValue();
+		        	System.out.println();
 		            break;
 		        }
 		    }

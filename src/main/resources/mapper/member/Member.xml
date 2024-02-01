@@ -40,8 +40,17 @@
 	</select>
 	
 		<select id="findByMemberInfo" resultType="MemberDto" parameterType="String">
-		SELECT name FROM member WHERE id = #{id}
+		SELECT name,id FROM member WHERE id = #{id}
 	</select>
+	<!--
+			<select id="findByMemberInfo" resultType="MemberDto" parameterType="String">
+		SELECT m.name,m.id,PRO_FILEPATH FROM member m join PROFILE P ON m.id = p.id WHERE m.id = #{id}
+	</select>
+	-->
+		<select id="isPreviousUser" resultType="int" parameterType="String">
+		SELECT count(*) FROM member WHERE id=#{id}
+	</select>
+	
 
 
 <select id="findByMember" parameterType="string" resultType="MemberDto">

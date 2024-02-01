@@ -49,4 +49,8 @@ public class MemberController {
 		return service.logincheck(id, pwd);
 	}
 	
+	
+	
+	
+	
 }
