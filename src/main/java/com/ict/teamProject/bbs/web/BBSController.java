@@ -196,7 +196,9 @@ public class BBSController {
 	        record.setFiles(files);  // 게시글에 파일들을 추가
 	        record.setContent(record.getContent().replace("\r\n", "<br/>"));
 	        System.out.println("files:"+record.getFiles());
+	        System.out.println("record.likes()"+record.getLikes());
 	    }
+	    
 		return records;
 	}
 	
@@ -303,7 +305,7 @@ public class BBSController {
 	
 	//좋아요 얻어오기
 	@PostMapping("/likes.do")
-	public int likes(@RequestBody Map map) {
+	public Map likes(@RequestBody Map map) {
 		LikesDto likes = new LikesDto();
 		String id = map.get("id").toString();
 		System.out.println("id:-- "+id);
@@ -312,7 +314,7 @@ public class BBSController {
 		int bno = Integer.parseInt(map.get("bno").toString());
 		System.out.println("bno:-- "+bno);
 		int cno = 0;
-		if(map.get("cno") != null) {
+		if(map.get("cno") != null && !map.get("cno").toString().isEmpty()) {
 			cno = Integer.parseInt(map.get("cno").toString());
 			System.out.println("cno:-- "+cno);
 		}
@@ -326,6 +328,11 @@ public class BBSController {
 	        service.deleteLikes(likes);
 	    }
 	    int likesnum = service.findLikes(bno);
-		return likesnum;
+	    String likesId = service.whereLikes(bno);
+	    Map like = new HashMap();
+	    like.put("likesnum", likesnum);
+	    like.put("likes", likesId);
+	    
+		return like;
 	}
 }
