@@ -1,4 +1,3 @@
-/*
 package com.ict.teamProject.commentline.web;
 
 import java.util.Collection;
@@ -63,4 +62,4 @@ public class CommentLineController {
 		System.out.println(affected);
 		return affected;
 	}///////////////////	
-} */
+}
