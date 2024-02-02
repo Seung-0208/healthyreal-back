@@ -20,4 +20,17 @@ public interface MemberMapper {
 	 
 	 int logincheck(String id, String pwd);
 
+
+
+	String findbyUserPassword(Map map);
+	Map<String, Object> getInfo(String id);
+	int isPreviousUser(String id);
+	
+	MemberDto findByUsername(String id);
+	void joinSocialMember(MemberDto dto);
+	MemberDto findByMemberInfo(String id);
+	
+	//회원가입
+	void profileImageTable(MemberDto dto);
+
 }

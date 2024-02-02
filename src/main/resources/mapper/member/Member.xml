@@ -20,12 +20,38 @@
 	</resultMap>
  
 <insert id="saveMember" parameterType="MemberDto" useGeneratedKeys="true" keyProperty="id">
-	 INSERT INTO member(id, pwd, name, gender, b_day, tel, userAddress, height, weight, goal_No, regidate) VALUES (#{id}, #{pwd}, #{name}, #{gender}, #{b_day}, #{tel}, #{userAddress}, #{height}, #{weight}, #{goal_No}, default) 
+	 INSERT INTO member(id, pwd, name, gender, b_day, tel, userAddress, height, weight, goal_No, regidate, authority) VALUES (#{id}, #{pwd}, #{name}, #{gender}, #{b_day}, #{tel}, #{userAddress}, #{height}, #{weight}, #{goal_No}, default , #{authority}) 
 </insert>
 	<!-- INSERT INTO member VALUES (?, ?, ?, 'M', ?, 'seoul', ?, ?, '1', SYSDATE); -->
 <select id="checkPhoneNumber" parameterType="string" resultType="boolean">
   SELECT COUNT(*) FROM member WHERE tel = #{tel}
 </select>
+
+		<select id="findByUsername" resultType="MemberDto" parameterType="String">
+		SELECT id,pwd,authority FROM member WHERE id = #{id}
+	</select>
+	
+	<select id="findbyUserPassword" resultType="String" parameterType="java.util.Map">
+		SELECT pwd FROM member WHERE id= #{id}
+	</select>
+	
+		<select id="getInfo" resultType="Map" parameterType="String">
+		SELECT authority,provider FROM member WHERE id=#{id}
+	</select>
+	
+		<select id="findByMemberInfo" resultType="MemberDto" parameterType="String">
+		SELECT name,id FROM member WHERE id = #{id}
+	</select>
+	<!--
+			<select id="findByMemberInfo" resultType="MemberDto" parameterType="String">
+		SELECT m.name,m.id,PRO_FILEPATH FROM member m join PROFILE P ON m.id = p.id WHERE m.id = #{id}
+	</select>
+	-->
+		<select id="isPreviousUser" resultType="int" parameterType="String">
+		SELECT count(*) FROM member WHERE id=#{id}
+	</select>
+	
+
 
 <select id="findByMember" parameterType="string" resultType="MemberDto">
   SELECT * FROM member WHERE id = #{id}

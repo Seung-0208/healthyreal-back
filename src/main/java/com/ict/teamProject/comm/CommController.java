@@ -27,6 +27,7 @@ import com.ict.teamProject.comm.dto.MateDto;
 import com.ict.teamProject.comm.dto.MySubscriberDto;
 import com.ict.teamProject.comm.dto.SubscribeToDto;
 import com.ict.teamProject.comm.dto.UserProfileDto;
+import com.ict.teamProject.command.FileUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.util.StringUtils;
@@ -177,16 +178,36 @@ public class CommController {
 	public void uploadFile(MultipartFile file) throws IOException {
 	    System.out.println("파일 업로드"+file);
 
-	    // 파일 처리 로직
-	    if (file != null && !file.isEmpty()) {
-	        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-	        String uploadDir = "./src/main/resources/static/images/";
-	        // 파일 저장 경로 설정
-	        Path filePath = Paths.get(uploadDir + fileName);
-
-	        // 파일 저장
-	        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+	    String uploadDirectory = "E:/images/";  // 파일을 저장할 디렉토리
+	    String uploadimages = "src/main/resources/static/images/";
+	    if (file != null) {
+		    try {
+		        Path uploadPath = Paths.get(uploadDirectory);
+		        Path uploadimagePath = Paths.get(uploadimages);
+		        if (!Files.exists(uploadPath)) {
+		            Files.createDirectories(uploadPath);// 디렉토리가 없으면 생성
+		        }
+		        if (!Files.exists(uploadimagePath)) {
+		            Files.createDirectories(uploadimagePath);// 디렉토리가 없으면 생성
+		        }
+		        String filename = file.getOriginalFilename();
+		        String newFilename = FileUtils.getNewFileName(uploadDirectory, filename);
+		        Path filePath = uploadPath.resolve(newFilename);  // 파일이 저장될 경로
+		        Path fileimgaePath = uploadimagePath.resolve(newFilename);  // 파일이 저장될 경로
+		        String filePathStr = filePath.toString().replace("\\", "/");  // 역슬래시를 슬래시로 바꾸기
+		            
+//		        String baseUrl = "http://localhost:4000";  // 기본 URL
+		        String imagePath = filePathStr.substring(filePathStr.indexOf("/images"));
+		        imagePath = filePathStr.replace("E:/images", "/images");
+		            
+		        file.transferTo(filePath);  // 파일 저장
+		        file.transferTo(fileimgaePath);  // 파일 저장
+		        System.out.println("fileimgaePath:---"+fileimgaePath);
+		   }catch (IOException e) {
+		        e.printStackTrace();
+		   }
 	    }
+		   
 	}
 	
 	//메이트 신고 처리

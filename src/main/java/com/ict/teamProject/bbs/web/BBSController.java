@@ -46,6 +46,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ict.teamProject.bbs.service.BBSDto;
 import com.ict.teamProject.bbs.service.BBSService;
 import com.ict.teamProject.bbs.service.BBSUsersProfileDto;
+import com.ict.teamProject.bbs.service.LikesDto;
 import com.ict.teamProject.command.FileUtils;
 import com.ict.teamProject.files.service.FilesDto;
 
@@ -195,7 +196,9 @@ public class BBSController {
 	        record.setFiles(files);  // 게시글에 파일들을 추가
 	        record.setContent(record.getContent().replace("\r\n", "<br/>"));
 	        System.out.println("files:"+record.getFiles());
+	        System.out.println("record.likes()"+record.getLikes());
 	    }
+	    
 		return records;
 	}
 	
@@ -298,5 +301,38 @@ public class BBSController {
 			flag++;
 		}
 		return dtos;
+	}
+	
+	//좋아요 얻어오기
+	@PostMapping("/likes.do")
+	public Map likes(@RequestBody Map map) {
+		LikesDto likes = new LikesDto();
+		String id = map.get("id").toString();
+		System.out.println("id:-- "+id);
+		String state = map.get("isLiked").toString();
+		System.out.println("state:-- "+state);
+		int bno = Integer.parseInt(map.get("bno").toString());
+		System.out.println("bno:-- "+bno);
+		int cno = 0;
+		if(map.get("cno") != null && !map.get("cno").toString().isEmpty()) {
+			cno = Integer.parseInt(map.get("cno").toString());
+			System.out.println("cno:-- "+cno);
+		}
+		likes.setBno(bno);
+		likes.setId(id);
+	    if (state.equals("true")) {
+	    	System.out.println("===========여기?");
+	        service.setLikes(likes);
+	    } else if (state.equals("false")) {
+	    	System.out.println("+++++++++++++++++++여기?");
+	        service.deleteLikes(likes);
+	    }
+	    int likesnum = service.findLikes(bno);
+	    String likesId = service.whereLikes(bno);
+	    Map like = new HashMap();
+	    like.put("likesnum", likesnum);
+	    like.put("likes", likesId);
+	    
+		return like;
 	}
 }

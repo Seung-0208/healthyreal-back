@@ -1,4 +1,5 @@
 package com.ict.teamProject.bbs.service;
+
 import java.util.List;
 
 import org.apache.ibatis.type.Alias;
@@ -11,20 +12,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Alias("BBSDto")
+@Alias("LikesDto")
 @Builder
 @NoArgsConstructor  // 기본 생성자 추가
 @AllArgsConstructor
-public class BBSDto {
-	private int bno;
+public class LikesDto {
+	private int lno;
 	private String id;
-	private int type;
-	private String content;
-	private char disclosureYN;
-	private String hashTag;
-	private java.sql.Date postDate;
-	private List<String> files;  // 파일들을 저장할 필드
-	private String likes;
-	private int likesnum;
+	private int bno;
+	private int cno;
+	private java.sql.Date lDate;
 	
 }
+

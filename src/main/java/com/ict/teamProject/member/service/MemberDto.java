@@ -30,4 +30,9 @@ public class MemberDto {
 	private String userAddress;
 	private int goal_No;
 	private Date regidate;
+	private String authority;
+	
+	//소셜로그인
+	private String profileimage;
+	private String provider;
 }

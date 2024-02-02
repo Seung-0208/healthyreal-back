@@ -19,17 +19,18 @@ public class MemberValidateController {
     public MemberValidateController(MessageService messageService) {
         this.messageService = messageService;
     }
-
-    @CrossOrigin(origins = "http://localhost:3333/")
-    @PostMapping("/user/send")
+    
+    @PostMapping("/send")
+    @CrossOrigin(origins = "http://localhost:3333/", allowedHeaders = "*")
     public String userCheck(@RequestBody Map<String, String> params) {
     	String phone = params.get("phone");
         return messageService.sendAuthCode(phone);
        
     }
 
-	@CrossOrigin(origins = "http://localhost:3333/")
-	@PostMapping("/user/checkPhoneNumber")
+    
+	@PostMapping("/checkPhoneNumber")
+	@CrossOrigin(origins = "http://localhost:3333",  allowedHeaders = "*")
 	public ResponseEntity<Map<String, Boolean>> checkPhoneNumber(@RequestBody Map<String, String> params) {
 	    String phone = params.get("phone");
 
@@ -42,7 +43,7 @@ public class MemberValidateController {
 	}
     
     @CrossOrigin(origins = "http://localhost:3333/")
-    @PostMapping("/user/verify")
+    @PostMapping("/verify")
     public ResponseEntity<String> verifyAuthCode(@RequestBody Map<String, String> params) {
         String phone = params.get("phone");
         String inputAuthCode = params.get("authCode");
@@ -57,7 +58,7 @@ public class MemberValidateController {
     }
     
     @CrossOrigin(origins = "http://localhost:3333/")
-    @PostMapping("/user/resendVerificationCode")
+    @PostMapping("/resendVerificationCode")
     public ResponseEntity<String> resendVerificationCode(@RequestBody Map<String, String> params) {
         String phone = params.get("phone");
 
