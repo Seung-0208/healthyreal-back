@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,6 +55,7 @@ import com.ict.teamProject.files.service.FilesDto;
 @Controller
 @RequestMapping("/bbs")
 @RestController
+
 @CrossOrigin(origins = "http://localhost:3333")
 public class BBSController {
 	
