@@ -45,7 +45,7 @@ public class CommentLineServiceImpl implements CommentLineService<CommentLineDto
 
 	//게시물 수정
 	@Override
-	public int update(int c_no, String ccomment) {
+	public int update(String c_no, String ccomment) {
 		int affected=0;
 		try {			
 			affected= mapper.updatefindByCommentLine(c_no, ccomment);

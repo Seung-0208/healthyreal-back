@@ -17,7 +17,7 @@ public interface CommentLineService<T> {
 	//입력/수정/삭제용
 	//int insert(Map map);
 	int insert(Map map, int type);
-	int update(int c_no, String ccomment);
+	int update(String c_no, String ccomment);
 	int delete(int c_no);
 
 	List<CommentLineDto> findrecent_comment(Map map);

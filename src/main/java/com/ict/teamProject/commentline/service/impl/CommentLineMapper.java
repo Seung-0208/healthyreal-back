@@ -25,7 +25,7 @@ public interface CommentLineMapper {
 	
 
 	//레코드 하나 수정
-	int updatefindByCommentLine(int c_no, String ccomment);
+	int updatefindByCommentLine(String c_no, String ccomment);
 	
 	//레코드 하나 삭제
 	int delete(int c_no);

@@ -41,7 +41,7 @@
 		SELECT CL.ID, CL.BBS_NO, P.PRO_FILEPATH FROM (SELECT * FROM COMMENTLINE CL WHERE BBS_NO = #{bbs_no}) CL JOIN PROFILE P ON CL.ID = P.ID
 	 </select>
 	 
-	 <delete id="delete" parameterType="int">
+	 <delete id="delete" parameterType="Map">
 	 	DELETE FROM commentline WHERE C_NO = #{c_no}
 	 </delete>
 	 
