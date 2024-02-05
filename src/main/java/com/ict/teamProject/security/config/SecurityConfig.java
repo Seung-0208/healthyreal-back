@@ -96,6 +96,7 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 		.authenticationEntryPoint(jwtAuthenticationEntryPoint)
 				);
 		http.authorizeHttpRequests( (requests)->requests
+				
 				.requestMatchers("/user/**").hasAuthority("ROLE_USER")
 				//.requestMatchers("/api/v1/manager/**").hasRole("MANAGER")
 				//.requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
@@ -129,12 +130,13 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 				logout
 					.deleteCookies("User-Token")
 					.invalidateHttpSession(true)
+					
 					.logoutSuccessHandler(userLogoutSeccessHandler)
 					
 			)
  			
  			;
-		
+		System.out.println();
 		return http.build();
 	}
 	

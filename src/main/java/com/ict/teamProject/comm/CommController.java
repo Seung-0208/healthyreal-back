@@ -33,7 +33,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.util.StringUtils;
 import java.nio.file.StandardCopyOption;
 @RestController
-@RequestMapping("/comm")
+
 @CrossOrigin(origins = "http://localhost:3333")
 public class CommController {
 	CommService service;
@@ -96,7 +96,7 @@ public class CommController {
 	}
 	
 	//subscribe
-	@GetMapping("/subscribe") //조회
+	@GetMapping("user/subscribe") //조회
 	public Map getAllSubInfo(@RequestParam String id){
 		List<SubscribeToDto> subscribeTo = service.findAllSubToById(id); //내가 구독한 목록
 		for(SubscribeToDto dto : subscribeTo) {
@@ -150,7 +150,7 @@ public class CommController {
 	}
 	
 	//유저프로필 사진경로 변경
-	@PutMapping("/profile/update")
+	@PutMapping("/user/profile/update")
 	public void updateProfilePath(@RequestBody Map map) {
 		System.out.println(map);
 		UserProfileDto dto = new UserProfileDto().builder()
@@ -161,7 +161,7 @@ public class CommController {
 	}
 	
 	//사용중인 유저프로필
-	@GetMapping("/profile")
+	@GetMapping("user/profile")
 	public UserProfileDto getUserProfile(@RequestParam String id) {
 		UserProfileDto dto = new UserProfileDto().builder()
 				.id(id)
@@ -170,11 +170,13 @@ public class CommController {
 				.proIntroduction(service.findIntroductionById(id))
 				.date(service.findJoinDateById(id))
 				.build();
+		System.out.println("너의 이름은?"+dto.getProfilePath()+ dto.getProIntroduction());
 		return dto;
 	}
 	
     // 파일 업로드 처리
-	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	@CrossOrigin(origins = "http://localhost:3333")
+	@RequestMapping(value = "user/upload", method = RequestMethod.POST)
 	public void uploadFile(MultipartFile file) throws IOException {
 	    System.out.println("파일 업로드"+file);
 
