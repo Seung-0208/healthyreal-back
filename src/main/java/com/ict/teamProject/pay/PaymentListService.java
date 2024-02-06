@@ -23,6 +23,9 @@ public class PaymentListService {
 	}
 	
 	//부트페이 결제 진행 후 Data 넣기
+	public int before_insertPayment(Map map) {
+		return mapper.before_insertPayment(map);
+	}
 	public int insertPayment(Map map) {
 		return mapper.insertPayment(map);
 	}

@@ -54,7 +54,11 @@ public class PaymentListController {
 	
 	@PostMapping("/Payment/Write.do")
 	public int insertList(@RequestBody Map map) {
-//		service.
-		return 0;
+		System.out.println(map);
+		int before_affected = service.before_insertPayment(map);
+		System.out.println(before_affected);
+		int affected = service.insertPayment(map);
+		System.out.println(affected);
+		return affected;
 	}
 }
