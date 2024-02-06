@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.teamProject.pay.PaymentListMapper">
+	<select id="findPayList" resultType="PaymentListDto" parameterType="String">
+		SELECT ID as id, PAY_DATE as payDate, PAY_TYPE as payType, PAY_NAME as payName, PAY_PRICE as payPrice, PAY_METHOD as payMethod FROM PAYMENT_LIST WHERE ID = #{id}
+	</select>
+</mapper>
