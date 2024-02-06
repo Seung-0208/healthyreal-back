@@ -96,6 +96,7 @@ public class CommController {
 	}
 	
 	//subscribe
+	@CrossOrigin(origins = "http://localhost:3333")
 	@GetMapping("user/subscribe") //조회
 	public Map getAllSubInfo(@RequestParam String id){
 		List<SubscribeToDto> subscribeTo = service.findAllSubToById(id); //내가 구독한 목록
@@ -149,17 +150,6 @@ public class CommController {
 		service.postFriendORMateRequest(map);
 	}
 	
-	@PutMapping("/intro/update")
-	public void updateInro(@RequestBody Map<String, Object> requestBody) {
-	    String id = (String) requestBody.get("id");
-	    String proIntroduction = (String) requestBody.get("proIntroduction");
-	    System.out.println("아이디: " + id);
-	    System.out.println("소개: " + proIntroduction);
-	    int check = service.updateIntro(id, proIntroduction);
-	    System.out.println(check);
-	}
-
-	
 	//유저프로필 사진경로 변경
 	@PutMapping("/user/profile/update")
 	public void updateProfilePath(@RequestBody Map map) {
@@ -191,7 +181,7 @@ public class CommController {
 	public void uploadFile(MultipartFile file) throws IOException {
 	    System.out.println("파일 업로드"+file);
 
-	    String uploadDirectory = "D:/images/";  // 파일을 저장할 디렉토리
+	    String uploadDirectory = "E:/images/";  // 파일을 저장할 디렉토리
 	    String uploadimages = "src/main/resources/static/images/";
 	    if (file != null) {
 		    try {
@@ -211,7 +201,7 @@ public class CommController {
 		            
 //		        String baseUrl = "http://localhost:4000";  // 기본 URL
 		        String imagePath = filePathStr.substring(filePathStr.indexOf("/images"));
-		        imagePath = filePathStr.replace("D:/images", "/images");
+		        imagePath = filePathStr.replace("E:/images", "/images");
 		            
 		        file.transferTo(filePath);  // 파일 저장
 		        file.transferTo(fileimgaePath);  // 파일 저장
