@@ -71,9 +71,9 @@ public class CommentLineController {
 	}///////////////////
 	
 	//댓글 수정]
-	@RequestMapping(value="/Edit.do", method=RequestMethod.PUT)
+	@RequestMapping(value = "/Edit.do", method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT})
 	@ResponseBody
-	public int update(@RequestParam int c_no, String ccomment) throws JsonMappingException{
+	public int update(@RequestParam String c_no, String ccomment) throws JsonMappingException{
 		System.out.println(c_no);
 		System.out.println(ccomment);
 		int affected = service.update(c_no, ccomment);
