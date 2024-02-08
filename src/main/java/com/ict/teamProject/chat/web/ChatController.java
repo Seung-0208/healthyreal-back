@@ -83,19 +83,41 @@ public class ChatController {
 		return affected;
 	}/////
 	
-/*
-	@RequestMapping(value="/ViewOne.do",method = {RequestMethod.GET,RequestMethod.POST})
+
+	@RequestMapping(value="/selectChat.do")
 	@ResponseBody
-	public BBSDto viewOne(@RequestParam String bno) {
-		int bnoInt = Integer.parseInt(bno);
-		System.out.println("상세보기의 NO:"+bnoInt);
+	public ChatDto selectChat(@RequestBody Map map) {
+		System.out.println("접속한 사람:"+map.get("id").toString());
+		System.out.println("내가 보낼 사람:"+map.get("ruser").toString());
+		
 		//서비스 호출
-		BBSDto record= service.selectOne(bnoInt);
+		ChatDto record= service.selectChat(map);
 		//줄바꿈
-		record.setContent(record.getContent().replace("\r\n", "<br/>"));
+		if (record != null) {
+			record.setContent(record.getContent().replace("\r\n", "<br/>"));
+		}
+		System.out.println("record-----"+record);
 		//뷰정보 반환
 		return record;
 	}
+	
+	@RequestMapping(value="/whoChating.do")
+	@ResponseBody
+	public ChatDto whoChating(@RequestBody String id) {
+		System.out.println("접속한 사람:"+id);
+		
+		//서비스 호출
+		ChatDto record= service.whoChating(id);
+		//줄바꿈
+		if (record != null) {
+			record.setContent(record.getContent().replace("\r\n", "<br/>"));
+		}
+		System.out.println("record-----"+record);
+		//뷰정보 반환
+		return record;
+	}
+	
+	/*
 	
 	@GetMapping("/ViewMy.do")
 	@ResponseBody
