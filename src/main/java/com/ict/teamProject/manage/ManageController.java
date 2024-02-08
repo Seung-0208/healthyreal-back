@@ -30,16 +30,16 @@ public class ManageController {
 	public ManageController(ManageService service) {
 		this.service = service;
 	}
-	
+	//다이어리 페이지에 값을 뿌려주기 위한 메소드
 	@GetMapping("/diary")
 	public DiaryDto getDiaryContent(@RequestParam String userNDate) {
 		return service.findDiaryById(userNDate);
 	}
-	
+	//일기 내용을 DB에 저장하기 위한 메소드
 	@PostMapping("/diary/upload")
-	public void uploadDiary(@RequestParam Map map, @RequestParam(name="files",required = false) MultipartFile[] files) {
+	public int uploadDiary(@RequestParam Map map, @RequestParam(name="files",required = false) MultipartFile[] files) {
 		System.out.println("이미지 파일 확인:" + files);
-		
+		System.out.println("diary id 확인:" + String.valueOf(map.get("diaryId")));
 		//다이어리 텍스트 저장
 		DiaryDto diary = new DiaryDto().builder()
 						.id(String.valueOf(map.get("id")))
@@ -88,6 +88,6 @@ public class ManageController {
 		    }
 		}
 		
-		service.uploadDiaryContentsById(diary, imgs);
+		return service.uploadDiaryContentsById(diary, imgs);
 	}
 }

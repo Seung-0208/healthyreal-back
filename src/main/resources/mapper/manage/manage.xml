@@ -13,7 +13,7 @@
 	</select>
 	<!-- 다이어리 텍스트 저장 -->
 	<insert id="uploadDiaryById" parameterType="DiaryDto">
-		INSERT INTO DIARY(ID, DIARY_CONTENT, STRESS) VALUES(#{id},#{diary_content},#{emotion})
+		INSERT INTO DIARY(DIARYID, ID, DIARY_CONTENT, STRESS) VALUES(#{diaryId}, #{id},#{diary_content},#{emotion})
 	</insert>
 	<!-- 다이어리 이미지 저장 -->
 	<update id="uploadDiaryImageById" parameterType="list">

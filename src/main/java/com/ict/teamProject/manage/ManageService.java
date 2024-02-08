@@ -1,5 +1,6 @@
 package com.ict.teamProject.manage;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,13 +21,28 @@ public class ManageService {
 	public DiaryDto findDiaryById(String UserNDate) {
 		DiaryDto dto = new DiaryDto();
 		dto = mapper.findDiaryById(UserNDate);
-		System.out.println(mapper.findDiaryImgUrlsByDiaryId(UserNDate));
-		dto.setImgUrls(mapper.findDiaryImgUrlsByDiaryId(UserNDate));
+		if(dto!=null) dto.setImgUrls(mapper.findDiaryImgUrlsByDiaryId(UserNDate));
 		return dto;
 	}
 	
-	public void uploadDiaryContentsById(DiaryDto diaryDto, List<DiaryImagesDto> imgs) {
-		mapper.uploadDiaryById(diaryDto); //다이어리 내용 저장
-		mapper.uploadDiaryImageById(imgs);
+	public int uploadDiaryContentsById(DiaryDto diaryDto, List<DiaryImagesDto> imgs) {
+		System.out.println("서비스단의 다이어리 아이디: "+diaryDto.getDiaryId());
+		int isTextUploadSuccess = 0;
+		int isImageUploadSuccess = 0;
+		try {
+			isTextUploadSuccess = mapper.uploadDiaryById(diaryDto); //다이어리 내용 저장
+			System.out.println("값이 찍히는지 확인:"+isTextUploadSuccess);
+			if(imgs.size()!=0) {
+				isImageUploadSuccess = mapper.uploadDiaryImageById(imgs); //다이어리 이미지 저장
+				if((isTextUploadSuccess+isImageUploadSuccess)==1) return 1;
+				else return 0;
+			}
+			else {
+				return isTextUploadSuccess;
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+			return 0;
+		}
 	}
 }
