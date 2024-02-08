@@ -64,4 +64,8 @@
 	<select id="logincheck" parameterType="string">
 	  SELECT COUNT(*) FROM member WHERE id = #{id} and pwd = #{pwd}
 	</select>
+	
+	<select id="searchPoint" parameterType="string">
+	  SELECT id, point FROM member WHERE id = #{id}
+	</select>
 </mapper>

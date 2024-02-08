@@ -11,4 +11,6 @@ import com.ict.teamProject.notic.dto.NoticDto;
 @Mapper
 public interface NoticMapper {
 	public List<NoticDto> findAllNotic(String id);
+
+	public int updateNotic(int trigger_pk);
 }

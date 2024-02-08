@@ -43,4 +43,12 @@ public class NoticController {
 		System.out.println("아웃풋 : "+noticlist);
 		return noticlist;
 	}
+	
+	@GetMapping("/Notic/Update.do")
+	public void UpdateNotic(@RequestParam int trigger_pk){
+		System.out.println("들어온 pk:"+trigger_pk);
+		int affected = service.updateNotic(trigger_pk);
+		System.out.println("아웃풋 : "+affected);
+	}
+	
 }

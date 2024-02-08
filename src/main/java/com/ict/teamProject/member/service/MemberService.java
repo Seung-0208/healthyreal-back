@@ -1,5 +1,8 @@
 package com.ict.teamProject.member.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
 import com.ict.teamProject.member.service.impl.MemberMapper;
@@ -28,5 +31,9 @@ public class MemberService {
 	
 	public int logincheck(String id, String pwd) {
 		return mapper.logincheck(id, pwd);
+	}
+
+	public Map searchPoint(String id) {
+		return mapper.searchPoint(id);
 	}
 }
