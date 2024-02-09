@@ -130,6 +130,7 @@ public class ChatController {
 	    	System.out.println("record-----"+record.getId());
 	    	System.out.println("record-----"+record.getRuser());
 	        System.out.println("record-----"+record.getContent());
+	        System.out.println("record-----"+record.getSendDate());
 	    }
 	    //뷰정보 반환
 	    return records;
