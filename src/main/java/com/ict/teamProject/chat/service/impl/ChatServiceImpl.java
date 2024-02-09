@@ -46,6 +46,12 @@ public class ChatServiceImpl implements ChatService<ChatDto> {
 		ChatDto chat = mapper.findChatingPerson(id);
 		return chat;
 	}
+	
+	@Override
+	public ChatDto allChating(String id) {
+		ChatDto chat = mapper.allChat(id);
+		return chat;
+	}
 	/*
 	//게시물 파일등록
 	@Override

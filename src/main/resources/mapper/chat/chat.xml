@@ -36,7 +36,10 @@
 	    WHERE rn = 1
 	</select>
 
-
+ 	<!-- 모든 메세지 가져오기 -->
+	 <select id="allChat" parameterType="String" resultType="ChatDto">
+	 	SELECT * FROM CHATMESSAGE WHERE ID = #{id}
+	 </select>
 
 	
 </mapper>

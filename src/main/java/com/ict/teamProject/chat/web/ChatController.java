@@ -117,6 +117,22 @@ public class ChatController {
 		return record;
 	}
 	
+	@RequestMapping(value="/allChating.do")
+	@ResponseBody
+	public ChatDto allChating(@RequestParam String id) {
+		System.out.println("접속한 사람:"+id);
+		
+		//서비스 호출
+		ChatDto record= service.allChating(id);
+		//줄바꿈
+		if (record != null) {
+			record.setContent(record.getContent().replace("\r\n", "<br/>"));
+		}
+		System.out.println("record-----"+record);
+		//뷰정보 반환
+		return record;
+	}
+	
 	/*
 	
 	@GetMapping("/ViewMy.do")

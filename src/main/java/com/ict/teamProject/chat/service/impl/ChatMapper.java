@@ -24,6 +24,8 @@ public interface ChatMapper {
 
 	ChatDto findChatingPerson(String id);
 
+	ChatDto allChat(String id);
+
 	//int update(ChatDto dto);
 
 	
