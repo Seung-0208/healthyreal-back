@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.teamProject.selftest.SelftestMapper">	
+	<select id="findAllAllergy" resultType="AllergyInfoDto">
+		SELECT * FROM ALLERGY_INFO
+	</select>
+	
+	<select id="findAllHateFood" resultType="HateFoodInfoDto">
+		SELECT * FROM HATEFOOD_INFO
+	</select>
+	
+	<select id="saveMemberAllergy" resultType="int">
+		INSERT INTO Member_Allergy(ID, ALLERGY_NO) VALUES(#{id}, #{allergy_no})
+	</select>
+	
+</mapper>
