@@ -36,4 +36,8 @@ public class MemberDto {
 	private String profileimage;
 	private String provider;
 	private String pro_filepath;
+	
+//	public void copyProfileImageToFilePath() {
+//	    this.pro_filepath = this.profileimage;
+//	}
 }
