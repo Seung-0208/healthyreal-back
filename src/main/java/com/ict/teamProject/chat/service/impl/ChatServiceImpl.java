@@ -34,6 +34,24 @@ public class ChatServiceImpl implements ChatService<ChatDto> {
 		}
 		return affected;
 	}
+	
+	@Override
+	public ChatDto selectChat(Map map) {
+		ChatDto chat = mapper.findChatdata(map);
+		return chat;
+	}
+	
+	@Override
+	public ChatDto whoChating(String id) {
+		ChatDto chat = mapper.findChatingPerson(id);
+		return chat;
+	}
+	
+	@Override
+	public List<ChatDto> allChating(String id) {
+		List<ChatDto> chat = mapper.allChat(id);
+		return chat;
+	}
 	/*
 	//게시물 파일등록
 	@Override
@@ -75,9 +93,7 @@ public class ChatServiceImpl implements ChatService<ChatDto> {
 		return 0;
 	}
 
-	@Override
-	public ChatDto selectOne(int bno) {
-		// TODO Auto-generated method stub
-		return null;
+
 	}*/
 }
+

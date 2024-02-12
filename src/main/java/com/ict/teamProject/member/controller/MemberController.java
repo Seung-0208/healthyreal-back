@@ -1,6 +1,7 @@
 package com.ict.teamProject.member.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -51,7 +52,12 @@ public class MemberController {
 	}
 	
 	
-	
+	@CrossOrigin(origins = "http://localhost:3333")
+	@RequestMapping(value = "/searchPoint", method = {RequestMethod.GET})
+	public Map searchPoint(@RequestParam String id) {
+		System.out.println("searchPoint");
+		return service.searchPoint(id);
+	}
 	
 	
 }

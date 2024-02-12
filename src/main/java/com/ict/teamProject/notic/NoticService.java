@@ -21,4 +21,9 @@ public class NoticService {
 	public List<NoticDto> findAllNotic(String id) {
 		return mapper.findAllNotic(id);
 	}
+
+
+	public int updateNotic(int trigger_pk) {
+		return mapper.updateNotic(trigger_pk);
+	}
 }

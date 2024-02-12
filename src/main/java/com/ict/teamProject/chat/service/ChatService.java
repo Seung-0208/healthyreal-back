@@ -20,4 +20,10 @@ public interface ChatService<T> {
 	int deleteFiles(int bno);
 	*/
 
+	ChatDto selectChat(Map map);
+
+	ChatDto whoChating(String id);
+
+	List<ChatDto> allChating(String id);
+
 }

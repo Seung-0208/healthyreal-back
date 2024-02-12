@@ -31,6 +31,7 @@ public class MemberDto {
 	private int goal_No;
 	private Date regidate;
 	private String authority;
+	private int point;
 	
 	//소셜로그인
 	private String profileimage;

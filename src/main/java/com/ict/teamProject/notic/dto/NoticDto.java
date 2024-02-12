@@ -17,6 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NoticDto {
+	private int trigger_pk;
 	private int trigger_no;
 	private String notic_receive_user;
 	private String notic_trigger_user;
