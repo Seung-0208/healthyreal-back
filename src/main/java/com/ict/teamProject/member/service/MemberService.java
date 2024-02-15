@@ -36,4 +36,10 @@ public class MemberService {
 	public Map searchPoint(String id) {
 		return mapper.searchPoint(id);
 	}
+
+	public int updateSocialUser(MemberDto dto) {
+		return mapper.updateSocialUser(dto);
+	
+	}
+
 }

@@ -35,13 +35,18 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 		JWTTokens tokens = new JWTTokens();
 		String token = tokens.createToken(principalDetails.getUsername(), payloads, expirationTime);
 		
-		Cookie cookie = new Cookie("User-Token", token);
+		Cookie cookie = new Cookie("User-Token", token                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          );
 		cookie.setHttpOnly(true);
 		cookie.setMaxAge((int)expirationTime);
 		cookie.setPath("/");
 		cookie.setSecure(true);
 		response.addCookie(cookie);
-		response.sendRedirect("http://localhost:3333/main?token=" + token);
+		response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
+	    response.getWriter().write("{\"access_token\": \"" + token + "\"}");
+		
+		response.sendRedirect("http://localhost:3333/main");
+		System.out.println("{\"access_token\": \"" + token  + "\"}");
 	}
 	
 }

@@ -50,11 +50,21 @@
 	  SELECT * FROM member WHERE id = #{id}
 	</select>
 	
-		<insert id="joinSocialMember" parameterType="MemberDto">
+		<insert id="joinSocialMember" parameterType="String" >
 		INSERT INTO member(ID, PWD, NAME , REGIDATE , AUTHORITY ,PROFILEPATH , PROVIDER) 
 		VALUES(#{id},#{pwd},#{name} , SYSDATE ,#{authority},#{pro_filpath,jdbcType=VARCHAR} ,#{provider} )
 	</insert>
 	
+	<update id="updateSocialUser" parameterType="MemberDto" >
+	    UPDATE member 
+    SET GENDER = #{gender},
+    HEIGHT = #{height,jdbcType=DOUBLE},
+    WEIGHT = #{weight,jdbcType=DOUBLE},
+    GOAL_NO = #{goal_No},
+    TEL = #{tel},
+    USERADDRESS = #{userAddress}
+    WHERE ID = #{id}
+	</update>
 	
 	<update id="updateMember" parameterType="String" >
 		UPDATE member SET ${colname} = #{newcolval} WHERE id = #{id}
