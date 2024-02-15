@@ -5,14 +5,37 @@
 <mapper namespace="com.ict.teamProject.selftest.SelftestMapper">	
 	<select id="findAllAllergy" resultType="AllergyInfoDto">
 		SELECT * FROM ALLERGY_INFO
-	</select>
-	
+	</select>	
 	<select id="findAllHateFood" resultType="HateFoodInfoDto">
 		SELECT * FROM HATEFOOD_INFO
 	</select>
 	
-	<select id="saveMemberAllergy" resultType="int">
+	<insert id="saveMemberAllergy" parameterType="Map">
 		INSERT INTO Member_Allergy(ID, ALLERGY_NO) VALUES(#{id}, #{allergy_no})
+	</insert>
+	<insert id="saveMemberHateFood" parameterType="Map">
+		INSERT INTO Member_HateFood(ID, HateFood_NO) VALUES(#{id}, #{hatefood_no})
+	</insert>
+	
+	<select id="getMemberAllergy" resultType="MemberAllergyDto">
+		SELECT * FROM MEMBER_ALLERGY WHERE ID = #{id}
 	</select>
+	<select id="getMemberHateFood" resultType="MemberHateFoodDto">
+		SELECT * FROM MEMBER_HATEFOOD WHERE ID = #{id}
+	</select>
+	
+	<select id="findAllergy" resultType="AllergyInfoDto">
+		SELECT * FROM ALLERGY_INFO WHERE ALLERGY_NO = #{allergy_no}
+	</select>
+	<select id="findHateFood" resultType="HateFoodInfoDto">
+		SELECT * FROM HATEFOOD_INFO WHERE HATEFOOD_NO = #{hatefood_no}
+	</select>
+	
+	<delete id="deleteAllAllergy" parameterType="String">
+		DELETE Member_Allergy WHERE ID = #{id}
+	</delete>
+	<delete id="deleteAllHateFood" parameterType="String">
+		DELETE Member_HateFood WHERE ID = #{id}
+	</delete>
 	
 </mapper>

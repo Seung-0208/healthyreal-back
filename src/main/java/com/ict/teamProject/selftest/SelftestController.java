@@ -7,6 +7,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
+
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +26,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ict.teamProject.selftest.dto.AllergyInfoDto;
 import com.ict.teamProject.selftest.dto.HateFoodInfoDto;
+import com.ict.teamProject.selftest.dto.MemberAllergyDto;
+import com.ict.teamProject.selftest.dto.MemberHateFoodDto;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.util.StringUtils;
@@ -51,15 +55,63 @@ public class SelftestController {
 		return hatefoodInfolist;
 	}
 	
-//	@PostMapping("/SaveMember/Allergy")
-//	public void saveMemberAllergy(@RequestBody Map map) {	    
-//		System.out.println("들어온값:"+map);
-//		String id = (String) map.get("id");
-//		String allergies = (String) map.get("allergies");
-//		String[] allergyArray = allergies.split(",");
-//	    for (String allergy : allergyArray) {
-//	    	int allergyInt = Integer.parseInt(allergy.trim());
-//	        service.saveMemberAllergy(id, allergyInt);
-//	    }
-//	}
+	@PostMapping("/SaveMember/Allergy")
+	public void saveMemberAllergy(@RequestBody Map map) {	    
+		System.out.println("들어온값:"+map);
+		String id = (String) map.get("id");
+		int affected = service.deleteAllAllergy(id);
+		String allergies = (String) map.get("allergies");
+		String[] allergyArray = allergies.split(",");
+	    for (String allergy : allergyArray) {
+	    	int allergyInt = Integer.parseInt(allergy.trim());
+	        service.saveMemberAllergy(id, allergyInt);
+	    }
+	}
+	
+	@PostMapping("/SaveMember/HateFood")
+	public void saveMemberHateFood(@RequestBody Map map) {	    
+		System.out.println("들어온값:"+map);
+		String id = (String) map.get("id");
+		int affected = service.deleteAllHateFood(id);
+		String hatefoods = (String) map.get("hatefoods");
+		String[] hatefoodArray = hatefoods.split(",");
+		System.out.println("싫어하는 음식 목록:"+hatefoodArray);
+	    for (String hatefood : hatefoodArray) {
+	    	int hatefoodInt = Integer.parseInt(hatefood.trim());
+	        service.saveMemberHateFood(id, hatefoodInt);
+	    }
+	}
+	
+	@GetMapping("/GetMember/Allergy")
+	public List getuserAllergy(@RequestParam String id) {
+		System.out.println("들어온 id:"+id);
+		List<MemberAllergyDto> list = service.getMemberAllergy(id);
+		List<AllergyInfoDto> allergylist = new ArrayList<>();
+
+		for (MemberAllergyDto dto : list) {
+		    String allergyNo = dto.getAllergy_no();
+		    System.out.println(allergyNo);
+		    List<AllergyInfoDto> foundAllergy = service.findAllergy(allergyNo);
+		    System.out.println("꺼내온 알러지 정보" + foundAllergy);
+		    allergylist.addAll(foundAllergy);
+		}
+		System.out.println(allergylist);
+		return allergylist;
+	}
+	
+	@GetMapping("/GetMember/HateFood")
+	public List getuserHateFood(@RequestParam String id) {
+		System.out.println("들어온 id:"+id);
+		List<MemberHateFoodDto> list = service.getMemberHateFood(id);
+		List<HateFoodInfoDto> hatefoodlist = new ArrayList<>();
+
+		for (MemberHateFoodDto dto : list) {
+		    String hatefoodNo = dto.getHatefood_no();
+		    List<HateFoodInfoDto> foundHateFood = service.findHateFood(hatefoodNo);
+		    System.out.println("꺼내온 싫은 음식  정보" + foundHateFood);
+		    hatefoodlist.addAll(foundHateFood);
+		}
+		System.out.println(hatefoodlist);
+		return hatefoodlist;
+	}
 }
