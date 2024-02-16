@@ -41,12 +41,10 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 		cookie.setPath("/");
 		cookie.setSecure(true);
 		response.addCookie(cookie);
-		response.setContentType("application/json");
-	    response.setCharacterEncoding("UTF-8");
-	    response.getWriter().write("{\"access_token\": \"" + token + "\"}");
+
 		
 		response.sendRedirect("http://localhost:3333/main");
-		System.out.println("{\"access_token\": \"" + token  + "\"}");
+
 	}
 	
 }

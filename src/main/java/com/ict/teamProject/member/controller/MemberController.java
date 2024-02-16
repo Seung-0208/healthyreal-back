@@ -27,16 +27,16 @@ public class MemberController {
 
 	private MemberService service;
 	
-	
-	@Transactional
-	@CrossOrigin(origins = "http://localhost:3333")
-	@RequestMapping(value = "/user/updateSocialUser",  method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
-	public int updateSocialUser(@RequestBody MemberDto dto){
-	    int affected = service.updateSocialUser(dto);
-	    
-	    System.out.println("하? 여기 들어와 지니?"+dto);
-	    return affected;
-	}
+//	
+//	@Transactional
+//	@CrossOrigin(origins = "http://localhost:3333")
+//	@RequestMapping(value = "/user/updateSocialUser",  method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
+//	public int updateSocialUser(@RequestBody MemberDto dto){
+//	    int affected = service.updateSocialUser(dto);
+//	    
+//	    System.out.println("하? 여기 들어와 지니?"+dto);
+//	    return affected;
+//	}
 	
 	public MemberController(MemberService service) {
 		this.service=service;
