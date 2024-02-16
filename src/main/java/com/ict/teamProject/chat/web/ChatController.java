@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -66,13 +68,11 @@ public class ChatController {
 	//입력처리]
 	@PostMapping("/SoloWrite.do")
 	@ResponseBody
-	public int writeOk(@RequestParam Map map) {
+	public int writeOk(@RequestBody Map map) {
 		int affected = 0;
-		System.out.println(map.get("id"));
-		System.out.println(map.get("ruser"));
-		System.out.println(map.get("content"));
-		System.out.println(map.get("notice"));
-		System.out.println(map.get("sendDate"));
+		System.out.println("id:"+map.get("id"));
+		System.out.println("ruser:"+map.get("ruser"));
+		System.out.println("content:"+map.get("content"));
 		
 		ChatDto dto = new ChatDto();
 		affected = service.insert(map);
@@ -83,19 +83,68 @@ public class ChatController {
 		return affected;
 	}/////
 	
-/*
-	@RequestMapping(value="/ViewOne.do",method = {RequestMethod.GET,RequestMethod.POST})
+
+	@RequestMapping(value="/selectChat.do")
 	@ResponseBody
-	public BBSDto viewOne(@RequestParam String bno) {
-		int bnoInt = Integer.parseInt(bno);
-		System.out.println("상세보기의 NO:"+bnoInt);
+	public ChatDto selectChat(@RequestBody Map map) {
+		System.out.println("접속한 사람:"+map.get("id").toString());
+		System.out.println("내가 보낼 사람:"+map.get("ruser").toString());
+		
 		//서비스 호출
-		BBSDto record= service.selectOne(bnoInt);
+		ChatDto record= service.selectChat(map);
 		//줄바꿈
-		record.setContent(record.getContent().replace("\r\n", "<br/>"));
+		if (record != null) {
+			record.setContent(record.getContent().replace("\r\n", "<br/>"));
+		}
+		System.out.println("record-----"+record);
 		//뷰정보 반환
 		return record;
 	}
+	
+	@RequestMapping(value="/whoChating.do")
+	@ResponseBody
+	public ChatDto whoChating(@RequestBody String id) {
+		System.out.println("접속한 사람:"+id);
+		
+		//서비스 호출
+		ChatDto record= service.whoChating(id);
+		//줄바꿈
+		if (record != null) {
+			record.setContent(record.getContent().replace("\r\n", "<br/>"));
+		}
+		System.out.println("record-----"+record);
+		//뷰정보 반환
+		return record;
+	}
+	
+	@RequestMapping(value="/allChating.do")
+	@ResponseBody
+	public List<ChatDto> allChating(@RequestParam String id) {
+	    System.out.println("접속한 사람:"+id);
+	    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 시간을 포함한 형식
+	    //서비스 호출
+	    List<ChatDto> records = service.allChating(id);
+	    //줄바꿈
+	    for (ChatDto record : records) {
+	    	if (record != null && record.getContent() != null) {
+	    	    record.setContent(record.getContent().replace("\r\n", "<br/>"));
+	    	}
+	        if (record != null && record.getSendDate() != null) {
+	            Timestamp timestamp = Timestamp.valueOf(record.getSendDate());
+	            String formattedDate = format.format(timestamp);
+	            record.setSendDate(formattedDate); 
+	        }
+	    	System.out.println("record-----"+record.getId());
+	    	System.out.println("record-----"+record.getRuser());
+	        System.out.println("record-----"+record.getContent());
+	        System.out.println("record-----"+record.getSendDate());
+	    }
+	    //뷰정보 반환
+	    return records;
+	}
+
+	
+	/*
 	
 	@GetMapping("/ViewMy.do")
 	@ResponseBody

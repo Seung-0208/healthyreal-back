@@ -1,5 +1,6 @@
 package com.ict.teamProject.member.service.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -32,5 +33,10 @@ public interface MemberMapper {
 	
 	//회원가입
 	void profileImageTable(MemberDto dto);
+
+	Map searchPoint(String id);
+
+	//int updateSocialUser(MemberDto dto);
+
 
 }

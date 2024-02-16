@@ -40,7 +40,7 @@
 	</select>
 	
 		<select id="findByMemberInfo" resultType="MemberDto" parameterType="String">
-		SELECT name,id FROM member WHERE id = #{id}
+		SELECT name,m.id,pro_filepath FROM member m join profile p on m.id = p.id WHERE m.id = #{id}
 	</select>
 	<select id="isPreviousUser" resultType="int" parameterType="String">
 		SELECT count(*) FROM member WHERE id=#{id}
@@ -50,11 +50,31 @@
 	  SELECT * FROM member WHERE id = #{id}
 	</select>
 	
+<insert id="joinSocialMember" parameterType="MemberDto">
+		INSERT INTO member(ID, PWD, NAME , REGIDATE , AUTHORITY ,PROFILEIMAGE , PROVIDER)
+		VALUES(#{id},#{pwd},#{name} , SYSDATE ,#{authority},#{profileimage,jdbcType=VARCHAR} ,#{provider} )
+	</insert>
+	
+	<update id="updateSocialUser" parameterType="MemberDto" >
+	    UPDATE member 
+    SET GENDER = #{gender},
+    HEIGHT = #{height,jdbcType=DOUBLE},
+    WEIGHT = #{weight,jdbcType=DOUBLE},
+    GOAL_NO = #{goal_No},
+    TEL = #{tel},
+    USERADDRESS = #{userAddress}
+    WHERE ID = #{id}
+	</update>
+	
 	<update id="updateMember" parameterType="String" >
 		UPDATE member SET ${colname} = #{newcolval} WHERE id = #{id}
 	</update>
 	
 	<select id="logincheck" parameterType="string">
 	  SELECT COUNT(*) FROM member WHERE id = #{id} and pwd = #{pwd}
+	</select>
+	
+	<select id="searchPoint" parameterType="string">
+	  SELECT id, point FROM member WHERE id = #{id}
 	</select>
 </mapper>

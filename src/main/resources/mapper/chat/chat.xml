@@ -4,23 +4,39 @@
 
 <!-- 매퍼파일 -->
 <mapper namespace="com.ict.teamProject.chat.service.impl.ChatMapper">
-	<!--  <resultMap type="BBSDto" id="BBSResult">
-		<result property="bno" column="BBS_NO"/>
+   <resultMap type="ChatDto" id="ChatResult">
+		<result property="mno" column="MESSAGE_NO"/>
+		<result property="rno" column="ROOM_TYPE"/>
 		<result property="id" column="ID"/>
-		<result property="type" column="BBS_TYPE"/>
-		<result property="content" column="BBS_CONTENT"/>
-		<result property="disclosureYN" column="BBS_DISCLOSUREYN"/>
-		<result property="hashTag" column="BBS_HASHTAG"/>
-		<result property="postDate" column="BBS_POSTDATE"/>
-		<result property="profilepath" column="PRO_FILEPATH"/>
-		<collection property="files" ofType="string" select="findFile" column="BBS_NO"/>
-		<collection property="likes" ofType="string" select="whereLikes" column="BBS_NO"/>
-		<collection property="likesnum" ofType="int" select="findLikes" column="BBS_NO"/>		
-	</resultMap>-->
+		<result property="ruser" column="RECEIVE_USER"/>
+		<result property="tno" column="TYPE_NO"/>
+		<result property="content" column="MESSAGE_CONTENT"/>
+		<result property="notice" column="MESSAGE_NOTICE"/>
+		<result property="sendDate" column="MESSAGE_SENDDATE"/>		
+	</resultMap>
 	
 	<!-- 메세지 입력 -->
 	<insert id="save" parameterType="Map">
-		INSERT INTO CHATMESSAGE VALUES(SEQ_CHATMESSAGE,1,#{id},#{ruser},0,#{content},default,SYSDATE)
+		INSERT INTO CHATMESSAGE VALUES(SEQ_CHATMESSAGE.NEXTVAL,1,#{id},#{ruser},0,#{content},'N',SYSDATE)
 	</insert>
+	
+ 	<!-- 메세지 가져오기 -->
+	 <select id="findChatdata" parameterType="map" resultType="ChatDto">
+	 	SELECT * FROM CHATMESSAGE WHERE ID = #{id} and RECEIVE_USER = #{ruser}
+	 </select>
+	 
+	<select id="findChatingPerson" parameterType="String" resultType="ChatDto">
+	    SELECT * FROM (
+	        SELECT *, ROW_NUMBER() OVER (PARTITION BY RECEIVE_USER ORDER BY ID) as rn 
+	        FROM CHATMESSAGE WHERE ID = #{id}
+	    ) t 
+	    WHERE rn = 1
+	</select>
+
+ 	<!-- 모든 메세지 가져오기 -->
+	 <select id="allChat" parameterType="String" resultMap="ChatResult">
+	 	SELECT * FROM CHATMESSAGE WHERE ID = #{id} or RECEIVE_USER = #{id} ORDER BY MESSAGE_SENDDATE ASC
+	 </select>
+
 	
 </mapper>
