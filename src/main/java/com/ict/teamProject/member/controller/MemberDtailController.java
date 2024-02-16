@@ -77,6 +77,7 @@ public class MemberDtailController {
 		    
 		    MemberDto userInfo = service.findByMemberInfo(id);
 		    System.out.println("getMemberInfo -> userInfo"+userInfo);
+		   
 		    return userInfo;
 		}
 	

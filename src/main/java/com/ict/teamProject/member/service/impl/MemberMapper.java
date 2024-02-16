@@ -36,7 +36,7 @@ public interface MemberMapper {
 
 	Map searchPoint(String id);
 
-	int updateSocialUser(MemberDto dto);
+	//int updateSocialUser(MemberDto dto);
 
 
 }

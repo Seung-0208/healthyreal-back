@@ -50,9 +50,9 @@
 	  SELECT * FROM member WHERE id = #{id}
 	</select>
 	
-		<insert id="joinSocialMember" parameterType="String" >
-		INSERT INTO member(ID, PWD, NAME , REGIDATE , AUTHORITY ,PROFILEPATH , PROVIDER) 
-		VALUES(#{id},#{pwd},#{name} , SYSDATE ,#{authority},#{pro_filpath,jdbcType=VARCHAR} ,#{provider} )
+<insert id="joinSocialMember" parameterType="MemberDto">
+		INSERT INTO member(ID, PWD, NAME , REGIDATE , AUTHORITY ,PROFILEPATH , PROVIDER)
+		VALUES(#{id},#{pwd},#{name} , SYSDATE ,#{authority},#{pro_filepath,jdbcType=VARCHAR} ,#{provider} )
 	</insert>
 	
 	<update id="updateSocialUser" parameterType="MemberDto" >

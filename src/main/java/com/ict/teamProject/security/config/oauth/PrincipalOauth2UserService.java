@@ -32,7 +32,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 			String name = oauth2User.getAttribute("name");
 			userEntity.setId(id);
 			userEntity.setName(name);
-			userEntity.setPro_filepath(pro_filepath);
+			userEntity.setPro_filepath("picture");
 			userEntity.setAuthority("ROLE_USER");
 			userEntity.setProvider(provider);
 			isUser = service.isPreviousUser(id);
@@ -44,7 +44,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 			String name = (String)((Map)oauth2User.getAttributes().get("properties")).get("nickname");
 			userEntity.setId(id);
 			userEntity.setName(name);
-			userEntity.setPro_filepath(pro_filepath);
+			userEntity.setPro_filepath("profile_image");
 			userEntity.setAuthority("ROLE_USER");
 			userEntity.setProvider(provider);
 			isUser = service.isPreviousUser(id);
@@ -57,7 +57,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 			String name = (String) response.get("name");
 			userEntity.setId(id);
 			userEntity.setName(name);
-			userEntity.setPro_filepath(pro_filepath);
+			userEntity.setPro_filepath("profile_image");
 			userEntity.setAuthority("ROLE_USER");
 			userEntity.setProvider(provider);
 			isUser = service.isPreviousUser(id);
