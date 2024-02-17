@@ -35,4 +35,11 @@ public interface MemberMapper {
 	void profileImageTable(MemberDto dto);
 
 	Map searchPoint(String id);
+
+	 void updateUser(MemberDto userEntity);
+	//int updateSocialUser(MemberDto dto);
+
+
+
+
 }
