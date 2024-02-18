@@ -347,4 +347,23 @@ public class BBSController {
 	    
 		return like;
 	}
+	
+	//좋아요 얻어오기
+	@GetMapping("/likesPro.do")
+	public Map likesPro(@RequestParam("bno") int bno) {
+	    Map likeMap = new HashMap();
+	    List<String> userIds = service.findUserByLike(bno);
+	    List<String> userProfiles = new ArrayList<>();
+
+	    if (userIds != null && !userIds.isEmpty()) {
+	        for (String userId : userIds) {
+	            String userProfile = service.findUserProfileByLike(userId);
+	            userProfiles.add(userProfile);
+	        }
+	    }
+
+	    likeMap.put("likesPro", userProfiles);
+	    likeMap.put("likes", userIds);
+	    return likeMap;
+	}
 }

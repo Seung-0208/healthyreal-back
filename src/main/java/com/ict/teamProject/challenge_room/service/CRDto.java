@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+//24.02.18 생성
 @Getter
 @Setter
 @Alias("CRoom")
@@ -24,7 +26,7 @@ public class CRDto {
 	private int ageMin; //나이 최소
 	private int ageMax; //나이 최대
 	private int pFee;  // 참여비
-	private char cYN; //공개유무
+	private String cYN; //공개유무
 	private java.util.Date cCreateDate; //방 생성일
 	private java.util.Date cStartDate; //챌린지 시작일
 	private java.util.Date cEndDate;  //챌린지 종료일

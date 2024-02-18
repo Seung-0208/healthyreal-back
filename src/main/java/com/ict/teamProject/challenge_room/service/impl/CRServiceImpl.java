@@ -12,12 +12,13 @@ import org.springframework.transaction.support.TransactionTemplate;
 import com.ict.teamProject.bbs.service.BBSDto;
 import com.ict.teamProject.bbs.service.BBSService;
 import com.ict.teamProject.bbs.service.LikesDto;
+import com.ict.teamProject.challenge_room.service.CPDto;
 import com.ict.teamProject.challenge_room.service.CRDto;
 import com.ict.teamProject.challenge_room.service.CRService;
 import com.ict.teamProject.files.service.FilesDto;
 
 
-
+//24.02.18 생성
 @Service
 public class CRServiceImpl implements CRService<CRDto> {
 
@@ -44,9 +45,9 @@ public class CRServiceImpl implements CRService<CRDto> {
 	}
 
 	@Override
-	public int insert(Map map) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int insert(CRDto map) {
+		int affected = mapper.save(map);
+		return affected;
 	}
 
 	@Override
@@ -56,9 +57,25 @@ public class CRServiceImpl implements CRService<CRDto> {
 	}
 
 	@Override
-	public int delete(Map map) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int delete(int room) {
+		int affected = mapper.delete(room);
+		return affected;
+	}
+
+	@Override
+	public int insertP(CPDto dto) {
+		int affected = mapper.insertP(dto);
+		return affected;
+	}
+
+	@Override
+	public int getSeqValue() {
+		return mapper.getSeqValue();
+	}
+
+	@Override
+	public void deletep(String id) {
+		mapper.deletep(id);
 	}
 	
 	
