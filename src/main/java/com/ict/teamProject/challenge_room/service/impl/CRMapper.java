@@ -22,7 +22,7 @@ public interface CRMapper {
 	int delete(int cRno);
 	
 	// 자기 방 번호 가져오기
-	int getMyRoom(String id);
+	Integer getMyRoom(String id);
 	
 
 }

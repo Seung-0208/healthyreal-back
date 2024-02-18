@@ -28,10 +28,11 @@ public class CRController {
 	//입력처리]
 	@PostMapping("/myRoomNum.do")
 	@ResponseBody
-	public int myRoomNum(@RequestBody String id) {
-		int room;
+	public Integer myRoomNum(@RequestBody String id) {
+		Integer room = null;
 		System.out.println("id:"+id);
 		room = service.selectMyRoom(id);
+		System.out.println("너의 방 번호는?"+room);
 		return room;
 	}/////
 	

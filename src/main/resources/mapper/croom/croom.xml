@@ -21,7 +21,7 @@
 	</insert>-->
 	
  	<!-- 방 번호 가져오기 -->
-	 <select id="selectMyRoom" parameterType="String" resultType="int">
+	 <select id="getMyRoom" parameterType="String" resultType="int">
 	 	SELECT cr.Chall_NO FROM Challenge_Room cr join Challenge_participants cp on cr.Chall_NO= cp.Chall_NO WHERE cp.ID = #{id}
 	 </select>
 	 

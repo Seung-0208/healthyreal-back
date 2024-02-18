@@ -14,7 +14,7 @@ public interface CRService<T> {
 	CRDto viewMyRoom(String id);
 	
 	//자기 챌린지 방 번호 찾기
-	int selectMyRoom(String id);
+	Integer selectMyRoom(String id);
 		
 	//입력/수정/삭제용
 	int insert(Map map);

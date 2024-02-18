@@ -38,8 +38,8 @@ public class CRServiceImpl implements CRService<CRDto> {
 	}
 
 	@Override
-	public int selectMyRoom(String id) {
-		int room = mapper.getMyRoom(id);
+	public Integer selectMyRoom(String id) {
+		Integer room = mapper.getMyRoom(id);
 		return room;
 	}
 
