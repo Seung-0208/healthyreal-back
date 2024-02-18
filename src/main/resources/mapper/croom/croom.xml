@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 매퍼파일 -->
+<mapper namespace="com.ict.teamProject.challenge_room.service.impl.CRMapper">
+   <!--<resultMap type="CRDto" id="CRResult">
+		<result property="mno" column="MESSAGE_NO"/>
+		<result property="rno" column="ROOM_TYPE"/>
+		<result property="id" column="ID"/>
+		<result property="ruser" column="RECEIVE_USER"/>
+		<result property="tno" column="TYPE_NO"/>
+		<result property="content" column="MESSAGE_CONTENT"/>
+		<result property="notice" column="MESSAGE_NOTICE"/>
+		<result property="sendDate" column="MESSAGE_SENDDATE"/>		
+	</resultMap>-->
+	
+	<!-- 메세지 입력 
+	<insert id="save" parameterType="Map">
+		INSERT INTO CHATMESSAGE VALUES(SEQ_CHATMESSAGE.NEXTVAL,1,#{id},#{ruser},0,#{content},'N',SYSDATE)
+	</insert>-->
+	
+ 	<!-- 방 번호 가져오기 -->
+	 <select id="selectMyRoom" parameterType="String" resultType="int">
+	 	SELECT cr.Chall_NO FROM Challenge_Room cr join Challenge_participants cp on cr.Chall_NO= cp.Chall_NO WHERE cp.ID = #{id}
+	 </select>
+	 
+	<!-- 
+	<select id="findChatingPerson" parameterType="String" resultType="CRDto">
+	    SELECT * FROM (
+	        SELECT *, ROW_NUMBER() OVER (PARTITION BY RECEIVE_USER ORDER BY ID) as rn 
+	        FROM CHATMESSAGE WHERE ID = #{id}
+	    ) t 
+	    WHERE rn = 1
+	</select>-->
+
+ 	<!-- 모든 메세지 가져오기 
+	 <select id="allChat" parameterType="String" resultMap="CRResult">
+	 	SELECT * FROM CHATMESSAGE WHERE ID = #{id} or RECEIVE_USER = #{id} ORDER BY MESSAGE_SENDDATE ASC
+	 </select>-->
+
+	
+</mapper>
