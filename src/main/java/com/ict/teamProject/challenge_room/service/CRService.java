@@ -8,7 +8,7 @@ import java.util.Map;
 public interface CRService<T> {
 
 	//전체 챌린지 보기
-	List<CRDto> selectAll(Map map);
+	List<CRDto> selectAll();
 	
 	//자기 챌린지 보기
 	CRDto viewMyRoom(String id);

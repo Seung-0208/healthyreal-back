@@ -13,7 +13,7 @@ import com.ict.teamProject.challenge_room.service.CRDto;
 public interface CRMapper {
 
 	//전체 조회
-	List findAll(Map map);
+	List findAll();
 	
 	//자기 챌린지 보기
 	CRDto findByBBS(int bno);
@@ -30,6 +30,7 @@ public interface CRMapper {
 	int getSeqValue();
 
 	void deletep(String id);
+
 	
 
 }

@@ -1,12 +1,15 @@
 package com.ict.teamProject.challenge_room.web;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,7 +63,12 @@ public class CRController {
 		dto.setImplementation(Integer.parseInt(room.get("achievementset").toString()));
 		System.out.println("dto.getImplementation():"+dto.getImplementation());
 		
-		//dto.setImplementation(Integer.parseInt(room.get("achievementset").toString())); 장소 세팅하기
+		dto.setChallArea(room.get("areaSet").toString());
+		System.out.println("dto.getChallArea():"+dto.getChallArea());	
+		
+		dto.setChallTitle(room.get("title").toString());
+		System.out.println("dto.getChallTitle():"+dto.getChallTitle());
+		
 	    ObjectMapper mapper = new ObjectMapper();
 	    int[] selectedCheckbox = mapper.readValue(room.get("selectedCheckbox").toString(), int[].class);
 	    
@@ -132,4 +140,14 @@ public class CRController {
 		return affected;
 	}/////
 	
+	
+	//챌린지 방 가져오기]
+	@GetMapping("/listChall.do")
+	@ResponseBody
+	public List listChall() {
+		CRDto dto = new CRDto();
+		List<CRDto> record = new ArrayList();
+		record = service.selectAll();	
+		return record;
+	}/////
 }

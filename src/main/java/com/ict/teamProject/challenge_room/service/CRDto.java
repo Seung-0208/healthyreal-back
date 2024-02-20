@@ -31,4 +31,8 @@ public class CRDto {
 	private java.util.Date cStartDate; //챌린지 시작일
 	private java.util.Date cEndDate;  //챌린지 종료일
 	private String challContent; //내용
+	private String challTitle; //제목
+	private String challArea; //지역
+	private String manager; //방장
+	
 }

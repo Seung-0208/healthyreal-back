@@ -27,9 +27,8 @@ public class CRServiceImpl implements CRService<CRDto> {
 	private CRMapper mapper;
 
 	@Override
-	public List<CRDto> selectAll(Map map) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<CRDto> selectAll() {
+		return mapper.findAll();
 	}
 
 	@Override
