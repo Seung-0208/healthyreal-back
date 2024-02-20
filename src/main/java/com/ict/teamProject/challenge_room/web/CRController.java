@@ -121,22 +121,23 @@ public class CRController {
 	    
 		dto.setChallContent(room.get("content").toString());
 		int affected = 0;
-		int seqValue = service.getSeqValue();
+		int seqValue = service.getSeqValue()+1;
 		System.out.println("seqValue---"+seqValue);
 		service.insert(dto);
 		System.out.println("성공했으면 1 아니면 0?"+affected);
 		CPDto cpdto = new CPDto();
 		System.out.println("room.get(\"id\")"+room.get("id"));
 		cpdto.setId(room.get("id").toString());
-		cpdto.setChallNo(seqValue+1);
+		cpdto.setChallNo(seqValue);
 		affected = service.insertP(cpdto);
-		return affected;
+		return seqValue;
 	}/////
 	
-	//방 삭제하기]
+	//마지막 사람이 방 나갈때]
 	@DeleteMapping("/deleteRoom.do")
 	@ResponseBody
 	public int deleteRoom(@RequestBody Map<String, String> map) {
+		System.out.println("난 마지막사람~~~");
 		String id = map.get("id");
 		int room = 0;
 		int affected = 0;
@@ -215,6 +216,7 @@ public class CRController {
 	@DeleteMapping("/deleteManager.do")
 	@ResponseBody
 	public int deleteManager(@RequestBody Map<String, String> map) {
+		System.out.println("난 방장~~~");
 		String id = map.get("id");
 		int room = 0;
 		int affected = 0;
@@ -222,9 +224,24 @@ public class CRController {
 		room = service.selectMyRoom(id);
 		String manager = service.selectManager(room);
 		service.deletep(id);
-		System.out.println("room:"+room);
+		System.out.println("manager:"+manager);
 		affected = service.update(manager);
 		System.out.println("너의 수정된 방 번호는?"+room);
+		return affected;
+	}/////
+	
+	//일반 사람이 방 나갈때]
+	@DeleteMapping("/deletePeople.do")
+	@ResponseBody
+	public int deletePeople(@RequestBody Map<String, String> map) {
+		System.out.println("일반 사람~~~");
+		String id = map.get("id");
+		int room = 0;
+		int affected = 0;
+		System.out.println("id:"+id);
+		room = service.selectMyRoom(id);
+		service.deletep(id);
+		System.out.println("나간 방 번호는?"+room);
 		return affected;
 	}/////
 
