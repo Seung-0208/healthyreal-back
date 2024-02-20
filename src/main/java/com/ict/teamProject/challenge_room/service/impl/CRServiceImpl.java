@@ -87,6 +87,11 @@ public class CRServiceImpl implements CRService<CRDto> {
 	public List participantsdata() {
 		return mapper.participantsdata();
 	}
+
+	@Override
+	public int join(CPDto dto) {
+		return mapper.join(dto);
+	}
 	
 	
 

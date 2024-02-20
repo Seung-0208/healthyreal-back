@@ -74,4 +74,9 @@
 	    SELECT c.CHALL_NO, c.ID, c.CHALL_P_NO,c.CHALL_MANAGER, c.CHALL_IMPLEMENTATION_RATE, p.PRO_FILEPATH from CHALLENGE_PARTICIPANTS c join profile p on c.id=p.id
 	</select>
 	
+	<!-- 방 입장 -->
+	<insert id="join" parameterType="CP">
+		INSERT INTO CHALLENGE_PARTICIPANTS VALUES(SEQ_CHALLP.NEXTVAL,#{challNo},#{id},'N', 0)
+	</insert>
+	
 </mapper>

@@ -36,6 +36,8 @@ public interface CRMapper {
 
 	List participantsdata();
 
+	int join(CPDto dto);
+
 	
 
 }

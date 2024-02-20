@@ -183,7 +183,21 @@ public class CRController {
 	public List participantsData() {
 		List record = new ArrayList();
 		record = service.participantsdata();
-		System.out.println("여기 들어와????");
 		return record;
 	}/////
+	
+	//방 참가]
+	@PostMapping("/joinRoom.do")
+	@ResponseBody
+	public int joinRoom(@RequestBody Map map) {
+	    int record = 0;
+	    System.out.println("map.get(\"challNo\").toString()"+map.get("challNo").toString());
+	    System.out.println("map.get(\"id\").toString()"+map.get("id").toString());
+	    CPDto dto = new CPDto();
+	    dto.setChallNo(Integer.parseInt(map.get("challNo").toString()));
+	    dto.setId(map.get("id").toString());
+	    record = service.join(dto);
+	    return record;
+	}/////
+
 }
