@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ict.teamProject.challenge_room.service.CPDto;
 import com.ict.teamProject.challenge_room.service.CRDto;
 import com.ict.teamProject.challenge_room.service.CRService;
-import com.ict.teamProject.member.service.MemberDto;
 
 
 //24.02.18 생성

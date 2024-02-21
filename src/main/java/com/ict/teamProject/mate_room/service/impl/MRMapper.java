@@ -1,31 +1,31 @@
-package com.ict.teamProject.challenge_room.service.impl;
+package com.ict.teamProject.mate_room.service.impl;
 
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.ict.teamProject.challenge_room.service.CPDto;
-import com.ict.teamProject.challenge_room.service.CRDto;
+import com.ict.teamProject.mate_room.service.MPDto;
+import com.ict.teamProject.mate_room.service.MRDto;
 
-//24.02.18 생성
+//24.02.21 생성
 @Mapper
-public interface CRMapper {
+public interface MRMapper {
 
 	//전체 조회
 	List findAll();
 	
 	//자기 챌린지 보기
-	CRDto findByBBS(int bno);
+	MRDto findByBBS(int bno);
 		
 	//입력/수정/삭제
-	int save(CRDto map);
+	int save(MRDto map);
 	int update(String id);
 	int delete(int room);
 	
 	// 자기 방 번호 가져오기
 	Integer getMyRoom(String id);
-	int insertP(CPDto dto);
+	int insertP(MPDto dto);
 
 	int getSeqValue();
 
@@ -35,9 +35,9 @@ public interface CRMapper {
 
 	List participantsdata(int room);
 
-	int join(CPDto dto);
+	int join(MPDto dto);
 
-	CRDto findRoomData(int challNo);
+	MRDto findRoomData(int challNo);
 
 	String selectManager(int room);
 
