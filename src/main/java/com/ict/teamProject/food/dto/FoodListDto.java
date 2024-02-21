@@ -22,6 +22,7 @@ public class FoodListDto {
 	private String recipe_url;
 	private String recipe_img;
 	private int RECIPECODE;
+	private String recipe_seq;
 	private String INGREDIENT;
 	private String RI_AMOUNT;
 }

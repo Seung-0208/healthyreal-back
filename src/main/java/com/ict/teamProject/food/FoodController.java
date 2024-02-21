@@ -39,9 +39,10 @@ public class FoodController {
 	}
 	
 	@GetMapping("/recipe/View.do") //조회
-	public List<FoodListDto> findAllList(String foodname){
+	public List<FoodListDto> findAllList(String id, String foodname){
+		System.out.println("받은 이름:"+id);
 		System.out.println("받은 음식 이름:"+foodname);
-		List<FoodListDto> foodlist = service.findrecipe(foodname);
+		List<FoodListDto> foodlist = service.findrecipe(id, foodname);
 		System.out.println("레시피 : "+foodlist);
 		return foodlist;
 	}
