@@ -36,8 +36,21 @@ public interface MemberMapper {
 
 	Map searchPoint(String id);
 
-	 void updateUser(MemberDto userEntity);
-	//int updateSocialUser(MemberDto dto);
+	 
+	void updateUser(MemberDto userEntity);
+	 
+	int updateSocialUser(MemberDto dto);
+
+	 MemberDto findByMemberId(String id);
+
+	MemberDto findMemberById(String id);
+
+	MemberDto getMemberByNameAndBday(String name, String b_day);
+
+	MemberDto getMemberByIdAndEmail(String id);
+
+	int updatePassword(String id, String pwd);
+	 
 
 	 int saveFMCToken(Map map); //사용자의 FMC 토큰 저장
 	 

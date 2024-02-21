@@ -3,8 +3,10 @@ package com.ict.teamProject.member.service;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
+
 import java.util.Map;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ict.teamProject.member.service.impl.MemberMapper;
@@ -40,6 +42,17 @@ public class MemberService {
 	public Map searchPoint(String id) {
 		return mapper.searchPoint(id);
 	}
+	
+	
+    public MemberDto getMemberById(String id) {
+        return mapper.findByMemberId(id);
+    }
+	
+	
+	public int updateSocialUser(MemberDto dto) {
+		return mapper.updateSocialUser(dto);
+	
+	}
 
 	public Map getUserAddress(String id) {
 		return mapper.getUserAddress(id);
@@ -60,4 +73,24 @@ public class MemberService {
 	public String findFMCTokenById(String id) {
 		return mapper.findFMCTokenById(id);
 	}
+	public MemberDto getMemberByNameAndBday(String name, String b_day) {
+
+		return mapper.getMemberByNameAndBday(name , b_day);
+	}
+
+	public MemberDto getMemberByIdAndEmail(String id) {
+		
+		return mapper.getMemberByIdAndEmail(id);
+	}
+
+	public int updateMemberPwd(String id, String newPwd) {
+		BCryptPasswordEncoder bcy = new BCryptPasswordEncoder();
+		String pwd = bcy.encode(newPwd);
+		return mapper.updatePassword(id, pwd);
+	}
+
+
+
+
+
 }

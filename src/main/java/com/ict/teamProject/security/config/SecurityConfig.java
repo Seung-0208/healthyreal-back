@@ -104,8 +104,10 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 				//.requestMatchers("/manager/**").hasRole("MANAGER")
 				//.requestMatchers("/admin/**").hasRole("ADMIN")
 				//.requestMatchers("/community_post").hasRole("ADMIN")
-				
-				.anyRequest().permitAll()
+				.requestMatchers("/forgot-id","/forgot-password","/login-password",
+				"/forgot-password-phone","/forgot-password-email").permitAll()
+				.requestMatchers("/main").permitAll()
+				.anyRequest().permitAll() 
 				)
 			.httpBasic( httpBasic->httpBasic.disable() )
 			.addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager()))

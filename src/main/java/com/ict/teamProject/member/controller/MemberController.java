@@ -30,16 +30,16 @@ public class MemberController {
 
 	private MemberService service;
 	
-//	
-//	@Transactional
-//	@CrossOrigin(origins = "http://localhost:3333")
-//	@RequestMapping(value = "/user/updateSocialUser",  method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
-//	public int updateSocialUser(@RequestBody MemberDto dto){
-//	    int affected = service.updateSocialUser(dto);
-//	    
-//	    System.out.println("하? 여기 들어와 지니?"+dto);
-//	    return affected;
-//	}
+	
+	
+	@CrossOrigin(origins = "http://localhost:3333")
+	@RequestMapping(value = "/user/updateSocialUser",  method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
+	public int updateSocialUser(@RequestBody MemberDto dto){
+	    int affected = service.updateSocialUser(dto);
+	    
+	    System.out.println("하? 여기 들어와 지니?"+dto);
+	    return affected;
+	}
 	
 	public MemberController(MemberService service) {
 		this.service=service;
@@ -73,10 +73,40 @@ public class MemberController {
 		return service.searchPoint(id);
 	}
 	
+	@CrossOrigin(origins = "http://localhost:3333")
+	@RequestMapping(value = "/getMemberById", method = RequestMethod.GET)
+	public MemberDto getMemberById(@RequestParam String id) {
+	    return service.getMemberById(id);
+	}
+	@CrossOrigin(origins = "http://localhost:3333")
+	@RequestMapping(value = "/check-userID", method = RequestMethod.POST)
+	public MemberDto checkUserID(@RequestBody Map<String, String> params) {
+	    String name = params.get("name");
+	    String b_day = params.get("b_day");
+	    System.out.println("name"+name);
+	    System.out.println("b_day"+b_day);
+	    return service.getMemberByNameAndBday(name, b_day);
+	}
+	@CrossOrigin(origins = "http://localhost:3333")
+	@RequestMapping(value = "/check-userPWD", method = RequestMethod.POST)
+	public MemberDto checkUserPWD(@RequestBody Map<String, String> params) {
+	    String id = params.get("id");
+	    System.out.println("id: " + id);
+	    return service.getMemberByIdAndEmail(id);
+	}
 	//FMC 토큰을 DB에 저장
 	@PostMapping("/fmctoken")
 	public void saveFMCToken(@RequestBody Map map) {
 		service.saveFMCToken(map);
+	}
+	
+	@CrossOrigin(origins = "http://localhost:3333")
+	@RequestMapping(value = "/update-password", method = RequestMethod.POST)
+	public int updatePWD(@RequestBody Map<String, String> params) {
+	    String id = params.get("id");
+	    String pwd = params.get("pwd");
+	    System.out.println("id: " + id);
+	    return service.updateMemberPwd(id,pwd);
 	}
 	
 	//DB에 저장된 FMC 토큰 불러오기

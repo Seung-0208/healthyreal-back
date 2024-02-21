@@ -38,7 +38,12 @@ public class MemberDto {
 	private String provider;
 	private String pro_filepath;
 	
-//	public void copyProfileImageToFilePath() {
-//	    this.pro_filepath = this.profileimage;
-//	}
+	public boolean hasAdditionalInfo() {
+        return this.height != 0 
+            && this.weight != 0 
+            && this.gender != null 
+            && this.tel != null 
+            && this.userAddress != null 
+            && this.goal_No != 0;
+    }
 }

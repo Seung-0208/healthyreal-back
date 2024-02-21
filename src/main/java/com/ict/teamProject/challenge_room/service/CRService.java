@@ -3,6 +3,8 @@ package com.ict.teamProject.challenge_room.service;
 import java.util.List;
 import java.util.Map;
 
+import com.ict.teamProject.member.service.MemberDto;
+
 
 //24.02.18 생성
 public interface CRService<T> {
@@ -18,7 +20,7 @@ public interface CRService<T> {
 		
 	//입력/수정/삭제용
 	int insert(CRDto dto);
-	int update(CRDto dto);
+	int update(String id);
 	int delete(int room);
 
 	int insertP(CPDto dto);
@@ -26,5 +28,16 @@ public interface CRService<T> {
 	int getSeqValue();
 
 	void deletep(String id);
+
+	Map findmyData(String id);
+
+	List participantsdata();
+
+	int join(CPDto dto);
+
+	CRDto findRoomData(int challNo);
+
+	String selectManager(int room);
+
 	
 }

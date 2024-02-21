@@ -16,6 +16,7 @@ import com.ict.teamProject.challenge_room.service.CPDto;
 import com.ict.teamProject.challenge_room.service.CRDto;
 import com.ict.teamProject.challenge_room.service.CRService;
 import com.ict.teamProject.files.service.FilesDto;
+import com.ict.teamProject.member.service.MemberDto;
 
 
 //24.02.18 생성
@@ -50,9 +51,8 @@ public class CRServiceImpl implements CRService<CRDto> {
 	}
 
 	@Override
-	public int update(CRDto dto) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int update(String id) {
+		return mapper.update(id);
 	}
 
 	@Override
@@ -76,8 +76,31 @@ public class CRServiceImpl implements CRService<CRDto> {
 	public void deletep(String id) {
 		mapper.deletep(id);
 	}
-	
-	
+
+	@Override
+	public Map findmyData(String id) {
+		return mapper.findmyData(id);
+	}
+
+	@Override
+	public List participantsdata() {
+		return mapper.participantsdata();
+	}
+
+	@Override
+	public int join(CPDto dto) {
+		return mapper.join(dto);
+	}
+
+	@Override
+	public CRDto findRoomData(int challNo) {
+		return mapper.findRoomData(challNo);
+	}
+
+	@Override
+	public String selectManager(int room) {
+		return mapper.selectManager(room);
+	}
 
 
 }

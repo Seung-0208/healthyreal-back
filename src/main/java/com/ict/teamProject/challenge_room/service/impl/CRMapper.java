@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ict.teamProject.challenge_room.service.CPDto;
 import com.ict.teamProject.challenge_room.service.CRDto;
+import com.ict.teamProject.member.service.MemberDto;
 
 //24.02.18 생성
 @Mapper
@@ -20,7 +21,7 @@ public interface CRMapper {
 		
 	//입력/수정/삭제
 	int save(CRDto map);
-	int update(int cRno);
+	int update(String id);
 	int delete(int room);
 	
 	// 자기 방 번호 가져오기
@@ -30,6 +31,16 @@ public interface CRMapper {
 	int getSeqValue();
 
 	void deletep(String id);
+	
+	Map findmyData(String id);
+
+	List participantsdata();
+
+	int join(CPDto dto);
+
+	CRDto findRoomData(int challNo);
+
+	String selectManager(int room);
 
 	
 
