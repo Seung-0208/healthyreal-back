@@ -68,4 +68,11 @@ public class MemberDetailService {
 	public void updateUser(MemberDto userEntity) {
 	    mapper.updateUser(userEntity);
 	}
+
+
+
+	public MemberDto getMemberById(String id) {
+		
+		 return mapper.findMemberById(id);
+	}
 }

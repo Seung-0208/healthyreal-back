@@ -57,13 +57,15 @@
 	
 	<update id="updateSocialUser" parameterType="MemberDto" >
 	    UPDATE member 
-    SET GENDER = #{gender},
+    SET 
+    B_DAY = #{b_day},
+    GENDER = #{gender},
     HEIGHT = #{height,jdbcType=DOUBLE},
     WEIGHT = #{weight,jdbcType=DOUBLE},
     GOAL_NO = #{goal_No},
     TEL = #{tel},
     USERADDRESS = #{userAddress}
-    WHERE ID = #{id}
+    WHERE id = #{id}
 	</update>
 	
 	<update id="updateUser" parameterType="MemberDto">
@@ -83,4 +85,32 @@
 	<select id="searchPoint" parameterType="string">
 	  SELECT id, point FROM member WHERE id = #{id}
 	</select>
+	
+	<select id="findByMemberId" parameterType="string" resultType="MemberDto">
+    SELECT id, gender, weight, height, goal_No, tel, userAddress
+    FROM Member
+    WHERE id = #{id}
+</select>
+
+	<select id="findMemberById" parameterType="string" resultType="MemberDto">
+    SELECT b_day, gender, weight, height, goal_No, tel, userAddress
+    FROM Member
+    WHERE id = #{id}
+</select>
+
+<select id="getMemberByNameAndBday" resultType="MemberDto">
+    SELECT * FROM member WHERE name = #{name} AND b_day = #{b_day}
+</select>
+
+<select id="getMemberByIdAndEmail" resultType="MemberDto">
+    SELECT * FROM member WHERE id = #{id} 
+</select>
+
+<update id="updatePassword" parameterType="string">
+    UPDATE member
+    SET pwd = #{pwd}
+    WHERE id = #{id}
+</update>
+
+	
 </mapper>

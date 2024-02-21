@@ -4,10 +4,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.ict.teamProject.member.service.MemberDetailService;
+import com.ict.teamProject.member.service.MemberDto;
+import com.ict.teamProject.member.service.MemberService;
 import com.ict.teamProject.security.config.auth.PrincipalDetails;
 import com.ict.teamProject.security.util.JWTTokens;
 
@@ -18,6 +21,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccessHandler{
 
+    @Autowired
+    private MemberDetailService service;
+	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
@@ -28,6 +34,9 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 			System.out.println("소셜 principalDetails.getUsername() 가 null이다");
 			return;
 		}
+		
+		MemberDto dto = service.getMemberById(principalDetails.getUsername());
+		boolean hasAdditionalInfo = (dto != null && dto.hasAdditionalInfo());
 		
 		Map<String,Object> payloads = new HashMap<>();
 		payloads.put("username",principalDetails.getUsername());
@@ -43,8 +52,12 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 		response.addCookie(cookie);
 
 		
-		response.sendRedirect("http://localhost:3333/main");
-
+		 // 추가 정보가 있는 경우와 없는 경우에 따라 다른 URL로 리다이렉트
+        if (hasAdditionalInfo) {
+            response.sendRedirect("http://localhost:3333/main");
+        } else {
+        	System.out.println(dto);
+            response.sendRedirect("http://localhost:3333/registersocial");
+        }
 	}
-	
 }
