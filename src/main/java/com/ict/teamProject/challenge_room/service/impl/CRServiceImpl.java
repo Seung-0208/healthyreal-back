@@ -115,4 +115,9 @@ public class CRServiceImpl implements CRService<CRDto> {
 		mapper.updateImpl(dto);
 		
 	}
+
+	@Override
+	public ImplDto findImplAll(String id) {
+		return mapper.findImplAll(id);
+	}
 }

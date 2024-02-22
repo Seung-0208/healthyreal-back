@@ -29,6 +29,7 @@ import com.ict.teamProject.eating_record.dto.EatingRecordDto;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.util.StringUtils;
 import java.nio.file.StandardCopyOption;
+import java.sql.Date;
 @RestController
 
 @CrossOrigin(origins = "http://localhost:3333")
@@ -42,29 +43,22 @@ public class EatingRecordController {
     public void saveDiet(@RequestBody Map<String, Object> requestData) {
         System.out.println("Received request data: " + requestData);
         
-        // morningData 처리
-        Map<String, Object> morningData = (Map<String, Object>) requestData.get("morningData");
-        String morningConnetId = (String) morningData.get("connetId");
-        String morningMealType = (String) morningData.get("mealType");
-        String morningFoodName = (String) morningData.get("foodName");
-        String morningRecipeCode = (String) morningData.get("recipeCode");
-        System.out.println(morningFoodName);
-        // 나머지 필드에 대한 처리
-        
-        // lunchData 처리
-        Map<String, Object> lunchData = (Map<String, Object>) requestData.get("lunchData");
-        String lunchConnetId = (String) lunchData.get("connetId");
-        String lunchMealType = (String) lunchData.get("mealType");
-        String lunchFoodName = (String) lunchData.get("foodName");
-        String lunchRecipeCode = (String) lunchData.get("recipeCode");
-        // 나머지 필드에 대한 처리
-        
-        // dinnerData 처리
-        Map<String, Object> dinnerData = (Map<String, Object>) requestData.get("dinnerData");
-        String dinnerConnetId = (String) dinnerData.get("connetId");
-        String dinnerMealType = (String) dinnerData.get("mealType");
-        String dinnerFoodName = (String) dinnerData.get("foodName");
-        String dinnerRecipeCode = (String) dinnerData.get("recipeCode");
-        // 나머지 필드에 대한 처리
+        for (String meal : List.of("morning", "lunch", "dinner")) {
+            Map<String, Object> mealData = (Map<String, Object>) requestData.get(meal + "Data");
+            String id = (String) mealData.get("id");
+            String mealtype = (String) mealData.get("mealtype");
+            String eating_foodname = (String) mealData.get("eating_foodname");
+            String eating_recipeCode = (String) mealData.get("eating_recipeCode");
+            
+            // 데이터베이스에 저장
+            int affected = service.savediet(id, mealtype, eating_foodname, eating_recipeCode);
+            System.out.println(affected);
+        }
+    }
+    @GetMapping("/Dietfood/DailyView.do")
+    public EatingRecordDto getDailydiet(String id, Date eating_date){
+        System.out.println(id + "조회 날짜:"+eating_date);
+        EatingRecordDto ERList = service.getdailydiet(id, eating_date);
+        return ERList;
     }
 }

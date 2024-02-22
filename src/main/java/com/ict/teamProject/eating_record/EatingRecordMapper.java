@@ -10,5 +10,7 @@ import com.ict.teamProject.eating_record.dto.EatingRecordDto;
 
 @Mapper
 public interface EatingRecordMapper {
-//	public List<FoodListDto> findrecipe(String id, String category);
+
+	int savediet(String id, String mealtype, String eating_foodname, String eating_recipeCode);
+	EatingRecordDto getdailydiet(String id, Date eating_date);
 }
