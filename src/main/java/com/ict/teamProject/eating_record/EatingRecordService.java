@@ -15,5 +15,11 @@ public class EatingRecordService {
 	public EatingRecordService(EatingRecordMapper mapper) {
 		this.mapper = mapper;
 	}
+	public int savediet(String id, String mealtype, String eating_foodname, String eating_recipeCode) {
+		return mapper.savediet(id, mealtype, eating_foodname, eating_recipeCode);
+	}
+	public EatingRecordDto getdailydiet(String id, Date eating_date){
+		return mapper.getdailydiet(id, eating_date);
+	}
 	
 }

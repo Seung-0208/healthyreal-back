@@ -50,5 +50,7 @@ public interface CRMapper {
 	Date findImpl(String id);
 
 	void updateImpl(ImplDto dto);
+	
+	ImplDto findImplAll(String id);
 
 }

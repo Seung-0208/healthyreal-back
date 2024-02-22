@@ -47,5 +47,7 @@ public interface CRService<T> {
 
 	void updateImpl(ImplDto dto);
 
+	ImplDto findImplAll(String id);
+
 	
 }

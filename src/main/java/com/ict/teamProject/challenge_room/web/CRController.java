@@ -256,6 +256,7 @@ public class CRController {
 	@PostMapping("/implementation.do")
 	@ResponseBody
 	public void implementation(@RequestBody Map<String, Object> data) {
+		System.out.println("이행률 변경됐는지 확인용");
 		String foodCheckCount = data.get("foodCheckCount").toString();
 		String exerciseCheckCount = data.get("exerciseCheckCount").toString();
 		String id = data.get("id").toString();
@@ -288,5 +289,29 @@ public class CRController {
 			}
 		}
 	}
+	
+	//이행률 세팅]
+	@PostMapping("/implementationSetting.do")
+	@ResponseBody
+	public ImplDto implementationSetting(@RequestBody Map<String, Object> map) {
+		System.out.println("이행률 페이지 여기 들어와?---"+map.get("id").toString());
+		String id = map.get("id").toString();
+		ImplDto dto = new ImplDto();
+		Date now = service.findImpl(id);
 
+		if(now != null) {
+			Calendar cal1 = Calendar.getInstance();
+			Calendar cal2 = Calendar.getInstance();
+			cal1.setTime(now);
+			cal2.setTime(new Date(System.currentTimeMillis()));
+			if(cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && 
+			   cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) && 
+			   cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH)) {
+				dto = service.findImplAll(id);
+				System.out.println("dto.getEatting()"+dto.getEatting());
+				System.out.println("dto.getExercise()"+dto.getExercise());
+			} 
+		}
+		return dto;
+	}
 }
