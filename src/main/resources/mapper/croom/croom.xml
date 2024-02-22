@@ -122,9 +122,14 @@
 	
 	<!-- 이행률 찾기 -->
 	<select id="findImpl" parameterType="String">
-		SELECT RECORD_DATE 
-		FROM CHALLENGE_RECORD 
-		WHERE id =#{id}
+	    SELECT RECORD_DATE 
+	    FROM (
+	        SELECT RECORD_DATE 
+	        FROM CHALLENGE_RECORD 
+	        WHERE id = #{id}
+	        ORDER BY RECORD_DATE DESC
+	    )
+	    WHERE ROWNUM = 1
 	</select>
 	
 	<!-- 이행률 찾기 -->
@@ -136,6 +141,6 @@
 	
 	<!-- 이행률 변경 -->
 	<update id="updateImpl" parameterType="IM" >
-		UPDATE CHALLENGE_RECORD SET EXERCISE=#{exercise}, EATING=#{eatting} WHERE id =#{id}
+		UPDATE CHALLENGE_RECORD SET EXERCISE=#{exercise}, EATING=#{eatting} WHERE id =#{id} and RECORD_DATE = #{recordDate}
 	</update>
 </mapper>

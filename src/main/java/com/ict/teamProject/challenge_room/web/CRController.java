@@ -262,6 +262,7 @@ public class CRController {
 		String id = data.get("id").toString();
 		ImplDto dto = new ImplDto();
 		Date now = service.findImpl(id);
+		System.out.println("입력 날짜?---"+now);
 		
 		if(now == null) {
 			dto.setId(id);
@@ -280,6 +281,7 @@ public class CRController {
 				dto.setId(id);
 				dto.setExercise(exerciseCheckCount);
 				dto.setEatting(foodCheckCount);
+				dto.setRecordDate(now);
 				service.updateImpl(dto);
 			} else {
 				dto.setId(id);
