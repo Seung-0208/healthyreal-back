@@ -43,7 +43,7 @@ public class FoodController {
 		System.out.println("받은 이름:"+id);
 		System.out.println("받은 카테고리:"+category);
 		List<FoodListDto> foodlist = service.findrecipe(id, category);
-		System.out.println("레시피 : "+foodlist);
+//		System.out.println("레시피 : "+foodlist);
 		return foodlist;
 	}
 }
