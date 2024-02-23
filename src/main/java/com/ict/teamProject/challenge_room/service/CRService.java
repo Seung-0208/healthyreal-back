@@ -59,5 +59,7 @@ public interface CRService<T> {
 
 	void implinsert(Map map);
 
+	void deletePeople(int challNo);
+
 	
 }

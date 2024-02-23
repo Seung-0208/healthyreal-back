@@ -162,8 +162,23 @@ public class CRController {
 		for (CRDto item : record) {
 		    System.out.println("방장은??----" + item.getManager());
 		    System.out.println("방번호는???---"+item.getChallNo());
-		    List result = service.participantsdata(item.getChallNo());
-	        item.setParticipantsData(result);
+		    System.out.println("챌린지 끝나는 날짜는????---"+item.getCEndDate());
+		    
+		 // item.getCEndDate()와 오늘 날짜를 비교하여 로직 실행
+		    if (item.getCEndDate() != null) { // item의 CEndDate가 null이 아닌지 확인
+		        Date today = new Date(System.currentTimeMillis()); // 오늘 날짜를 가져옴
+
+		        // item의 CEndDate가 오늘 날짜보다 이후인지 확인
+		        if (item.getCEndDate().after(today)) {
+		            // CEndDate가 오늘 날짜를 지나지 않았으므로 로직 실행
+		            List result = service.participantsdata(item.getChallNo());
+		            item.setParticipantsData(result);
+		        } else {
+		            // CEndDate가 오늘 날짜를 지났으므로 해당 방을 없앰
+		        	service.deletePeople(item.getChallNo()); //참여자 삭제
+		        	service.delete(item.getChallNo()); //방 삭제
+		        }
+		    }
 		}
 		return record;
 	}/////

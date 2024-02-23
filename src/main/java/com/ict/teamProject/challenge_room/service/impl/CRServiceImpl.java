@@ -145,4 +145,10 @@ public class CRServiceImpl implements CRService<CRDto> {
 	public void implinsert(Map map) {
 		mapper.implinsert(map);
 	}
+
+	@Override
+	public void deletePeople(int challNo) {
+		mapper.deletePeople(challNo);
+		
+	}
 }

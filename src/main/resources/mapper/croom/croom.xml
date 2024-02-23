@@ -57,6 +57,11 @@
 	  DELETE FROM CHALLENGE_ROOM WHERE Chall_NO = #{challNo}
 	</delete>
 	
+	<!-- 해당 방 참여자 삭제 -->
+	<delete id="deletePeople" parameterType="int">
+	  DELETE FROM CHALLENGE_PARTICIPANTS WHERE Chall_NO = #{challNo}
+	</delete>
+	
 	<!-- 해당 방 삭제 -->
 	<delete id="deletep" parameterType="String">
 	  DELETE FROM CHALLENGE_PARTICIPANTS WHERE ID = #{id}

@@ -63,4 +63,6 @@ public interface CRMapper {
 
 	void implinsert(Map map);
 
+	void deletePeople(int challNo);
+
 }
