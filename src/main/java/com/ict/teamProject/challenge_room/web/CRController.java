@@ -188,10 +188,48 @@ public class CRController {
 	@ResponseBody
 	public List participantsData(@RequestParam int challNo) {
 		System.out.println("받은 방 번호는???----"+challNo);
-		List record = new ArrayList();
-		List result = service.participantsdata(challNo);
-		record.add(result);
-		return record;
+		List<String> people = service.getId(challNo);
+		List<ImplDto> cal = service.implcal(challNo);
+		Date start = service.startchall(challNo);
+		String goal = service.findGoalOfNum(challNo);
+		System.out.println("챌린지 시작 날짜는???----"+start);
+		for (String p : people) {
+		    int eating = 0;
+		    int exercise = 0;
+		    for (ImplDto record : cal) {
+		        if (record.getRecordDate() != null && start.before(record.getRecordDate())) {
+			        if (record != null && record.getId() != null && p.equals(record.getId())) {
+			            String eatingStr = record.getEatting();
+			            if (eatingStr != null) {
+			                eating += eatingStr.length();
+			            }
+			            String exerciseStr = record.getExercise();
+			            if (exerciseStr != null) {
+			                exercise += exerciseStr.length();
+			            }
+					    System.out.println("EATING : " + eating/3);
+					    System.out.println("EXERCISE : " + exercise/3);
+				        System.out.println("record.getRecordDate()"+record.getRecordDate());
+				        System.out.println("goal----"+goal);
+			        }
+		        }
+		    }
+		    // 추출한 값들을 활용하여 원하는 작업 수행
+		    System.out.println("ID: " + p);
+		    if(goal.contains("감량") || goal.contains("식단")) {
+		    	Map map = new HashMap();
+		    	map.put("rate", eating/3);
+		    	map.put("id", p);
+		    	service.implinsert(map);
+		    }else if(goal.contains("증가") || goal.contains("강화") || goal.contains("관리")) {
+		    	Map map = new HashMap();
+		    	map.put("rate", exercise/3);
+		    	map.put("id", p);
+		    	service.implinsert(map);
+		    }
+		}
+		List records = service.participantsdata(challNo);
+		return records;
 	}/////
 	
 	//방 참가]

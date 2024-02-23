@@ -49,5 +49,15 @@ public interface CRService<T> {
 
 	ImplDto findImplAll(String id);
 
+	List implcal(int challNo);
+
+	List<String> getId(int challNo);
+
+	Date startchall(int challNo);
+
+	String findGoalOfNum(int challNo);
+
+	void implinsert(Map map);
+
 	
 }
