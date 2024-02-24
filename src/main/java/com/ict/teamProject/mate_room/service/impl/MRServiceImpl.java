@@ -97,5 +97,8 @@ public class MRServiceImpl implements MRService<MRDto> {
 		mapper.deletePeople(mateNo);
 	}
 
-
+	@Override
+	public void updateRoom(Map map) {
+		mapper.updateRoom(map);		
+	}
 }

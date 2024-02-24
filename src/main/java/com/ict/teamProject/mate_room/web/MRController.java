@@ -257,5 +257,18 @@ public class MRController {
 		System.out.println("나간 방 번호는?"+room);
 		return affected;
 	}/////
+	
+	//방 공개 여부]
+	@PostMapping("/openClose.do")
+	@ResponseBody
+	public void openClose(@RequestBody Map map) {
+		System.out.println("map.get(\"open\")"+map.get("open").toString());
+		if(map.get("open").toString() == "true") {
+			map.put("open", 'Y');
+		}else 
+			map.put("open", 'N');
+		
+		service.updateRoom(map);
+	}/////
 
 }

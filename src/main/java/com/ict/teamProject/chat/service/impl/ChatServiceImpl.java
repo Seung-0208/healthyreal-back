@@ -52,48 +52,10 @@ public class ChatServiceImpl implements ChatService<ChatDto> {
 		List<ChatDto> chat = mapper.allChat(id);
 		return chat;
 	}
-	/*
-	//게시물 파일등록
+
 	@Override
-	public int insertFile(Map map) {
-		int affected=0;
-		try {
-			affected=mapper.saveFiles(map);
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		return affected;		
+	public List<ChatDto> allMateChat(Map map) {
+		return mapper.allMateChat(map);
 	}
-	
-	
-	//게시물 수정
-	@Override
-	public int update(ChatDto dto) {
-		int affected=0;
-		try {
-			affected=mapper.update(dto);
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		return affected;
-
-}
-
-	@Override
-	public int deleteBBS(int bno) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int deleteFiles(int bno) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-	}*/
 }
 

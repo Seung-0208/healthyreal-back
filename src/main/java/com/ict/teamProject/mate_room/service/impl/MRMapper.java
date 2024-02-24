@@ -43,6 +43,8 @@ public interface MRMapper {
 
 	void deletePeople(int mateNo);
 
+	void updateRoom(Map map);
+
 	
 
 }

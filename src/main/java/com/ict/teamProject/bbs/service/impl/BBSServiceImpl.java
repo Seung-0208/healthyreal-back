@@ -16,7 +16,7 @@ import com.ict.teamProject.files.service.FilesDto;
 
 
 
-@Service("service")
+@Service
 public class BBSServiceImpl implements BBSService<BBSDto> {
 
 	//매퍼 인터페이스 주입

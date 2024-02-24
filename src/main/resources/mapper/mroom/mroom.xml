@@ -104,4 +104,9 @@
 		UPDATE MATEROOM_PARTICIPANTS SET MRP_MANAGER ='Y' WHERE id=#{manager}
 	</update>
 	
+	<!-- 방 공개/비공개 -->
+	<update id="updateRoom" parameterType="map" >
+		UPDATE MATEROOM SET MR_DISCLOSUREYN =#{open} WHERE MR_NO = #{mateNo}
+	</update>
+	
 </mapper>

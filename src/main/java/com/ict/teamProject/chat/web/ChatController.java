@@ -142,203 +142,34 @@ public class ChatController {
 	    //뷰정보 반환
 	    return records;
 	}
-
 	
-	/*
-	
-	@GetMapping("/ViewMy.do")
+	//메이트방 챗 가져오기
+	@RequestMapping(value="/allMateChating.do")
 	@ResponseBody
-	public List<BBSDto> viewMy(@RequestParam String id) {
-		System.out.println("ID:"+id);
-		//서비스 호출
-		List<BBSDto> records= service.selectMy(id);
-		//줄바꿈
-	    for (BBSDto record : records) {
-	        int bno = record.getBno();
-	        record.setContent(record.getContent().replace("\r\n", "<br/>"));
-	        List<String> files = service.selectFiles(bno);
-	        record.setFiles(files);  // 게시글에 파일들을 추가
-	        System.out.println("files:"+record.getFiles());
-	    }
-		return records;
-	}
-	
-	//게시물 전체 뿌려주기
-	@RequestMapping ("/List.do")
-	public List view(@RequestBody Map map) {
-	    List<Integer> types = new ArrayList<>();
-	    List<String> selectedItems = (List<String>)map.get("selectedItems");
-	    System.out.println("selectedItems---"+selectedItems);
-	    if(selectedItems != null) {
-	        for(String item : selectedItems) {
-	            switch(item) {
-	                case "식단":
-	                    types.add(1);
-	                    break;
-	                case "운동":
-	                    types.add(2);
-	                    break;
-	                case "심리":
-	                    types.add(4);
-	                    break;
-	                default:
-	                    break;
-	            }
-	        }
-	    }
-	    if(types.isEmpty()) {
-	        types.add(0);
-	    }
-	    map.put("types", types);
-	    System.out.println("types----"+map.get("types"));
+	public List<ChatDto> allMateChating(@RequestBody Map map) {
+	    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 시간을 포함한 형식
 	    //서비스 호출
-	    List<BBSDto> records = service.selectAll(map);
-	    System.out.println("records:"+records);
-	    for (BBSDto record : records) {
-	        int bno = record.getBno();
-	        System.out.println("bno:"+bno);
-	        List<String> files = service.selectFiles(bno);
-	        record.setFiles(files);  // 게시글에 파일들을 추가
-	        record.setContent(record.getContent().replace("\r\n", "<br/>"));
-	        System.out.println("files:"+record.getFiles());
-	        System.out.println("record.likes()"+record.getLikes());
-	        System.out.println("record.type()"+record.getType());
-	    }
-	    
-		return records;
-	}
-	
-	//수정하기
-	@PostMapping("/Edit.do")
-	public int edit(@RequestBody Map<String, Object> map) {
-		int affected=0;
-		BBSDto record = null;
-		System.out.println("데이타 넘어오냐??"+map);
-        int bno = Integer.parseInt(map.get("bno").toString());
-        System.out.println("글번호~~~:"+bno);
-        // 기존 레코드
-        record = service.selectOne(bno);
-        System.out.println("record.getDisclosureYN():"+record.getDisclosureYN());
-        System.out.println("record.getHashTag():"+record.getHashTag());
-        System.out.println("record.getContent():"+record.getContent());
-	    // map에 있는 값만 변경.
-        
-        if (map.get("content") != null && !map.get("content").toString().isEmpty()) {
-            record.setContent(map.get("content").toString());
-            System.out.println("getContent()::"+record.getContent());
-        }
-        if (map.get("disclosureYN") != null && !map.get("disclosureYN").toString().isEmpty()) {
-            record.setDisclosureYN(map.get("disclosureYN").toString().charAt(0));
-            System.out.println("getDisclosureYN()::"+record.getDisclosureYN());
-        }
-        if (map.get("hashTag") != null && !map.get("hashTag").toString().isEmpty()) {
-            record.setHashTag(map.get("hashTag").toString());
-            System.out.println("getHashTag()::"+record.getHashTag());
-        }
-
-        if(record.getHashTag() == null) record.setHashTag("");
-        if(record.getContent() == null) record.setContent("");
-	    System.out.println("=============수정 후?=======");
-        System.out.println("record.getDisclosureYN():"+record.getDisclosureYN());
-        System.out.println("record.getHashTag():"+record.getHashTag());
-        System.out.println("record.getContent():"+record.getContent());
-	    // 변경된 레코드를 업데이트.
-	    affected = service.update(record);				
-	    return affected;
-	}/////
-	
-	//삭제하기
-	@GetMapping("/{bno}/Delete.do")
-	public ResponseEntity delete(@PathVariable String bno) {
-		try {
-	        int bnoInt = Integer.parseInt(bno);
-	        int affected = 0;
-	        List<String> files = service.selectFiles(bnoInt);
-	        
-	        String baseDirectory = "E:/images/";
-	        String imageDirectory = "src/main/resources/static/images/";
-	        
-	        // files에 값이 있으면 해당 파일들을 삭제
-	        if (files != null && !files.isEmpty()) {
-	            for (String fileUrl : files) {
-	                String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
-	                Path filePath = Paths.get(baseDirectory + fileName);
-	                Path imagePath = Paths.get(imageDirectory + fileName);
-	                try {
-	                    Files.deleteIfExists(filePath);
-	                    Files.deleteIfExists(imagePath);
-	                } catch (IOException e) {
-	                    e.printStackTrace();
-	                }
-	            }
+	    List<ChatDto> records = service.allMateChat(map);
+	    //줄바꿈
+	    for (ChatDto record : records) {
+	    	if (record != null && record.getContent() != null) {
+	    	    record.setContent(record.getContent().replace("\r\n", "<br/>"));
+	    	}
+	        if (record != null && record.getSendDate() != null) {
+	            Timestamp timestamp = Timestamp.valueOf(record.getSendDate());
+	            String formattedDate = format.format(timestamp);
+	            record.setSendDate(formattedDate); 
 	        }
-	        System.out.println("bnoInt:"+bnoInt);
-	        service.deleteFiles(bnoInt);
-	        affected += service.deleteBBS(bnoInt);
-	        System.out.println("affected2:"+affected);
-	        return ResponseEntity.ok(String.valueOf(affected));
-	    } catch (NumberFormatException e) {
-	        return ResponseEntity.badRequest().body("bno: " + bno);
+	    	System.out.println("record-----"+record.getId());
+	    	System.out.println("record-----"+record.getRuser());
+	        System.out.println("record-----"+record.getContent());
+	        System.out.println("record-----"+record.getSendDate());
 	    }
+	    //뷰정보 반환
+	    return records;
 	}
+
+
 	
-	
-	@PostMapping("/userProfile")
-	public List<BBSUsersProfileDto> getAllUsersById(@RequestBody Map<String,List<String>> map){
-		System.out.println("값이 요청됨:"+map.get("ids"));
-		List<BBSUsersProfileDto> dtos = new ArrayList<BBSUsersProfileDto>();
-		int flag = 0;
-		Map<String, String> param = new HashMap<>();
-		for (String id : map.get("ids")) {
-			if (flag==0) {
-				param.put("userId", id);
-			}
-			else {
-				param.put("otherId", id);
-				BBSUsersProfileDto tempDto = new BBSUsersProfileDto().builder()
-										.id(id)
-										.isFriend(service.findIsFriend(param))
-										.isSubTo(service.findIsSubto(param))
-										.profilePath(service.findProfilePathById(id))
-										.build();
-				System.out.println(String.format("요청보낸 아이디: %s, 요청받는 아이디: %s, 친구 수: %s", param.get("userId"), id, service.findIsFriend(param)));
-				dtos.add(tempDto);
-			}
-			flag++;
-		}
-		return dtos;
-	}
-	
-	//좋아요 얻어오기
-	@PostMapping("/likes.do")
-	public Map likes(@RequestBody Map map) {
-		LikesDto likes = new LikesDto();
-		String id = map.get("id").toString();
-		System.out.println("id:-- "+id);
-		String state = map.get("isLiked").toString();
-		System.out.println("state:-- "+state);
-		int bno = Integer.parseInt(map.get("bno").toString());
-		System.out.println("bno:-- "+bno);
-		int cno = 0;
-		if(map.get("cno") != null && !map.get("cno").toString().isEmpty()) {
-			cno = Integer.parseInt(map.get("cno").toString());
-			System.out.println("cno:-- "+cno);
-		}
-		likes.setBno(bno);
-		likes.setId(id);
-	    if (state.equals("true")) {
-	        service.setLikes(likes);
-	        System.out.println("좋아요 누른 사람~~"+likes);
-	    } else if (state.equals("false")) {
-	        service.deleteLikes(likes);
-	        System.out.println("좋아요 해제한 사람~~"+likes);
-	    }
-	    int likesnum = service.findLikes(bno);
-	    String likesId = service.whereLikes(bno);
-	    Map like = new HashMap();
-	    like.put("likesnum", likesnum);
-	    like.put("likes", likesId);
-	    
-		return like;
-	}*/
+
 }

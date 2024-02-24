@@ -38,5 +38,7 @@ public interface MRService<T> {
 
 	void deletePeople(int mateNo);
 
+	void updateRoom(Map map);
+
 	
 }

@@ -6,9 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ict.teamProject.bbs.service.BBSDto;
-import com.ict.teamProject.bbs.service.BBSUsersProfileDto;
 import com.ict.teamProject.bbs.service.LikesDto;
-import com.ict.teamProject.files.service.FilesDto;
 
 @Mapper
 public interface BBSMapper {

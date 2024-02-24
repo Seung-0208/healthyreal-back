@@ -23,6 +23,12 @@ public class WebSocketServer extends TextWebSocketHandler {
 		//컬렉션에 연결된 클라이언트 추가
 		clients.put(session.getId(), session);
 		System.out.println(session.getId()+"연결 되었습니다.");
+		
+	    // 모든 클라이언트에게 메시지 전송
+	    TextMessage message = new TextMessage(session.getId() + "연결 되었습니다.");
+	    for (WebSocketSession client : clients.values()) {
+	        client.sendMessage(message);
+	    }
 	}
 
 	//클라이언트로부터 메세지를 받았을때 자동 호출되는 콜백 메소드]
@@ -51,6 +57,11 @@ public class WebSocketServer extends TextWebSocketHandler {
 		//-컬렉션에 저장된 클라이언트 삭제
 		clients.remove(session.getId());
 		System.out.println(session.getId()+"연결이 끊어졌어요");
+	    // 모든 클라이언트에게 메시지 전송
+	    TextMessage message = new TextMessage(session.getId() + "연결이 끊어졌어요");
+	    for (WebSocketSession client : clients.values()) {
+	        client.sendMessage(message);
+	    }
 	}
 	
 }
