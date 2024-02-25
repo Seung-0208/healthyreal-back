@@ -7,8 +7,51 @@
 	<insert id="savediet" parameterType="Map">
 		Insert INTO Eating_Record(ID, MEALTYPE,EATING_FOODNAME,EATING_RECIPECODE) VALUES(#{id},#{mealtype}, #{eating_foodname}, #{eating_recipeCode})
 	</insert>
-
+	
 	<select id="getdailydiet" resultType="EatingRecordDto">
-		SELECT * FROM eating_record WHERE ID = #{id} AND EATING_DATE = #{eating_date}
+		SELECT er.*,r.RECIPE_TITLE, r.RECIPE_URL, r.RECIPE_SEQ, r.RECIPE_IMG FROM 
+	    		(SELECT * FROM eating_record WHERE ID = #{id} AND TO_CHAR(EATING_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')) er 
+	    		JOIN RECIPE r ON er.EATING_RECIPECODE = r.RECIPECODE
+		    	ORDER BY 
+			    CASE 
+			        WHEN er.MEALTYPE = '아침' THEN 1
+			        WHEN er.MEALTYPE = '점심' THEN 2
+			        ELSE 3
+			    END
 	</select>
+	
+	<update id="updatediet" parameterType="Map">
+		UPDATE Eating_Record
+			SET 
+			    EATING_FOODNAME = #{eating_foodname},
+			    EATING_RECIPECODE = #{eating_recipeCode}
+			WHERE
+			    ID = #{id} AND MEALTYPE = #{mealtype}
+	</update>
+	
+	<select id="checkdailydata" resultType="int">
+		SELECT COUNT(*) FROM eating_record 
+		WHERE id = #{id} and TO_CHAR(EATING_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
+
+<!--  
+	<select id="getingredients" resultType="Map">
+		SELECT INGREDIENT,RECIPECODE,RI_AMOUNT FROM RECIPE_INGREDIENTS WHERE RECIPECODE = #{eating_recipeCode}
+	</select>
+-->	
+<!--  
+	<select id="getdailydiet" resultType="EatingRecordDto">
+		SELECT rec.*, ri.INGREDIENT, ri.RI_AMOUNT FROM
+			(SELECT er.*,r.RECIPE_TITLE, r.RECIPE_URL, r.RECIPE_SEQ, r.RECIPE_IMG FROM 
+	    		(SELECT * FROM eating_record WHERE ID = #{id} AND TO_CHAR(EATING_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')) er 
+	    		JOIN RECIPE r ON er.EATING_RECIPECODE = r.RECIPECODE
+		    	ORDER BY 
+			    CASE 
+			        WHEN er.MEALTYPE = '아침' THEN 1
+			        WHEN er.MEALTYPE = '점심' THEN 2
+			        ELSE 3
+			    END
+			) rec JOIN RECIPE_INGREDIENTS ri ON rec.EATING_RECIPECODE = ri.RECIPECODE
+	</select>
+-->
 </mapper>

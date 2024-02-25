@@ -156,8 +156,22 @@ public class MRController {
 		for (MRDto item : record) {
 		    System.out.println("방장은??----" + item.getManager());
 		    System.out.println("방번호는???---"+item.getMateNo());
-		    List result = service.participantsdata(item.getMateNo());
-	        item.setParticipantsData(result);
+        
+			 // item.getCEndDate()와 오늘 날짜를 비교하여 로직 실행
+		    if (item.getMateDate() != null) { // item의 CEndDate가 null이 아닌지 확인
+		        Date today = new Date(System.currentTimeMillis()); // 오늘 날짜를 가져옴
+
+		        // item의 CEndDate가 오늘 날짜보다 이후인지 확인
+		        if (item.getMateDate().after(today)) {
+		            // CEndDate가 오늘 날짜를 지나지 않았으므로 로직 실행
+		            List result = service.participantsdata(item.getMateNo());
+		            item.setParticipantsData(result);
+		        } else {
+		            // CEndDate가 오늘 날짜를 지났으므로 해당 방을 없앰
+		        	service.deletePeople(item.getMateNo()); //참여자 삭제
+		        	service.delete(item.getMateNo()); //방 삭제
+		        }
+		    }
 		}
 		return record;
 	}/////
@@ -182,9 +196,7 @@ public class MRController {
 	@ResponseBody
 	public List participantsData(@RequestParam int challNo) {
 		System.out.println("받은 방 번호는???----"+challNo);
-		List record = new ArrayList();
-		List result = service.participantsdata(challNo);
-		record.add(result);
+		List record = service.participantsdata(challNo);
 		return record;
 	}/////
 	
@@ -217,14 +229,14 @@ public class MRController {
 	@DeleteMapping("/deleteManager.do")
 	@ResponseBody
 	public int deleteManager(@RequestBody Map<String, String> map) {
-		System.out.println("난 방장~~~");
-		String id = map.get("id");
 		int room = 0;
 		int affected = 0;
+		System.out.println("난 방장~~~");
+		String id = map.get("id");
 		System.out.println("id:"+id);
 		room = service.selectMyRoom(id);
-		String manager = service.selectManager(room);
 		service.deletep(id);
+		String manager = service.selectManager(room);
 		System.out.println("manager:"+manager);
 		affected = service.update(manager);
 		System.out.println("너의 수정된 방 번호는?"+room);
@@ -244,6 +256,19 @@ public class MRController {
 		service.deletep(id);
 		System.out.println("나간 방 번호는?"+room);
 		return affected;
+	}/////
+	
+	//방 공개 여부]
+	@PostMapping("/openClose.do")
+	@ResponseBody
+	public void openClose(@RequestBody Map map) {
+		System.out.println("map.get(\"open\")"+map.get("open").toString());
+		if(map.get("open").toString() == "true") {
+			map.put("open", 'Y');
+		}else 
+			map.put("open", 'N');
+		
+		service.updateRoom(map);
 	}/////
 
 }

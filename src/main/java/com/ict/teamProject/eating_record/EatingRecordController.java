@@ -39,26 +39,65 @@ public class EatingRecordController {
 		this.service = service;
 	}
 	
-    @PostMapping("/Dietfood/Insert.do")
-    public void saveDiet(@RequestBody Map<String, Object> requestData) {
-        System.out.println("Received request data: " + requestData);
-        
-        for (String meal : List.of("morning", "lunch", "dinner")) {
-            Map<String, Object> mealData = (Map<String, Object>) requestData.get(meal + "Data");
-            String id = (String) mealData.get("id");
-            String mealtype = (String) mealData.get("mealtype");
-            String eating_foodname = (String) mealData.get("eating_foodname");
-            String eating_recipeCode = (String) mealData.get("eating_recipeCode");
-            
-            // 데이터베이스에 저장
-            int affected = service.savediet(id, mealtype, eating_foodname, eating_recipeCode);
-            System.out.println(affected);
+//    @PostMapping("/Dietfood/Insert.do")
+//    public void saveDiet(@RequestBody List<Map<String, Object>> dataToSave) {
+//        System.out.println("Received request data: " + dataToSave);
+//
+//        for (Map<String, Object> mealData : dataToSave) {
+//            String id = (String) mealData.get("id");
+//            String mealtype = (String) mealData.get("mealtype");
+//            String eating_foodname = (String) mealData.get("eating_foodname");
+//            int eating_recipeCode = (int) mealData.get("eating_recipeCode");
+//
+//            // 데이터베이스에 저장
+//            int affected = service.savediet(id, mealtype, eating_foodname, eating_recipeCode);
+//            System.out.println(affected);
+//        }
+//    }
+    
+    @PostMapping("/Dietfood/SaveBulk.do")
+    public void saveBulkDiet(@RequestBody List<Map<String, Object>> dataToSave) {
+        System.out.println("Received request data: " + dataToSave);
+
+        for (Map<String, Object> mealData : dataToSave) {
+            String action = (String) mealData.get("action");
+            if ("insert".equals(action)) {
+                String id = (String) mealData.get("id");
+                String mealtype = (String) mealData.get("mealtype");
+                String eating_foodname = (String) mealData.get("eating_foodname");
+                int eating_recipeCode = (int) mealData.get("eating_recipeCode");
+
+                // 데이터베이스에 저장
+                int affected = service.savediet(id, mealtype, eating_foodname, eating_recipeCode);
+                System.out.println("Insert 처리 - "+affected);
+            } else if ("update".equals(action)) {
+                String id = (String) mealData.get("id");
+                String mealtype = (String) mealData.get("mealtype");
+                String eating_foodname = (String) mealData.get("eating_foodname");
+                int eating_recipeCode = (int) mealData.get("eating_recipeCode");
+
+                // 데이터베이스에 저장
+                int affected = service.updatediet(id, mealtype, eating_foodname, eating_recipeCode);
+                System.out.println("Update 처리 - "+affected);
+            }
         }
     }
     @GetMapping("/Dietfood/DailyView.do")
-    public EatingRecordDto getDailydiet(String id, Date eating_date){
-        System.out.println(id + "조회 날짜:"+eating_date);
-        EatingRecordDto ERList = service.getdailydiet(id, eating_date);
+    public List<EatingRecordDto> getDailydiet(@RequestParam String id){
+        System.out.println("요청보낸 아이디다!!!!!!!!!!!!!!!!!!!!!!"+id);
+        List<EatingRecordDto> ERList = service.getdailydiet(id);
+        System.out.println("가져온 데이터를 보자 : ");
+        for (EatingRecordDto record : ERList) {
+            System.out.println(record.toString());
+        }
         return ERList;
+    }
+    
+    @GetMapping("/dietfood/search.do")
+    public int checkDailydata(@RequestParam String id) {
+    	System.out.println("들어온 아이디"+id);
+    	int chkdata = service.checkdailydata(id);
+    	System.out.println("조회된 행"+chkdata);
+    	return chkdata;
     }
 }

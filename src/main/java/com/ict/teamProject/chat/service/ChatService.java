@@ -26,4 +26,6 @@ public interface ChatService<T> {
 
 	List<ChatDto> allChating(String id);
 
+	List<ChatDto> allMateChat(Map map);
+
 }

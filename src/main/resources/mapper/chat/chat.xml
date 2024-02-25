@@ -35,8 +35,18 @@
 
  	<!-- 모든 메세지 가져오기 -->
 	 <select id="allChat" parameterType="String" resultMap="ChatResult">
-	 	SELECT * FROM CHATMESSAGE WHERE ID = #{id} or RECEIVE_USER = #{id} ORDER BY MESSAGE_SENDDATE ASC
+	 	SELECT * FROM CHATMESSAGE WHERE ID = #{id} or RECEIVE_USER = #{id} and ROOM_TYPE = 1 ORDER BY MESSAGE_SENDDATE ASC
 	 </select>
+	 
+	 <!-- 메이트 방 모든 메세지 가져오기 -->
+	 <select id="allMateChat" parameterType="map" resultMap="ChatResult">
+	 	SELECT * FROM CHATMESSAGE WHERE ROOM_TYPE = 3 and TYPE_NO = #{mateNo} ORDER BY MESSAGE_SENDDATE ASC
+	 </select>
+	 
+ 	<!-- 메이트 챗 입력 -->
+	<insert id="mateIn" parameterType="Map">
+		INSERT INTO CHATMESSAGE VALUES(SEQ_CHATMESSAGE.NEXTVAL,3,#{id},#{ruser}#{mateNo}#{content},'N',SYSDATE)
+	</insert>
 
 	
 </mapper>

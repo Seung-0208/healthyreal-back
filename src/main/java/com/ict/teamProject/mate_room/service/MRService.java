@@ -36,5 +36,9 @@ public interface MRService<T> {
 
 	String selectManager(int room);
 
+	void deletePeople(int mateNo);
+
+	void updateRoom(Map map);
+
 	
 }

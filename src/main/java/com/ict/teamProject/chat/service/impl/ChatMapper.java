@@ -20,13 +20,13 @@ public interface ChatMapper {
 	
 	//입력
 	int save(Map map);
-	//int saveFiles(Map map);
 
 	ChatDto findChatingPerson(String id);
 
 	List<ChatDto> allChat(String id);
 
-	//int update(ChatDto dto);
+	List<ChatDto> allMateChat(Map map);
+
 
 	
 	
