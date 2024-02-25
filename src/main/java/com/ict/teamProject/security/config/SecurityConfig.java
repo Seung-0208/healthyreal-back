@@ -88,7 +88,7 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		http.addFilterBefore(corsFilter, ChannelProcessingFilter.class);
-
+		
 		http.csrf( (csrf) -> csrf.disable());
 		http.exceptionHandling((exceptionHandler) -> 
 		exceptionHandler

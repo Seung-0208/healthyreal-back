@@ -13,13 +13,13 @@ public class CorsConfig {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true); //응답할때 json 자바스크립
-		config.addAllowedOrigin("http://localhost:3333/");
+		config.addAllowedOrigin("http://localhost:3333");
 		
 		config.addAllowedHeader("*"); // 모든 header 응답허용
 		config.addAllowedMethod("*"); // 모든 post,get....
 		source.registerCorsConfiguration("/**",config);
 //		source.registerCorsConfiguration("/api/**",config);
-//		source.registerCorsConfiguration("/oauth2/**",config);
+//		source.registerCorsConfiguration("/oauth2/**",config);+
 //		source.registerCorsConfiguration("/user/**",config);
 //		source.registerCorsConfiguration("/manager/**",config);
 //		source.registerCorsConfiguration("/admin/**",config);
