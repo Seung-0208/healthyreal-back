@@ -147,6 +147,8 @@ public class ChatController {
 	@RequestMapping(value="/allMateChating.do")
 	@ResponseBody
 	public List<ChatDto> allMateChating(@RequestBody Map map) {
+		System.out.println("단체채팅 들어왓나??"+ map.get("mateNo"));
+		
 	    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 시간을 포함한 형식
 	    //서비스 호출
 	    List<ChatDto> records = service.allMateChat(map);
@@ -168,6 +170,24 @@ public class ChatController {
 	    //뷰정보 반환
 	    return records;
 	}
+	
+	//메이트 채팅 입력]
+	@PostMapping("/mateWrite.do")
+	@ResponseBody
+	public int mateChatIn(@RequestBody Map map) {
+		int affected = 0;
+		System.out.println("id:"+map.get("id"));
+		System.out.println("ruser:"+map.get("ruser"));
+		System.out.println("content:"+map.get("content"));
+		
+		ChatDto dto = new ChatDto();
+		affected = service.insert(map);
+		
+		if(affected==0) {//입력 실패
+			return affected;
+		}
+		return affected;
+	}/////
 
 
 	
