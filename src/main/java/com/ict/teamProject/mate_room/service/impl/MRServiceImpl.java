@@ -101,4 +101,36 @@ public class MRServiceImpl implements MRService<MRDto> {
 	public void updateRoom(Map map) {
 		mapper.updateRoom(map);		
 	}
+
+	@Override
+	public Integer matchingRoom(MRDto dto) {
+		return mapper.matchingRoom(dto);
+	}
+
+	@Override
+	public List<MPDto> findparticipants(int myRoom) {
+		return mapper.findparticipants(myRoom);
+	}
+
+	@Override
+	public void matching(Map data) {
+		mapper.matching(data);
+	}
+
+	@Override
+	public Integer isMatching(int myRoom) {
+		return mapper.isMatching(myRoom);
+	}
+
+	@Override
+	public void readyMyRoom(MRDto dto) {
+		mapper.readyMyRoom(dto);
+		
+	}
+
+	@Override
+	public void deleteMatching(int myRoom) {
+		mapper.deleteMatching(myRoom);
+		
+	}
 }
