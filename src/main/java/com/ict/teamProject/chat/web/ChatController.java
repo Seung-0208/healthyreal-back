@@ -179,9 +179,57 @@ public class ChatController {
 		System.out.println("id:"+map.get("id"));
 		System.out.println("ruser:"+map.get("ruser"));
 		System.out.println("content:"+map.get("content"));
+		System.out.println("mateNo:"+map.get("mateNo"));
 		
 		ChatDto dto = new ChatDto();
-		affected = service.insert(map);
+		affected = service.mateIn(map);
+		
+		if(affected==0) {//입력 실패
+			return affected;
+		}
+		return affected;
+	}/////
+	
+	//챌린지방 챗 가져오기
+	@RequestMapping(value="/allChallChating.do")
+	@ResponseBody
+	public List<ChatDto> allChallChating(@RequestBody Map map) {
+		System.out.println("단체채팅 들어왓나??"+ map.get("mateNo"));
+		
+	    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 시간을 포함한 형식
+	    //서비스 호출
+	    List<ChatDto> records = service.allChallChat(map);
+	    //줄바꿈
+	    for (ChatDto record : records) {
+	    	if (record != null && record.getContent() != null) {
+	    	    record.setContent(record.getContent().replace("\r\n", "<br/>"));
+	    	}
+	        if (record != null && record.getSendDate() != null) {
+	            Timestamp timestamp = Timestamp.valueOf(record.getSendDate());
+	            String formattedDate = format.format(timestamp);
+	            record.setSendDate(formattedDate); 
+	        }
+	    	System.out.println("record-----"+record.getId());
+	    	System.out.println("record-----"+record.getRuser());
+	        System.out.println("record-----"+record.getContent());
+	        System.out.println("record-----"+record.getSendDate());
+	    }
+	    //뷰정보 반환
+	    return records;
+	}
+	
+	//챌린지방 채팅 입력]
+	@PostMapping("/challWrite.do")
+	@ResponseBody
+	public int challChatIn(@RequestBody Map map) {
+		int affected = 0;
+		System.out.println("id:"+map.get("id"));
+		System.out.println("ruser:"+map.get("ruser"));
+		System.out.println("content:"+map.get("content"));
+		System.out.println("mateNo:"+map.get("mateNo"));
+		
+		ChatDto dto = new ChatDto();
+		affected = service.challIn(map);
 		
 		if(affected==0) {//입력 실패
 			return affected;

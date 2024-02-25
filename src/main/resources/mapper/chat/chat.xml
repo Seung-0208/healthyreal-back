@@ -45,7 +45,17 @@
 	 
  	<!-- 메이트 챗 입력 -->
 	<insert id="mateIn" parameterType="Map">
-		INSERT INTO CHATMESSAGE VALUES(SEQ_CHATMESSAGE.NEXTVAL,3,#{id},#{ruser}#{mateNo}#{content},'N',SYSDATE)
+		INSERT INTO CHATMESSAGE VALUES(SEQ_CHATMESSAGE.NEXTVAL,3,#{id},#{ruser},#{mateNo},#{content},'N',SYSDATE)
+	</insert>
+	
+	 <!-- 챌린지 방 모든 메세지 가져오기 -->
+	 <select id="allChallChat" parameterType="map" resultMap="ChatResult">
+	 	SELECT * FROM CHATMESSAGE WHERE ROOM_TYPE = 2 and TYPE_NO = #{mateNo} ORDER BY MESSAGE_SENDDATE ASC
+	 </select>
+	 
+ 	<!-- 챌린지 챗 입력 -->
+	<insert id="challIn" parameterType="Map">
+		INSERT INTO CHATMESSAGE VALUES(SEQ_CHATMESSAGE.NEXTVAL,2,#{id},#{ruser},#{mateNo},#{content},'N',SYSDATE)
 	</insert>
 
 	

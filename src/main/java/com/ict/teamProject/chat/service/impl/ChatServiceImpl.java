@@ -57,5 +57,20 @@ public class ChatServiceImpl implements ChatService<ChatDto> {
 	public List<ChatDto> allMateChat(Map map) {
 		return mapper.allMateChat(map);
 	}
+
+	@Override
+	public int mateIn(Map map) {
+		return mapper.mateIn(map);
+	}
+
+	@Override
+	public List<ChatDto> allChallChat(Map map) {
+		return mapper.allChallChat(map);
+	}
+
+	@Override
+	public int challIn(Map map) {
+		return mapper.challIn(map);
+	}
 }
 
