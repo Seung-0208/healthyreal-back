@@ -65,4 +65,12 @@ public interface CRMapper {
 
 	void deletePeople(int challNo);
 
+	void insertEattingImpl(ImplDto dto);
+
+	void insertExerciseImpl(ImplDto dto);
+
+	void updateExerciseImpl(ImplDto dto);
+
+	void updateEattingImpl(ImplDto dto);
+
 }

@@ -309,39 +309,68 @@ public class CRController {
 	@PostMapping("/implementation.do")
 	@ResponseBody
 	public void implementation(@RequestBody Map<String, Object> data) {
-		System.out.println("이행률 변경됐는지 확인용");
-		String foodCheckCount = data.get("foodCheckCount").toString();
-		String exerciseCheckCount = data.get("exerciseCheckCount").toString();
-		String id = data.get("id").toString();
-		ImplDto dto = new ImplDto();
-		Date now = service.findImpl(id);
-		System.out.println("입력 날짜?---"+now);
-		
-		if(now == null) {
-			dto.setId(id);
-			dto.setExercise(exerciseCheckCount);
-			dto.setEatting(foodCheckCount);
-			service.insertImpl(dto);
-		} else {
-			Calendar cal1 = Calendar.getInstance();
-			Calendar cal2 = Calendar.getInstance();
-			cal1.setTime(now);
-			cal2.setTime(new Date(System.currentTimeMillis()));
-
-			if(cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && 
-			   cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) && 
-			   cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH)) {
+		if(data.get("foodCheckCount") != null) {
+			System.out.println("data.get(\"foodCheckCount\").toString()"+data.get("foodCheckCount").toString());
+			String foodCheckCount = data.get("foodCheckCount").toString();
+			String id = data.get("id").toString();
+			ImplDto dto = new ImplDto();
+			Date now = service.findImpl(id);
+			System.out.println("입력 날짜?---"+now);
+			if(now == null) {
 				dto.setId(id);
-				dto.setExercise(exerciseCheckCount);
 				dto.setEatting(foodCheckCount);
-				dto.setRecordDate(now);
-				service.updateImpl(dto);
+				service.insertEattingImpl(dto);
 			} else {
+				Calendar cal1 = Calendar.getInstance();
+				Calendar cal2 = Calendar.getInstance();
+				cal1.setTime(now);
+				cal2.setTime(new Date(System.currentTimeMillis()));
+
+				if(cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && 
+				   cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) && 
+				   cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH)) {
+					dto.setId(id);
+					dto.setEatting(foodCheckCount);
+					dto.setRecordDate(now);
+					service.updateEattingImpl(dto);
+				} else {
+					dto.setId(id);
+					dto.setEatting(foodCheckCount);
+					service.insertEattingImpl(dto);
+				}
+			}
+		}
+
+		if(data.get("exerciseCheckCount") != null) {
+			System.out.println("data.get(\"exerciseCheckCount\").toString()"+data.get("exerciseCheckCount").toString());
+			String exerciseCheckCount = data.get("exerciseCheckCount").toString();
+			String id = data.get("id").toString();
+			ImplDto dto = new ImplDto();
+			Date now = service.findImpl(id);
+			System.out.println("입력 날짜?---"+now);
+			if(now == null) {
 				dto.setId(id);
 				dto.setExercise(exerciseCheckCount);
-				dto.setEatting(foodCheckCount);
-				service.insertImpl(dto);
-			}
+				service.insertExerciseImpl(dto);
+			} else {
+				Calendar cal1 = Calendar.getInstance();
+				Calendar cal2 = Calendar.getInstance();
+				cal1.setTime(now);
+				cal2.setTime(new Date(System.currentTimeMillis()));
+
+				if(cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && 
+				   cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) && 
+				   cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH)) {
+					dto.setId(id);
+					dto.setExercise(exerciseCheckCount);
+					dto.setRecordDate(now);
+					service.updateExerciseImpl(dto);
+				} else {
+					dto.setId(id);
+					dto.setExercise(exerciseCheckCount);
+					service.insertExerciseImpl(dto);
+				}
+			}			
 		}
 	}
 	

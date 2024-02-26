@@ -57,9 +57,18 @@ public interface CRService<T> {
 
 	String findGoalOfNum(int challNo);
 
-	void implinsert(Map map);
 
 	void deletePeople(int challNo);
+
+	void insertEattingImpl(ImplDto dto);
+
+	void insertExerciseImpl(ImplDto dto);
+
+	void updateExerciseImpl(ImplDto dto);
+
+	void updateEattingImpl(ImplDto dto);
+
+	void implinsert(Map map);
 
 	
 }
