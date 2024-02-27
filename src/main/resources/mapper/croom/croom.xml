@@ -178,8 +178,13 @@
 	<!-- 이행률 찾기 -->
 	<select id="findImplAll" parameterType="String" resultMap="IMResult">
 		SELECT *
-		FROM CHALLENGE_RECORD 
-		WHERE id =#{id}
+		FROM (
+		  SELECT *
+		  FROM CHALLENGE_RECORD
+		  WHERE id = #{id}
+		  ORDER BY RECORD_DATE DESC
+		)
+		WHERE ROWNUM = 1
 	</select>
 	
 	<!-- 이행률 변경 -->
