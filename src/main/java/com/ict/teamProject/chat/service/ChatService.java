@@ -28,4 +28,10 @@ public interface ChatService<T> {
 
 	List<ChatDto> allMateChat(Map map);
 
+	int mateIn(Map map);
+
+	List<ChatDto> allChallChat(Map map);
+
+	int challIn(Map map);
+
 }

@@ -141,6 +141,7 @@ public class MRController {
 		room = service.selectMyRoom(id);
 		service.deletep(id);
 		System.out.println("room:"+room);
+		service.deleteMatching(room);
 		affected = service.delete(room);
 		System.out.println("너의 삭제된 방 번호는?"+room);
 		return affected;
@@ -218,11 +219,14 @@ public class MRController {
 	@PostMapping("/roomData.do")
 	@ResponseBody
 	public MRDto roomData(@RequestBody Map map) {
-	    System.out.println("challNo----"+Integer.parseInt(map.get("challNo").toString()));
-	    int challNo = Integer.parseInt(map.get("challNo").toString());
-	    MRDto dto = new MRDto();
-	    dto = service.findRoomData(challNo);
-	    return dto;
+		if(map.get("challNo") != null) {
+			System.out.println("challNo----"+Integer.parseInt(map.get("challNo").toString()));
+		    int challNo = Integer.parseInt(map.get("challNo").toString());
+		    MRDto dto = new MRDto();
+		    dto = service.findRoomData(challNo);
+		    return dto;
+		}
+		return null;
 	}/////
 	
 	//방장이 방 나갔을때]
@@ -269,6 +273,67 @@ public class MRController {
 			map.put("open", 'N');
 		
 		service.updateRoom(map);
+	}/////
+	
+	//매칭 시작]
+	@PostMapping("/start.do")
+	@ResponseBody
+	public void startMatching(@RequestBody Map map) {
+		System.out.println("map.get(\"roomNo\")"+map.get("roomNo").toString());
+		MRDto dto = new MRDto();
+		int myRoom = Integer.parseInt(map.get("roomNo").toString());
+		dto = service.findRoomData(myRoom);
+		System.out.println("메이트 장소:---"+ dto.getMateArea());
+		String area = dto.getMateArea().substring(0, 2);
+		dto.setMateArea(area);
+		System.out.println("메이트 날짜:---"+ dto.getMateDate());
+		int joinP = Integer.parseInt(map.get("people").toString());
+		int people = dto.getMateCapacity()-joinP;
+		dto.setMateCapacity(people);
+		Integer room = service.matchingRoom(dto);
+		if(room != null) {
+			if(room < myRoom) {
+				List<MPDto> result = service.findparticipants(myRoom);
+				service.deleteMatching(room);
+				service.deleteMatching(myRoom);
+				service.deletePeople(myRoom);
+				service.delete(myRoom);
+				for(MPDto p : result) {
+					p.setMateNo(room);
+					service.join(p);
+				}
+				Map data = new HashMap();
+				data.put("myRoom", myRoom);
+				data.put("room", room);
+				service.matching(data);
+
+			} else {
+				System.out.println("--------------1--------------");
+				List<MPDto> result = service.findparticipants(room);
+				System.out.println("--------------2--------------");
+				service.deleteMatching(room);
+				service.deleteMatching(myRoom);
+				service.deletePeople(room);
+				System.out.println("--------------3--------------");
+				service.delete(room);
+				for(MPDto p : result) {
+					p.setMateNo(myRoom);
+					service.join(p);
+				}
+				System.out.println("--------------4--------------");
+				Map data = new HashMap();
+				data.put("myRoom", room);
+				data.put("room", myRoom);
+				System.out.println("--------------5--------------");
+				service.matching(data);
+				
+			}
+		}else {
+			Integer matchingRoom = service.isMatching(myRoom);
+			if(matchingRoom == null) {
+				service.readyMyRoom(dto);
+			}
+		}
 	}/////
 
 }

@@ -151,4 +151,28 @@ public class CRServiceImpl implements CRService<CRDto> {
 		mapper.deletePeople(challNo);
 		
 	}
+
+	@Override
+	public void insertEattingImpl(ImplDto dto) {
+		mapper.insertEattingImpl(dto);
+		
+	}
+
+	@Override
+	public void insertExerciseImpl(ImplDto dto) {
+		mapper.insertExerciseImpl(dto);
+		
+	}
+
+	@Override
+	public void updateExerciseImpl(ImplDto dto) {
+		mapper.updateExerciseImpl(dto);
+		
+	}
+
+	@Override
+	public void updateEattingImpl(ImplDto dto) {
+		mapper.updateEattingImpl(dto);
+		
+	}
 }

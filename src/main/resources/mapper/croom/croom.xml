@@ -155,8 +155,12 @@
 	</select>
 	
 	<!-- 이행률 반영 -->
-	<insert id="insertImpl" parameterType="IM">
-		INSERT INTO CHALLENGE_RECORD VALUES(#{id},#{exercise},#{eatting},SYSDATE)
+	<insert id="insertEattingImpl" parameterType="IM">
+		INSERT INTO CHALLENGE_RECORD VALUES(#{id},0,#{eatting},SYSDATE)
+	</insert>
+	<!-- 이행률 반영 -->
+	<insert id="insertExerciseImpl" parameterType="IM">
+		INSERT INTO CHALLENGE_RECORD VALUES(#{id},#{exercise},0,SYSDATE)
 	</insert>
 	
 	<!-- 이행률 찾기 -->
@@ -174,10 +178,30 @@
 	<!-- 이행률 찾기 -->
 	<select id="findImplAll" parameterType="String" resultMap="IMResult">
 		SELECT *
-		FROM CHALLENGE_RECORD 
-		WHERE id =#{id}
+		FROM (
+		  SELECT *
+		  FROM CHALLENGE_RECORD
+		  WHERE id = #{id}
+		  ORDER BY RECORD_DATE DESC
+		)
+		WHERE ROWNUM = 1
 	</select>
 	
+	<!-- 이행률 변경 -->
+	<update id="updateEattingImpl" parameterType="IM" >
+		UPDATE CHALLENGE_RECORD SET EATING=#{eatting} WHERE id =#{id} and RECORD_DATE = #{recordDate}
+	</update>
+	
+	<!-- 이행률 변경 -->
+	<update id="updateExerciseImpl" parameterType="IM" >
+		UPDATE CHALLENGE_RECORD SET EXERCISE=#{exercise} WHERE id =#{id} and RECORD_DATE = #{recordDate}
+	</update>
+
+	<!-- 이행률 반영 -->
+	<insert id="insertImpl" parameterType="IM">
+		INSERT INTO CHALLENGE_RECORD VALUES(#{id},#{exercise},#{eatting},SYSDATE)
+	</insert>
+
 	<!-- 이행률 변경 -->
 	<update id="updateImpl" parameterType="IM" >
 		UPDATE CHALLENGE_RECORD SET EXERCISE=#{exercise}, EATING=#{eatting} WHERE id =#{id} and RECORD_DATE = #{recordDate}

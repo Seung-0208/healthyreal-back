@@ -45,6 +45,16 @@ public interface MRMapper {
 
 	void updateRoom(Map map);
 
-	
+	Integer matchingRoom(MRDto dto);
+
+	List<MPDto> findparticipants(int myRoom);
+
+	void matching(Map data);
+
+	Integer isMatching(int myRoom);
+
+	void readyMyRoom(MRDto dto);
+
+	void deleteMatching(int myRoom);
 
 }

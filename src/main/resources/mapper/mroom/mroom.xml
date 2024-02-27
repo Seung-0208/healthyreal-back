@@ -35,7 +35,7 @@
 	</insert>
 	
 	<!-- 방생성 -->
-	<insert id="insertP" parameterType="CP">
+	<insert id="insertP" parameterType="MP">
 		INSERT INTO MATEROOM_PARTICIPANTS VALUES(SEQ_MRP.NEXTVAL,#{mateNo},#{id},'Y')
 	</insert>
 	
@@ -76,11 +76,11 @@
 	
 	<!-- 해당 방 참여자 삭제 -->
 	<delete id="deletePeople" parameterType="int">
-	  DELETE FROM MATEROOM_PARTICIPANTS WHERE Chall_NO = #{mateNo}
+	  DELETE FROM MATEROOM_PARTICIPANTS WHERE MR_NO = #{mateNo}
 	</delete>
 	
 	<!-- 방 입장 -->
-	<insert id="join" parameterType="CP">
+	<insert id="join" parameterType="MP">
 		INSERT INTO MATEROOM_PARTICIPANTS VALUES(SEQ_MRP.NEXTVAL,#{mateNo},#{id},'N')
 	</insert>
 	
@@ -108,5 +108,46 @@
 	<update id="updateRoom" parameterType="map" >
 		UPDATE MATEROOM SET MR_DISCLOSUREYN =#{open} WHERE MR_NO = #{mateNo}
 	</update>
+	
+	<!-- 일치하는 방 찾기 -->
+	<select id="matchingRoom" parameterType="MRoom" resultType="Integer">
+	    SELECT MR_NO
+	    FROM (
+	        SELECT MR_NO
+	        FROM MATCHING_STATUS
+	        WHERE MS_SPORTS = #{mateSport} and  MS_AREA=#{mateArea} and MS_DATE = #{mateDate} and MS_PEOPLE = #{mateCapacity}
+	        ORDER BY MS_NO ASC) 
+	    WHERE ROWNUM = 1
+	</select>
+	
+	<!-- 방에 참여자 가져오기  -->
+	<select id="findparticipants" parameterType="int" resultType="MP" >
+		SELECT *
+    	FROM MATEROOM_PARTICIPANTS
+    	WHERE MR_NO = #{myRoom}
+	</select>
+	
+	
+	<!-- 방 매칭방 해주기  -->
+	<update id="matching" parameterType="map">
+		UPDATE MATEROOM SET MATCHING_ROOMNO =#{myRoom} WHERE MR_NO=#{room}
+	</update>
+	
+	<!--매칭 대기에서 삭제 해주기  -->
+	<delete id="deleteMatching" parameterType="int">
+	  DELETE FROM MATCHING_STATUS WHERE MR_NO = #{mateNo}
+	</delete>
+	
+	<!-- 자기 방이 매칭 됐는지 확인하기  -->
+	<select id="isMatching" parameterType="int" resultType="int">
+		SELECT MR_NO
+    	FROM MATEROOM
+    	WHERE MATCHING_ROOMNO = #{myRoom}
+	</select>
+	
+	<!-- 대기방에 자기 방 넣기  -->
+	<insert id="readyMyRoom" parameterType="MRoom">
+		INSERT INTO MATCHING_STATUS VALUES(SEQ_MATCHING_STATUS.NEXTVAL,#{mateNo},#{mateSport},#{mateArea},#{mateDate},#{mateCapacity})
+	</insert>
 	
 </mapper>
