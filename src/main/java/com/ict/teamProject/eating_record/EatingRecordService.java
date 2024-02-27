@@ -39,6 +39,9 @@ public class EatingRecordService {
 	public int defaultddata(String id) {
 		return mapper.defaultddata(id);
 	}
+	public List getrecipeNingredients(int eating_recipeCode) {
+		return mapper.getrecipeNingredients(eating_recipeCode);
+	}
 	
 //	public List<Map<String, Object>> getIngredients(int recipeCode) {
 //	    return mapper.getIngredients(recipeCode);

@@ -28,5 +28,5 @@ public class EatingRecordDto {
 	private String recipe_url;
 	private String recipe_seq;
 	private String recipe_img;
-//	private List<Map<String, Object>> ingredients;
+	private List<Map<String, Object>> ingredients;
 }
