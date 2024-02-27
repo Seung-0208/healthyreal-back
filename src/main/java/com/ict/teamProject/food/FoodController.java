@@ -42,8 +42,13 @@ public class FoodController {
 	public List<FoodListDto> findAllList(String id, String category){
 		System.out.println("받은 이름:"+id);
 		System.out.println("받은 카테고리:"+category);
-		List<FoodListDto> foodlist = service.findrecipe(id, category);
-//		System.out.println("레시피 : "+foodlist);
-		return foodlist;
+		if(category == null || category.equals("전체")) {
+			System.out.println("들어왔나..?");
+			List<FoodListDto> foodlist = service.findAllrecipe(id);
+			return foodlist;
+		}else {
+			List<FoodListDto> foodlist = service.findrecipe(id, category);
+			return foodlist;
+		}
 	}
 }

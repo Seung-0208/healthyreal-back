@@ -20,4 +20,5 @@ public interface EatingRecordMapper {
 	int defaultbdata(String id);
 	int defaultldata(String id);
 	int defaultddata(String id);
+	List getrecipeNingredients(int eating_recipeCode);
 }

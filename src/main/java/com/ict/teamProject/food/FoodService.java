@@ -20,4 +20,9 @@ public class FoodService {
 	public List<FoodListDto> findrecipe(String id, String category) {
 		return mapper.findrecipe(id, category);
 	}
+
+
+	public List<FoodListDto> findAllrecipe(String id) {
+		return mapper.findAllrecipe(id);
+	}
 }

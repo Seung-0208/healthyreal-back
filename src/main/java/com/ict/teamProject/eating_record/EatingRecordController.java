@@ -89,6 +89,8 @@ public class EatingRecordController {
         System.out.println("가져온 데이터를 보자 : ");
         for (EatingRecordDto record : ERList) {
             System.out.println(record.toString());
+//            List recipeNingredients = service.getrecipeNingredients(record.geteating_recipeCode());
+//            record.setingredients(recipeNingredients); // 조회한 재료를 EatingRecordDto에 설정
         }
         return ERList;
     }

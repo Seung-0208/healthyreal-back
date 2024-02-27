@@ -16,4 +16,6 @@ import com.ict.teamProject.selftest.dto.InbodyInfoDto;
 @Mapper
 public interface FoodMapper {
 	public List<FoodListDto> findrecipe(String id, String category);
+
+	public List<FoodListDto> findAllrecipe(String id);
 }
