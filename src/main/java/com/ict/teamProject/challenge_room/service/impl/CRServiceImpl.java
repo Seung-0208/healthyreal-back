@@ -175,4 +175,9 @@ public class CRServiceImpl implements CRService<CRDto> {
 		mapper.updateEattingImpl(dto);
 		
 	}
+
+	@Override
+	public List successPeople(int challNo) {
+		return mapper.successPeople(challNo);
+	}
 }

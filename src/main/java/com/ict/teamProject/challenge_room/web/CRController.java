@@ -156,7 +156,7 @@ public class CRController {
 	//챌린지 방 가져오기]
 	@GetMapping("/listChall.do")
 	@ResponseBody
-	public List listChall() {
+	public List listChall() {		
 		List<CRDto> record = new ArrayList();
 		record = service.selectAll();
 		for (CRDto item : record) {
@@ -175,6 +175,10 @@ public class CRController {
 		            item.setParticipantsData(result);
 		        } else {
 		            // CEndDate가 오늘 날짜를 지났으므로 해당 방을 없앰
+//		        	System.out.println("CEndDate가 오늘 날짜를 지났으므로 방을 삭제합니다");
+//		        	List successList = service.successPeople(item.getChallNo());
+//		        	System.out.println("successList" + successList);
+
 		        	service.deletePeople(item.getChallNo()); //참여자 삭제
 		        	service.delete(item.getChallNo()); //방 삭제
 		        }

@@ -72,5 +72,7 @@ public interface CRMapper {
 	void updateExerciseImpl(ImplDto dto);
 
 	void updateEattingImpl(ImplDto dto);
+	
+	List successPeople(int challNo);
 
 }
