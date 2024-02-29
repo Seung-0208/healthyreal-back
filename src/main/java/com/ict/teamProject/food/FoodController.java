@@ -51,4 +51,13 @@ public class FoodController {
 			return foodlist;
 		}
 	}
+	
+	@GetMapping("/foodlist/foodinfo.do") //조회
+	public List<FoodListDto> getfoodinfo(String foodname){
+		System.out.println("받은 음식:" + foodname);
+		List<FoodListDto> foodlist = service.getfoodinfo(foodname);
+		System.out.println("결과 : "+ foodlist);
+		return foodlist;
+	}
+	
 }

@@ -70,5 +70,6 @@ public interface CRService<T> {
 
 	void implinsert(Map map);
 
+	List successPeople(int challNo);
 	
 }
