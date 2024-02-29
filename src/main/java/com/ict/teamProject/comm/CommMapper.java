@@ -36,4 +36,7 @@ public interface CommMapper {
 	public void updateSubscribe(Map<String, String> ids); //구독하기
 	public void postFriendORMateRequest(Map<String, String> idsNtype); //친구 또는 메이트 요청보내기
 	public void saveMateForWarning(Map<String, String> idsNReason); //신고리스트에 값 추가
+	public int getAllUserNum(); //모든 사용자 수 얻기
+	public List<String> findAllUserId(); //모든 유저 아이디 얻기
+	
 }

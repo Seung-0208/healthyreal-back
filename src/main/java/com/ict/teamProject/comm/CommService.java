@@ -1,8 +1,12 @@
 package com.ict.teamProject.comm;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.stereotype.Service;
 
@@ -121,5 +125,35 @@ public class CommService {
 		mapper.deleteMate(idsNReason);
 		//(메이트 신고용)신고리스트에 값 추가
 		mapper.saveMateForWarning(idsNReason);
+	}
+	
+	//랜덤으로 친구목록(5명) 생성
+	public Map<String,String> getRandomFriendList(String id){
+		
+		Map<String,String> friends = new HashMap<String, String>();
+		List<Integer> friendsIndex = new ArrayList<Integer>(); //생성한 난수를 담아줄 변수(중복난수판단용)
+		
+		List<String> allUsersExceptFriend = new ArrayList<String>(); //모든 유저 아이디
+		allUsersExceptFriend = mapper.findAllUserId();
+		for(FriendDto dto : mapper.findAllFriendsById(id)) { //이미 친구인 유저의 아이디 제거
+			allUsersExceptFriend.remove(dto.getFriend_id());
+		}
+		allUsersExceptFriend.remove(id);//접속자의 아이디 제외
+		allUsersExceptFriend.remove("google"); //google 키 넣어놓은 값도 제외
+		
+		int count = allUsersExceptFriend.size();
+		
+		Random rd = new Random(); //인덱스로 사용할 난수 생성하기
+		int i=0;
+		while(i<5) {
+			int temp = rd.nextInt(count-1);
+			if(!friendsIndex.contains(temp)) { //이미 생성된 난수가 아니라면 실행되는 코드
+				friendsIndex.add(temp);
+				String tempid = allUsersExceptFriend.get(temp);
+				friends.put(tempid, findProPathById(tempid));
+				i++;
+			}
+		}
+		return friends;
 	}
 }

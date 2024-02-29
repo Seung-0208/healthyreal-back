@@ -31,6 +31,7 @@ import com.ict.teamProject.bbs.service.BBSDto;
 import com.ict.teamProject.bbs.service.BBSService;
 import com.ict.teamProject.bbs.service.BBSUsersProfileDto;
 import com.ict.teamProject.bbs.service.LikesDto;
+import com.ict.teamProject.comm.CommService;
 import com.ict.teamProject.command.FileUtils;
 
 
@@ -45,6 +46,7 @@ public class BBSController {
 	//서비스 주입
 	@Autowired
 	private BBSService<BBSDto> service;
+	
 	
 	//입력처리]
 	@PostMapping("/Write.do")

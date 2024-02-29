@@ -157,7 +157,6 @@ public class CommController {
 	}
 	
 	@PutMapping("/intro/update")
-	
 	public void updateInro(@RequestBody Map<String, Object> requestBody) {
 	    String id = (String) requestBody.get("id");
 	    String proIntroduction = (String) requestBody.get("proIntroduction");
@@ -189,12 +188,10 @@ public class CommController {
 				.proIntroduction(service.findIntroductionById(id))
 				.date(service.findJoinDateById(id))
 				.build();
-		System.out.println("너의 이름은?"+dto.getProfilePath()+ dto.getProIntroduction());
 		return dto;
 	}
 	
     // 파일 업로드 처리
-	@CrossOrigin(origins = "http://localhost:3333")
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public void uploadFile(MultipartFile file) throws IOException {
 	    System.out.println("파일 업로드"+file);
@@ -235,5 +232,11 @@ public class CommController {
 	@PostMapping("/mate/reportwarning")
 	public void reportWarningMate(@RequestBody Map map) {
 		service.reportWarningMate(map);
+	}
+	
+	//랜덤 친구 추천 
+	@GetMapping("/friend/random")
+	public Map<String,String> getRandomFriends(@RequestParam String id){
+		return service.getRandomFriendList(id);
 	}
 }

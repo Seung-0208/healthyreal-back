@@ -42,6 +42,7 @@
 		SELECT REGIDATE FROM member
 		WHERE ID = #{id}
 	</select>
+	
 	<update id="putFriendBlocking" parameterType="Map">
 		UPDATE FRIEND_LIST SET FRIEND_BLOCKING = 'Y' WHERE FRIEND_ID = #{id} and ID = #{userId}
 	</update>
@@ -89,4 +90,14 @@
 	<update id="updateIntro" parameterType="Map">
 		UPDATE PROFILE SET PRO_INTRODUCTION = #{proIntroduction} WHERE id = #{id}
 	</update>
+	
+	<!-- 모든 사용자 수 얻기 -->
+	<select id="getAllUserNum" resultType="Integer">
+		SELECT COUNT(*) FROM member
+	</select>
+	
+	<!-- 모든 유저 아이디 얻기 -->
+	<select id="findAllUserId" resultType="String">
+		SELECT ID FROM MEMBER
+	</select>
 </mapper>
