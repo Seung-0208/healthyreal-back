@@ -58,6 +58,5 @@ public class FoodController {
 		List<FoodListDto> foodlist = service.getfoodinfo(foodname);
 		System.out.println("결과 : "+ foodlist);
 		return foodlist;
-	}
-	
+	}	
 }
