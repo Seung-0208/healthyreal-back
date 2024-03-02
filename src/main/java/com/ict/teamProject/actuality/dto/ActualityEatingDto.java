@@ -21,10 +21,11 @@ public class ActualityEatingDto {
 	private Date ae_date;
 	private String ae_diettype;
 	private String ae_foodname;
-	private int calory;
-	private int carbohydrate;
-	private int protein;
-	private int fat;
-	private int sodium;
-	private int cholesterol;
+	private String foodname;
+	private int total_calory;
+	private int total_carbohydrate;
+	private int total_protein;
+	private int total_fat;
+	private int total_sodium;
+	private int total_cholesterol;
 }

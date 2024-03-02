@@ -55,7 +55,6 @@ public class ActualityController {
 		List<ActualityEatingDto> list = service.dailyActuality(id);
 //		for(ActualityEatingDto l : list) {
 //			System.out.println("가져온 Id 값은?"+l.getId());
-//			System.out.println("가져온 foodname 값은?"+l.getAe_foodname());
 //		}		
 		return list;
 	}

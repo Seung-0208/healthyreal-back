@@ -8,17 +8,38 @@
 		Insert INTO actuality_eating(id, ae_diettype, ae_foodname) Values(#{id}, #{ae_diettype}, #{ae_foodname})
 	</insert>
 	
+	<!--  
 	<select id="dailyActuality" resultType="ActualityEatingDto">
-		SELECT ae.*, fl.calory,fl.carbohydrate,fl.protein,fl.fat,fl.sodium,fl.cholesterol FROM
-			(SELECT * FROM actuality_eating WHERE id = #{id} And TO_CHAR(ae_date, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')) ae
-			JOIN foodlist fl ON ae.ae_foodname = fl.foodname
+		SELECT ae.*,fl.foodname, fl.calory, fl.carbohydrate, fl.protein, fl.fat, fl.sodium, fl.cholesterol
+			FROM actuality_eating ae
+			JOIN foodlist fl ON INSTR(',' || ae.ae_foodname || ',', ',' || fl.foodname || ',') > 0
+			WHERE ae.id = #{id} AND TO_CHAR(ae.ae_date, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 			ORDER BY 
 			    CASE 
 			        WHEN ae_diettype = '아침' THEN 1
 			        WHEN ae_diettype = '점심' THEN 2
 			        ELSE 3
-			    END
-		        
+			    END		        
+	</select>
+	-->
+	<select id="dailyActuality" resultType="ActualityEatingDto">
+	SELECT ae.ae_diettype,
+       SUM(fl.calory) AS total_calory,
+       SUM(fl.carbohydrate) AS total_carbohydrate,
+       SUM(fl.protein) AS total_protein,
+       SUM(fl.fat) AS total_fat,
+       SUM(fl.sodium) AS total_sodium,
+       SUM(fl.cholesterol) AS total_cholesterol
+	FROM actuality_eating ae
+	JOIN foodlist fl ON INSTR(',' || ae.ae_foodname || ',', ',' || fl.foodname || ',') > 0
+	WHERE ae.id = #{id} AND TO_CHAR(ae.ae_date, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	GROUP BY ae.ae_diettype
+	ORDER BY 
+	    CASE 
+	        WHEN ae.ae_diettype = '아침' THEN 1
+	        WHEN ae.ae_diettype = '점심' THEN 2
+	        ELSE 3
+	    END
 	</select>
 	
 	<select id="checkdailydiet" resultType="int">
