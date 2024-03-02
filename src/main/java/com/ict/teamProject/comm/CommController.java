@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,8 +75,6 @@ public class CommController {
 	@GetMapping("/friend") //조회
 	public List<FriendDto> getAllFriends(@RequestParam String id){
 		List<FriendDto> friends = service.findAllFriendsById(id);
-		System.out.println("나는 누구인가?"+id);
-		System.out.println("friends:"+friends);
 		for(FriendDto f : friends) {
 			f.setName(service.findNameById(f.getFriend_id()));
 			f.setFNum(service.findFMSnumById(f.getFriend_id(), "f"));
@@ -234,9 +233,28 @@ public class CommController {
 		service.reportWarningMate(map);
 	}
 	
-	//랜덤 친구 추천 
+	//(게시판용)랜덤 친구 추천 
 	@GetMapping("/friend/random")
 	public Map<String,String> getRandomFriends(@RequestParam String id){
 		return service.getRandomFriendList(id);
+	}
+	
+	//(친구 목록 페이지 용)랜덤 친구 추천
+	@GetMapping("/randomfriend") //조회
+	public List<FriendDto> getRandomFriendsForListPage(@RequestParam String id){
+		Map<String, String> recommendList = service.getRandomFriendList(id); //랜덤 유저 리스트
+		List<FriendDto> friends = new ArrayList<FriendDto>();
+		for(String tempid:recommendList.keySet()) {
+			FriendDto f = new FriendDto().builder()
+					.friend_id(tempid)
+					.name(service.findNameById(tempid))
+					.fNum(service.findFMSnumById(tempid, "f"))
+					.sNum(service.findFMSnumById(tempid, "s"))
+					.mNum(service.findFMSnumById(tempid, "m"))
+					.profilePath(recommendList.get(tempid))
+					.build();
+			friends.add(f);
+		}
+		return friends;
 	}
 }

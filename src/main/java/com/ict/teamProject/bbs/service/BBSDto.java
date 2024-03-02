@@ -27,4 +27,5 @@ public class BBSDto {
 	private String likes;
 	private int likesnum;
 	private String profilepath;
+	private int isSubto; //구독된 상태인지 체크
 }

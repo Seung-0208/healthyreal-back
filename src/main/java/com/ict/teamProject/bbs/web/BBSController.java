@@ -32,6 +32,7 @@ import com.ict.teamProject.bbs.service.BBSService;
 import com.ict.teamProject.bbs.service.BBSUsersProfileDto;
 import com.ict.teamProject.bbs.service.LikesDto;
 import com.ict.teamProject.comm.CommService;
+import com.ict.teamProject.comm.dto.SubscribeToDto;
 import com.ict.teamProject.command.FileUtils;
 
 
@@ -46,6 +47,9 @@ public class BBSController {
 	//서비스 주입
 	@Autowired
 	private BBSService<BBSDto> service;
+	
+	@Autowired
+	private CommService commservice;
 	
 	
 	//입력처리]
@@ -188,6 +192,15 @@ public class BBSController {
 	    System.out.println("types----"+map.get("types"));
 	    //서비스 호출
 	    List<BBSDto> records = service.selectAll(map);
+	    //구독목록
+	    List<String> subs = new ArrayList<>();
+	    if(map.get("id") != null) {
+	    	System.out.println("map.get(id):"+map.get("id"));
+	    	for(SubscribeToDto dto : commservice.findAllSubToById(String.valueOf(map.get("id")))) {
+	    		subs.add(dto.getSubscribe_id());
+	    	}
+	    	System.out.println("subs:"+subs.size());
+	    }
 	    System.out.println("records:"+records);
 	    for (BBSDto record : records) {
 	        int bno = record.getBno();
@@ -195,9 +208,16 @@ public class BBSController {
 	        List<String> files = service.selectFiles(bno);
 	        record.setFiles(files);  // 게시글에 파일들을 추가
 	        record.setContent(record.getContent().replace("\r\n", "<br/>"));
+	        if(subs != null) {
+	        	System.out.println("record.getId()"+record.getId());
+	        	int subToFlag = subs.contains(String.valueOf(record.getId())) ? 1 : 0;
+		        record.setIsSubto(subToFlag);
+	        }
+	        record.setProfilepath(service.findProfilePathById(record.getId()));
 	        System.out.println("files:"+record.getFiles());
 	        System.out.println("record.likes()"+record.getLikes());
 	        System.out.println("record.type()"+record.getType());
+	        System.out.println("record.getIsSubto()"+record.getIsSubto());
 	    }
 	    
 		return records;
