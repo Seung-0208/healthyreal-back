@@ -45,4 +45,8 @@ public class ManageService {
 			return 0;
 		}
 	}
+
+	public DiaryDto findAllusertext(String id) {
+		return mapper.findAllusertext(id);
+	}
 }

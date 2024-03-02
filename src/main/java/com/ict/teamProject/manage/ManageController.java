@@ -90,4 +90,10 @@ public class ManageController {
 		
 		return service.uploadDiaryContentsById(diary, imgs);
 	}
+	
+	@GetMapping("/diartext/alltext")
+	public DiaryDto getUsertext(@RequestParam String id) {
+		System.out.println("다이어리 : "+id);
+		return service.findAllusertext(id);
+	}
 }

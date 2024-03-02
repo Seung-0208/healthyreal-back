@@ -13,4 +13,5 @@ public interface ManageMapper {
 	public List<String> findDiaryImgUrlsByDiaryId(String diaryId); //다이어리에 들어간 사진 뿌려주기 용
 	public int uploadDiaryById(DiaryDto diaryDto); //다이어리 내용 입력용
 	public int uploadDiaryImageById(List<DiaryImagesDto> imgs); //다이어리 사진 입력용
+	public DiaryDto findAllusertext(String id);
 }

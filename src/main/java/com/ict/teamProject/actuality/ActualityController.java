@@ -58,4 +58,10 @@ public class ActualityController {
 //		}		
 		return list;
 	}
+	
+	@GetMapping("/Actuality/dalilyNutri.do") //조회
+	public List<ActualityEatingDto> getDailyNutri(String id){
+		List<ActualityEatingDto> list = service.dailyActuality(id);
+		return list;
+	}	
 }

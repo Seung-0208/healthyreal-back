@@ -23,4 +23,8 @@
 		</foreach>
 	</update>
 	
+	<!-- 유저가 작성한 모든 텍스트 가져오기 -->
+	<select id="findAllusertext" parameterType="String" resultType="DiaryDto">
+		SELECT * FROM DIARY WHERE id = #{id}
+	</select>	
 </mapper>
