@@ -29,8 +29,11 @@ import com.ict.teamProject.comm.dto.MySubscriberDto;
 import com.ict.teamProject.comm.dto.SubscribeToDto;
 import com.ict.teamProject.comm.dto.UserProfileDto;
 import com.ict.teamProject.command.FileUtils;
+import com.ict.teamProject.s3.S3UploadService;
 
 import jakarta.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import java.nio.file.StandardCopyOption;
 
@@ -38,6 +41,10 @@ import java.nio.file.StandardCopyOption;
 @RequestMapping("/comm")
 @CrossOrigin(origins = "http://localhost:3333")
 public class CommController {
+	
+	@Autowired
+	private S3UploadService s3UploadService;
+	
 	CommService service;
 	public CommController(CommService service) {
 		this.service = service;
@@ -194,32 +201,9 @@ public class CommController {
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public void uploadFile(MultipartFile file) throws IOException {
 	    System.out.println("파일 업로드"+file);
-
-	    String uploadDirectory = "E:/images/";  // 파일을 저장할 디렉토리
-	    String uploadimages = "src/main/resources/static/images/";
 	    if (file != null) {
 		    try {
-		        Path uploadPath = Paths.get(uploadDirectory);
-		        Path uploadimagePath = Paths.get(uploadimages);
-		        if (!Files.exists(uploadPath)) {
-		            Files.createDirectories(uploadPath);// 디렉토리가 없으면 생성
-		        }
-		        if (!Files.exists(uploadimagePath)) {
-		            Files.createDirectories(uploadimagePath);// 디렉토리가 없으면 생성
-		        }
-		        String filename = file.getOriginalFilename();
-		        String newFilename = FileUtils.getNewFileName(uploadDirectory, filename);
-		        Path filePath = uploadPath.resolve(newFilename);  // 파일이 저장될 경로
-		        Path fileimgaePath = uploadimagePath.resolve(newFilename);  // 파일이 저장될 경로
-		        String filePathStr = filePath.toString().replace("\\", "/");  // 역슬래시를 슬래시로 바꾸기
-		            
-//		        String baseUrl = "http://localhost:4000";  // 기본 URL
-		        String imagePath = filePathStr.substring(filePathStr.indexOf("/images"));
-		        imagePath = filePathStr.replace("D:/images", "/images");
-		            
-		        file.transferTo(filePath);  // 파일 저장
-		        file.transferTo(fileimgaePath);  // 파일 저장
-		        System.out.println("fileimgaePath:---"+fileimgaePath);
+		    	String imageUrl = s3UploadService.saveFile(file);
 		   }catch (IOException e) {
 		        e.printStackTrace();
 		   }

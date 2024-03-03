@@ -34,6 +34,7 @@ import com.ict.teamProject.bbs.service.LikesDto;
 import com.ict.teamProject.comm.CommService;
 import com.ict.teamProject.comm.dto.SubscribeToDto;
 import com.ict.teamProject.command.FileUtils;
+import com.ict.teamProject.s3.S3UploadService;
 
 
 
@@ -47,6 +48,9 @@ public class BBSController {
 	//서비스 주입
 	@Autowired
 	private BBSService<BBSDto> service;
+	
+	@Autowired
+	private S3UploadService s3UploadService;
 	
 	@Autowired
 	private CommService commservice;
@@ -86,37 +90,17 @@ public class BBSController {
 
 		    }
 		}
-		
-	    String uploadDirectory = "E:/images/";  // 파일을 저장할 디렉토리
-	    String uploadimages = "src/main/resources/static/images/";
+	
 	    if (files != null) {
 		    try {
-		        Path uploadPath = Paths.get(uploadDirectory);
-		        Path uploadimagePath = Paths.get(uploadimages);
-		        if (!Files.exists(uploadPath)) {
-		            Files.createDirectories(uploadPath);// 디렉토리가 없으면 생성
-		        }
-		        if (!Files.exists(uploadimagePath)) {
-		            Files.createDirectories(uploadimagePath);// 디렉토리가 없으면 생성
-		        }
 		        for (MultipartFile file : files) {
+		            // S3에 업로드하고 URL을 가져옴
+		            String imageUrl = s3UploadService.saveFile(file);
 		            String filename = file.getOriginalFilename();
-		            String newFilename = FileUtils.getNewFileName(uploadDirectory, filename);
-		            Path filePath = uploadPath.resolve(newFilename);  // 파일이 저장될 경로
-		            Path fileimgaePath = uploadimagePath.resolve(newFilename);  // 파일이 저장될 경로
-		            String filePathStr = filePath.toString().replace("\\", "/");  // 역슬래시를 슬래시로 바꾸기
-		            
-		            String baseUrl = "http://localhost:4000";  // 기본 URL
-		            String imagePath = filePathStr.substring(filePathStr.indexOf("/images"));
-		            imagePath = filePathStr.replace("E:/images", "/images");
-		            
-		    		map.put("urls", baseUrl+imagePath);
-		    		map.put("names", newFilename);
-		    	    System.out.println(map.get("urls"));
-		    	    System.out.println(map.get("names"));
-		            file.transferTo(filePath);  // 파일 저장
-		            file.transferTo(fileimgaePath);  // 파일 저장
-		            System.out.println("fileimgaePath:---"+fileimgaePath);
+
+		            map.put("urls", imageUrl);
+		            map.put("names", filename);
+
 		            affected += service.insertFile(map);
 		        }
 		    } catch (IOException e) {
