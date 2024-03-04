@@ -9,6 +9,12 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -43,7 +49,13 @@ public class EmailService {
             helper.setText("다음 링크를 클릭하여 이메일 인증을 완료해주세요: " + link + "<br>" + linkedImage, true);
 
             // 이미지 첨부
-            FileSystemResource file = new FileSystemResource(new File("E:/workspace/JAVA/Team/Team-project/src/main/resources/static/images/logo.png"));
+            URL imageUrl = new URL("https://teamprojectimg.s3.ap-northeast-2.amazonaws.com/image/logo.png");
+            Path imageFile = Files.createTempFile("logo",".png");
+            try(InputStream in = imageUrl.openStream();
+            		OutputStream out = new FileOutputStream(imageFile.toFile())){
+            	
+            }
+            FileSystemResource file = new FileSystemResource(imageFile.toFile());
             helper.addInline("logo", file);
         };
 
@@ -88,7 +100,13 @@ public class EmailService {
             helper.setText("다음 링크를 클릭하여 비밀번호 재설정을 완료해주세요: " + link + "<br>" + linkedImage, true);
 
             // 이미지 첨부
-            FileSystemResource file = new FileSystemResource(new File("E:/workspace/JAVA/Team/Team-project/src/main/resources/static/images/logo.png"));
+            URL imageUrl = new URL("https://teamprojectimg.s3.ap-northeast-2.amazonaws.com/image/logo.png");
+            Path imageFile = Files.createTempFile("logo",".png");
+            try(InputStream in = imageUrl.openStream();
+            		OutputStream out = new FileOutputStream(imageFile.toFile())){
+            	
+            }
+            FileSystemResource file = new FileSystemResource(imageFile.toFile());
             helper.addInline("logo", file);
         };
 
