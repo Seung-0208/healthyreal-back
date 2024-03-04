@@ -188,13 +188,15 @@ public class CommController {
 	//사용중인 유저프로필
 	@GetMapping("/profile")
 	public UserProfileDto getUserProfile(@RequestParam String id) {
-		System.out.println(id);
+		List<FriendDto> friendsList = service.findAllFriendsById(id);
+		
 		UserProfileDto dto = new UserProfileDto().builder()
 				.id(id)
 				.name(service.findNameById(id))
 				.profilePath(service.findProPathById(id))
 				.proIntroduction(service.findIntroductionById(id))
 				.date(service.findJoinDateById(id))
+				.friendsList(friendsList)
 				.build();
 		System.out.println("여기 안들어오나?"+dto);
 		return dto;
