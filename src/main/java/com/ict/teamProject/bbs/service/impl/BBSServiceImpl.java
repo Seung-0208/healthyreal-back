@@ -142,9 +142,9 @@ public class BBSServiceImpl implements BBSService<BBSDto> {
 	}
 
 	@Override
-	public String whereLikes(int bno) {
-		String likes = mapper.whereLikes(bno);
-		return likes;
+	public List whereLikes(int bno) {
+		
+		return mapper.whereLikes(bno);
 	}
 
 	@Override

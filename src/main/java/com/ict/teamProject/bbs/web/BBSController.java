@@ -176,6 +176,7 @@ public class BBSController {
 	    System.out.println("types----"+map.get("types"));
 	    //서비스 호출
 	    List<BBSDto> records = service.selectAll(map);
+	    System.out.println("여기야????");
 	    //구독목록
 	    List<String> subs = new ArrayList<>();
 	    if(map.get("id") != null) {
@@ -325,15 +326,16 @@ public class BBSController {
 		}
 		likes.setBno(bno);
 		likes.setId(id);
-	    if (state.equals("true")) {
+	    if (state.equals("false")) {
 	        service.setLikes(likes);
 	        System.out.println("좋아요 누른 사람~~"+likes);
-	    } else if (state.equals("false")) {
+	    } else if (state.equals("true")) {
 	        service.deleteLikes(likes);
 	        System.out.println("좋아요 해제한 사람~~"+likes);
 	    }
 	    int likesnum = service.findLikes(bno);
-	    String likesId = service.whereLikes(bno);
+	    List likesId = new ArrayList();
+	    likesId = service.whereLikes(bno);
 	    Map like = new HashMap();
 	    like.put("likesnum", likesnum);
 	    like.put("likes", likesId);
@@ -350,11 +352,12 @@ public class BBSController {
 
 	    if (userIds != null && !userIds.isEmpty()) {
 	        for (String userId : userIds) {
+	    	    System.out.println("에러위치 22222"+userId);
 	            String userProfile = service.findUserProfileByLike(userId);
 	            userProfiles.add(userProfile);
 	        }
 	    }
-
+	    System.out.println("에러위치 33333");
 	    likeMap.put("likesPro", userProfiles);
 	    likeMap.put("likes", userIds);
 	    return likeMap;
