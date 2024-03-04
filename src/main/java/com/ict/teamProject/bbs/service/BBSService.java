@@ -38,7 +38,7 @@ public interface BBSService<T> {
 	int findLikes(int bno);
 	void setLikes(LikesDto likes);
 	void deleteLikes(LikesDto likes);
-	String whereLikes(int bno);
+	List whereLikes(int bno);
 	String findUserProfileByLike(String like);
 	List<String> findUserByLike(int bno);
 	List<BBSDto> findAllList(Map map);

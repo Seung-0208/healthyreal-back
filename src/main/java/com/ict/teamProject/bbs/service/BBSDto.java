@@ -24,8 +24,8 @@ public class BBSDto {
 	private String hashTag;
 	private java.sql.Date postDate;
 	private List<String> files;  // 파일들을 저장할 필드
-	private String likes;
-	private int likesnum;
+	private List<String> likes;
+	private List<Integer> likesnum;
 	private String profilepath;
 	private int isSubto; //구독된 상태인지 체크
 }
