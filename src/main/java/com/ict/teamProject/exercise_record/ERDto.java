@@ -17,8 +17,8 @@ import lombok.Setter;
 public class ERDto {
 	private String id;
 	private String eName;
-	private java.sql.Date postDate;
 	private String eVideoPath;
 	private String eContent;
 	private String eType;
+	private java.sql.Date postDate;
 }

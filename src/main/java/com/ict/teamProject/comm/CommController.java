@@ -131,6 +131,7 @@ public class CommController {
 		Map total = new HashMap();
 		total.put("subTo", subscribeTo);
 		total.put("MySub", subscribers);
+		System.err.println("구독자 요청 total : "+total);
 		return total;
 	}
 	
@@ -187,6 +188,7 @@ public class CommController {
 	//사용중인 유저프로필
 	@GetMapping("/profile")
 	public UserProfileDto getUserProfile(@RequestParam String id) {
+		System.out.println(id);
 		UserProfileDto dto = new UserProfileDto().builder()
 				.id(id)
 				.name(service.findNameById(id))
@@ -194,6 +196,7 @@ public class CommController {
 				.proIntroduction(service.findIntroductionById(id))
 				.date(service.findJoinDateById(id))
 				.build();
+		System.out.println("여기 안들어오나?"+dto);
 		return dto;
 	}
 	

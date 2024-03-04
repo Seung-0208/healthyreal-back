@@ -51,6 +51,7 @@ public class MemberController {
 	@RequestMapping(value = "/user/View", method = {RequestMethod.GET,RequestMethod.POST})
 	public MemberDto view(@RequestParam String id){
 		MemberDto memberdata = service.selectdata(id);
+		System.out.println("user/View"+memberdata);
 		return memberdata;
 	}
 	@RequestMapping(value = "/user/Edit", method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT})
