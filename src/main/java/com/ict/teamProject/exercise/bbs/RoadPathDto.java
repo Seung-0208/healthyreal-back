@@ -1,5 +1,7 @@
 package com.ict.teamProject.exercise.bbs;
 
+import java.sql.Time;
+
 import org.apache.ibatis.type.Alias;
 
 import com.ict.teamProject.comm.dto.FriendDto;
@@ -10,16 +12,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Alias("PathDto")
+@Alias("RoadPathDto")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PathDto {
-	private int rpath_no; //경로 아이디
+public class RoadPathDto {
+	//road_path 테이블 등록용
 	private String id; //경로를 등록한 유저
-	private float lat; //위도
-	private float lng; //경로
-	private int order_num; //방문 순서
+	private Object rpath_time; //소요 시간(분 단위)
 }
