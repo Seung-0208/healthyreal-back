@@ -12,7 +12,7 @@ import com.ict.teamProject.bbs.service.LikesDto;
 public interface BBSMapper {
 
 	//전체 조회
-	List findAll(Map map);
+	List<BBSDto> findAll(Map map);
 	List findFile(int bno);
 	
 	//레코드 하나

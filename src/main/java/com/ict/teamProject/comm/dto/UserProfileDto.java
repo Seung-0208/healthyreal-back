@@ -1,6 +1,7 @@
 package com.ict.teamProject.comm.dto;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.apache.ibatis.type.Alias;
 
@@ -23,4 +24,5 @@ public class UserProfileDto {
 	private String profilePath;
 	private String proIntroduction;
 	private int backfiletype;
+	private List<FriendDto> friendsList;
 }
