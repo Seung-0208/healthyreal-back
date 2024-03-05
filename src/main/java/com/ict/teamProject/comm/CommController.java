@@ -39,7 +39,7 @@ import java.nio.file.StandardCopyOption;
 
 @RestController
 @RequestMapping("/comm")
-@CrossOrigin(origins = "http://localhost:3333")
+@CrossOrigin(origins = {"http://localhost:3333", "http://localhost:5000"})
 public class CommController {
 	
 	@Autowired
