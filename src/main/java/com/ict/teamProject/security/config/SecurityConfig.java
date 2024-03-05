@@ -91,7 +91,7 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 	@Bean
 	public SecurityFilterChain userfilterChain(HttpSecurity http) throws Exception{
 		http.addFilterBefore(corsFilter, ChannelProcessingFilter.class);
-
+		
 		http.csrf( (csrf) -> csrf.disable());
 		http.exceptionHandling((exceptionHandler) -> 
 		exceptionHandler
@@ -104,7 +104,7 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 				"/forgot-password-phone","/forgot-password-email").permitAll()
 				.requestMatchers("/admin/**", "/access-control").hasAuthority("ROLE_ADMIN")
 				
-				.requestMatchers("/main").permitAll()
+				.requestMatchers("/main","/exer/getData.do").permitAll()
 				.anyRequest().permitAll() 
 				)
 				
