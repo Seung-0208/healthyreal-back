@@ -131,6 +131,7 @@ public class CommController {
 		Map total = new HashMap();
 		total.put("subTo", subscribeTo);
 		total.put("MySub", subscribers);
+		System.err.println("구독자 요청 total : "+total);
 		return total;
 	}
 	
@@ -197,6 +198,7 @@ public class CommController {
 				.date(service.findJoinDateById(id))
 				.friendsList(friendsList)
 				.build();
+		System.out.println("여기 안들어오나?"+dto);
 		return dto;
 	}
 	

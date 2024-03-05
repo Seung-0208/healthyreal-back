@@ -36,6 +36,13 @@ public class ERController {
 		ERDto dto = new ERDto();
 		List<ERDto> re = new ArrayList<ERDto>();
 		re = service.getData(id);
+		for(ERDto p : re) {
+			System.out.println("운동 데이터"+p.getEName());
+			System.out.println("운동 데이터"+p.getId());
+			System.out.println("운동 데이터"+p.getEType());
+
+		}
+		System.out.println("운동 데이터"+re);
 		return re;
 	}
 }
