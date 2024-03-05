@@ -107,6 +107,7 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 				.requestMatchers("/main").permitAll()
 				.anyRequest().permitAll() 
 				)
+				
 			.httpBasic( httpBasic->httpBasic.disable() )
 			.addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager()))
 			.addFilter(new JwtAuthorizationFilter(authenticationConfiguration.getAuthenticationManager(),service))
