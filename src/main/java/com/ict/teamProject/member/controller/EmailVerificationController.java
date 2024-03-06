@@ -87,7 +87,7 @@ public class EmailVerificationController {
         String id = emailService.verifyEmail(token);
 
         if (id != null) { // 인증 성공 시 //AuthCallback
-            response.sendRedirect("http://localhost:3333/main?id=" + id+ "&resetPassword=true"); // 아이디를 쿼리 파라미터로 추가
+            response.sendRedirect("http://localhost:3333/AuthCallback?id=" + id+ "&resetPassword=true"); // 아이디를 쿼리 파라미터로 추가
         } else { // 인증 실패 시
             System.out.println("왜 인증실패? " + id);
             response.sendRedirect("http://localhost:3333/forgot-password-email");
