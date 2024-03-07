@@ -43,7 +43,7 @@
 	</select>
 	
 	<!-- 해당 스케쥴 삭제 -->
-	<delete id="deleteBBS" parameterType="map">
+	<delete id="delete" parameterType="map">
 		DELETE SCHEDULE WHERE ID = #{id} and SCH_NO = #{sNo}
 	</delete>
 
