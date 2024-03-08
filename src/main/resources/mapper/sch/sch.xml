@@ -48,7 +48,7 @@
 	</delete>
 
 	<select id="priorAddress" parameterType="String" resultMap="SCHResult">
-		SELECT * FROM SCHEDULE WHERE id = 'osh1111' AND TRUNC(SCH_START) = TRUNC(SYSDATE) AND (CALENDAR IN (2, 3, 4))ORDER BY SCH_START
+		SELECT * FROM SCHEDULE WHERE id = #{id} AND TRUNC(SCH_START) = TRUNC(SYSDATE) AND (CALENDAR IN (2, 3, 4))ORDER BY SCH_START
 	</select>
 	
 	<update id="updateRestaurant" parameterType="Map">
