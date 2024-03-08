@@ -21,4 +21,8 @@ public interface SCHMapper {
 
 	void delete(Map<String, Object> map);
 
+	List priorAddress(String id);
+
+	int updateRestaurant(int sno, String sDest);
+
 }

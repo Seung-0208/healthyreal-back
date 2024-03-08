@@ -44,5 +44,15 @@ public class SCHServiceImpl implements SCHService<SCHDto> {
 		
 	}
 
+	@Override
+	public List priorAddress(String id) {
+		return mapper.priorAddress(id);
+	}
+
+	@Override
+	public int updateRestaurant(int sno, String sDest) {
+		return mapper.updateRestaurant(sno, sDest);
+	}
+
 
 }

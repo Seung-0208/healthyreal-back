@@ -9,9 +9,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ict.teamProject.schedule.service.SCHDto;
 import com.ict.teamProject.schedule.service.SCHService;
@@ -105,5 +107,20 @@ public class SCHController {
 		record = service.seleteTodayAll(map.get("id").toString());
 		
 		return record;
+	}
+	
+	//장소 조회
+	@GetMapping("/priorAddress")
+	public List priorAddress(@RequestParam String id) {
+		List<SCHDto> record = service.priorAddress(id);
+		return record;
+	}
+	
+	@GetMapping("/updateRestaurant")
+	public int updateRestaurant(@RequestParam String id, int cal, int sno, String sDest) {
+		System.out.println("들어온 값 :" + sno + "|"+sDest);
+		int affected = service.updateRestaurant(sno, sDest);
+		
+		return affected;
 	}
 }
