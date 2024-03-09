@@ -125,7 +125,7 @@ public class SCHController {
 	}
 	
 	//해당 날짜 스케쥴 전체 조회
-	@PostMapping("/seleteTodayAll.do")
+	@PostMapping("/seleteAnyAll.do")
 	public List seleteAnyAll(@RequestBody Map<String, Object> map) {
 		List<SCHDto> record = new ArrayList();
 		record = service.seleteAnyAll(map);
