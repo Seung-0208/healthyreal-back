@@ -100,7 +100,7 @@ public class SCHController {
 		return record;
 	}
 	
-	//스케쥴 전체 조회
+	//오늘 스케쥴 전체 조회
 	@PostMapping("/seleteTodayAll.do")
 	public List seleteTodayAll(@RequestBody Map<String, Object> map) {
 		List<SCHDto> record = new ArrayList();
@@ -123,4 +123,13 @@ public class SCHController {
 		
 		return affected;
 	}
+	
+	//해당 날짜 스케쥴 전체 조회
+	@PostMapping("/seleteTodayAll.do")
+	public List seleteAnyAll(@RequestBody Map<String, Object> map) {
+		List<SCHDto> record = new ArrayList();
+		record = service.seleteAnyAll(map);
+		return record;
+	}
+	
 }

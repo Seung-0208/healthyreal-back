@@ -54,4 +54,9 @@ public class SCHServiceImpl implements SCHService<SCHDto> {
 		return mapper.updateRestaurant(sno, sDest);
 	}
 
+	@Override
+	public List<SCHDto> seleteAnyAll(Map<String, Object> map) {
+		return mapper.seleteAnyAll(map);
+	}
+
 }

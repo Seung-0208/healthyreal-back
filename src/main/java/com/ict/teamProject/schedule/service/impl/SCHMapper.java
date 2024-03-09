@@ -24,4 +24,6 @@ public interface SCHMapper {
 	List priorAddress(String id);
 
 	int updateRestaurant(int sno, String sDest);
+
+	List<SCHDto> seleteAnyAll(Map<String, Object> map);
 }
