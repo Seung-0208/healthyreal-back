@@ -364,4 +364,8 @@
 	<insert id="givePoint" parameterType="Map">
 		INSERT INTO PAYMENT_LIST(ID, PAY_TYPE, PAY_NAME, PAY_PRICE, PAY_METHOD) VALUES(#{id}, 2, '챌린지 달성 보상', #{point} ,'포인트 지급')
 	</insert>
+	
+	<update id="updatEndDate" parameterType="int">
+		UPDATE CHALLENGE_ROOM SET CHALL_ENDDATE = SYSDATE WHERE CHALL_NO = #{challNo}
+	</update>
 </mapper>

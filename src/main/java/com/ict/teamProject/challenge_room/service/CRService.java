@@ -75,5 +75,7 @@ public interface CRService<T> {
 	int successCount(int challNo);
 
 	int givePoint(String id, int point);
+
+	int updatEndDate(int challNo);
 	
 }
