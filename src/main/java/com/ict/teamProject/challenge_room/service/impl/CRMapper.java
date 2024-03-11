@@ -80,4 +80,6 @@ public interface CRMapper {
 	
 	int givePoint(String id, int point);
 
+	int updatEndDate(int challNo);
+
 }

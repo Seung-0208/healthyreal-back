@@ -435,4 +435,13 @@ public class CRController {
 		}
 		return dto;
 	}
+	
+	@GetMapping("/dateupdate")
+	@ResponseBody
+	public int updatEndDate(@RequestParam int challNo) {
+		System.out.println("받은 방 번호 값:"+challNo);
+		int affected = service.updatEndDate(challNo);
+		System.out.println(affected);
+		return affected;
+	}/////
 }

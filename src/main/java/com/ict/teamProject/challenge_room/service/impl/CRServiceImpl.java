@@ -190,4 +190,9 @@ public class CRServiceImpl implements CRService<CRDto> {
 	public int givePoint(String id, int point) {
 		return mapper.givePoint(id, point);
 	}
+
+	@Override
+	public int updatEndDate(int challNo) {
+		return mapper.updatEndDate(challNo);
+	}
 }
