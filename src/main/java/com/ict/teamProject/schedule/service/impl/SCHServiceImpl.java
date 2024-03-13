@@ -50,8 +50,8 @@ public class SCHServiceImpl implements SCHService<SCHDto> {
 	}
 
 	@Override
-	public int updateRestaurant(int sno, String sDest) {
-		return mapper.updateRestaurant(sno, sDest);
+	public int updateRestaurant(int sNo, String sDest) {
+		return mapper.updateRestaurant(sNo, sDest);
 	}
 
 	@Override

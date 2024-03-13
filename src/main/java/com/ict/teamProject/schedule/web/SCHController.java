@@ -118,9 +118,9 @@ public class SCHController {
 	}
 	
 	@GetMapping("/updateRestaurant")
-	public int updateRestaurant(@RequestParam String id, int cal, int sno, String sDest) {
-		System.out.println("들어온 값 :" + sno + "|"+sDest);
-		int affected = service.updateRestaurant(sno, sDest);
+	public int updateRestaurant(@RequestParam String id, int cal, int sNo, String sDest) {
+		System.out.println("들어온 값 :" + sNo + "|"+sDest);
+		int affected = service.updateRestaurant(sNo, sDest);
 		
 		return affected;
 	}

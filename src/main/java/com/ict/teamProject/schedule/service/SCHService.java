@@ -17,7 +17,7 @@ public interface SCHService<T> {
 
 	List priorAddress(String id);
 
-	int updateRestaurant(int sno, String sDest);
+	int updateRestaurant(int sNo, String sDest);
 
 	List<SCHDto> seleteAnyAll(Map<String, Object> map);
 }
