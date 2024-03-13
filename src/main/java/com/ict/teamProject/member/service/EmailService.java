@@ -88,17 +88,12 @@ public class EmailService {
             helper.setTo(email);
             helper.setSubject("[HealthReal 비밀번호 재설정]");
             String url = "http://localhost:4000/email-verificationPWD?token=" + token + "&id=" + id; 
-
             // 텍스트 링크
             String link = "<a href=\"" + url + "\">[HealthyReal]</a>";
-
             // 이미지에 링크 
             String cid = "logo";
             String linkedImage = "<a href=\"" + url + "\"><img src='cid:logo'></a>";
-
             helper.setText("다음 링크를 클릭하여 비밀번호 재설정을 완료해주세요: " + link + "<br>" + linkedImage, true);
-
-            // 이미지 첨부
             // 이미지 첨부
             ClassPathResource resource = new ClassPathResource("static/images/logo.png");
             helper.addInline(cid, resource);
