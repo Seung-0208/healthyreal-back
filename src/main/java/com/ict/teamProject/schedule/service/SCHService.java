@@ -20,4 +20,6 @@ public interface SCHService<T> {
 	int updateRestaurant(int sNo, String sDest);
 
 	List<SCHDto> seleteAnyAll(Map<String, Object> map);
+
+	void update(Map<String, Object> map);
 }

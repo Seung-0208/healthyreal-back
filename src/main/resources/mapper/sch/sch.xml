@@ -46,6 +46,14 @@
 	<delete id="delete" parameterType="map">
 		DELETE SCHEDULE WHERE ID = #{id} and SCH_NO = #{sNo}
 	</delete>
+	
+	<!-- 해당 스케쥴 수정 -->
+	<update id="update" parameterType="Map">
+		UPDATE SCHEDULE SET SCH_TITLE = #{title}, SCH_COMMENT = #{content}, SCH_EAT = #{eat},
+		SCH_EXERCISE = #{exercise}, SCH_DESTINATION = #{endArea}, CALENDAR = #{calendar}, SCH_AREA = #{startArea},
+		SCH_START = TO_DATE(#{start}, 'YYYY-MM-DD HH24:MI'), 
+        SCH_END = TO_DATE(#{end}, 'YYYY-MM-DD HH24:MI')  WHERE sch_no = #{no} and ID = #{id}
+	</update>
 
 	<select id="priorAddress" parameterType="String" resultMap="SCHResult">
 		SELECT * FROM SCHEDULE WHERE id = #{id} AND TRUNC(SCH_START) = TRUNC(SYSDATE) AND (CALENDAR IN (2, 3, 4))ORDER BY SCH_START

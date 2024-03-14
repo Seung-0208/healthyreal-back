@@ -74,7 +74,7 @@ public class SCHController {
 	//스케쥴 수정
 	@PostMapping("/update.do")
 	public void update(@RequestBody Map<String, Object> map) {
-		
+		service.update(map);
 	}
 	
 	//스케쥴 삭제

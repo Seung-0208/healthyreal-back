@@ -59,4 +59,10 @@ public class SCHServiceImpl implements SCHService<SCHDto> {
 		return mapper.seleteAnyAll(map);
 	}
 
+	@Override
+	public void update(Map<String, Object> map) {
+		mapper.update(map);
+		
+	}
+
 }
